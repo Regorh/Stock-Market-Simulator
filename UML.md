@@ -1,31 +1,36 @@
 classDiagram
     Market -- Algorithm
-    Events -- Algorithm
-    EventLog -- Events
+    Event -- Algorithm
     Stocks -- Market
     Trader -- Controller
     Controller -- Market
-    EventRoller -- EventModifier
-    EventLog -- EventRoller
-    Events -- EventRoller
     GUI -- Controller
+    SEC -- Trader
+    StatusEffect -- Trader
+    EventLog -- Event
 
     class Trader {
         +int money
         +float debt
         +float sec_awareness
         +Vector_Stocks stocks
-        +Vector_String status_effects
-
+        +Vector_StatusEffect status_effects
     }
     class Controller {
-
+        TBD
     }
-    class Events {
-        
+    class Event {
+        +EventLog log
+        +void roll_event()
+    }
+    class StatusEffect {
+        TBD
+    }
+    class SEC {
+        TBD
     }
     class EventLog {
-        +Vector_String history
+        +Vector_Event history
     }
     class Market {
         +Vector_Stocks markets
@@ -42,12 +47,6 @@ classDiagram
         +float price
         +StockType type
         +float availability
-    }
-    class EventModifier {
-
-    }
-    class EventRoller {
-
     }
     class GUI {
         +void draw_profile()

@@ -79,7 +79,7 @@ The Stock shall also have a stability rating, representing its market volatility
 	
 
 Market:
-This class shall act as The/the various stock markets available to invest in
+* This class shall act as The/the various stock markets available to invest in
 This class shall contain the following
 An integer to determine the stability of the market, and its stocks
 A market shall also contain stocks

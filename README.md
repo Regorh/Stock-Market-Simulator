@@ -88,46 +88,43 @@ Market:
 * The stability of the market shall affect the stability of the stocks
 
 Algorithm:
-	This class shall be where events, markets, and stocks are taken into account and then based on what is put into the algorithm, randomization + events + weights shall edit and mold the stocks and markets based on a result. EX: if I give a market and an event of a crash to the algorithm, the algorithm shall then change the stability of the market, and the price of its stocks to a lower number than before, thus representing a real life crash. The algorithm in its current state represents multiple classes and functions to be broken up later
-The algorithm shall have the ability to take in events as a weight
-The algorithm shall have default weights to if a market will go up or down
-The magnitude of market change shall be determined in the algorithm given the stability of the market
-The algorithm, shall have the ability to change the price of a market’s stock, through weights on each stock, 
-The weights on each stock are affected by their type, stability, and current price
-The algorithm will edit the weights and stocks to create a semi unpredictable, market
-
-
-
+* This class shall be where events, markets, and stocks are taken into account and then based on what is put into the algorithm, randomization + events + weights shall edit and mold the stocks and markets based on a result. EX: if I give a market and an event of a crash to the algorithm, the algorithm shall then change the stability of the market, and the price of its stocks to a lower number than before, thus representing a real life crash. The algorithm in its current state represents multiple classes and functions to be broken up later
+* The algorithm shall have the ability to take in events as a weight
+* The algorithm shall have default weights to if a market will go up or down
+* The magnitude of market change shall be determined in the algorithm given the stability of the market
+* The algorithm, shall have the ability to change the price of a market’s stock, through weights on each stock, 
+* The weights on each stock are affected by their type, stability, and current price
+* The algorithm will edit the weights and stocks to create a semi unpredictable, market
 
 Events per Year:
-The purpose of this class is to create random events/weights to the algorithm, such as a market crash, which will weigh the markets negatively. 
-This class shall hold multiple pre-decided events. 
-These events shall be cycled through randomly. 
-The events will be chosen randomly at most times, but there will be predetermined events that will occur if conditions in the market are met. 
-These events that are occurring will change the stability of our market. 
-Along with the stability, it will impact all or certain stocks depending on the event that is occurring. 
-When events are chosen and ready to be implemented into the market, it will make changes occur on the UI such as the stock prices listed, color of different user controls, and display of description. 
-These events will change the stability and more importantly the algorithm that is being implemented in our program. 
+* The purpose of this class is to create random events/weights to the algorithm, such as a market crash, which will weigh the markets negatively. 
+* This class shall hold multiple pre-decided events. 
+* These events shall be cycled through randomly. 
+* The events will be chosen randomly at most times, but there will be predetermined events that will occur if conditions in the market are met. 
+* These events that are occurring will change the stability of our market. 
+* Along with the stability, it will impact all or certain stocks depending on the event that is occurring. 
+* When events are chosen and ready to be implemented into the market, it will make changes occur on the UI such as the stock prices listed, color of different user controls, and display of description. 
+* These events will change the stability and more importantly the algorithm that is being implemented in our program. 
 	
 
 
 
 GUI
-The GUI will present the user with their trader profile.
-This profile will entail the stocks they hold, the markets they can trade in, and their overall profile. 
-The overall profile in the GUI will show the trader their debt, FCC awareness, and the amount of capital they hold. 
-It will have buttons which the trader can click to buy, sell, and perform other functions with their portfolio.
-It will also hold text boxes in which the trader can type in the amount they would like to buy or sell of a stock. 
-This will also show a list of events that have made an impact on the market
+* The GUI will present the user with their trader profile.
+* This profile will entail the stocks they hold, the markets they can trade in, and their overall profile. 
+* The overall profile in the GUI will show the trader their debt, FCC awareness, and the amount of capital they hold. 
+* It will have buttons which the trader can click to buy, sell, and perform other functions with their portfolio.
+* It will also hold text boxes in which the trader can type in the amount they would like to buy or sell of a stock. 
+* This will also show a list of events that have made an impact on the market
 
 
 SEC:
-The purpose of the SEC is to investigate the player’s illegal actions, or massive success
-If the player is committing illegal acts/ massive success, the SEC will begin to apply pressure, the higher the pressure on a player the higher the stress, as pressure raises, more SEC related events shall occur, such as wealth seizure, temporary arrest, fines.
-This class shall receive information on players illegal actions, 
-The SEC shall act on information based on, level of illegality/cost and status of player
+* The purpose of the SEC is to investigate the player’s illegal actions, or massive success
+* If the player is committing illegal acts/ massive success, the SEC will begin to apply pressure, the higher the pressure on a player the higher the stress, as pressure raises, more SEC related events shall occur, such as wealth seizure, temporary arrest, fines.
+* This class shall receive information on players illegal actions, 
+* The SEC shall act on information based on, level of illegality/cost and status of player
 SEC can be halted with bribes/ donations/ events to lower pressure
-If SEC pressure hits a max, the player will be arrested, and the game will end
+* If SEC pressure hits a max, the player will be arrested, and the game will end
 
 
 classDiagram

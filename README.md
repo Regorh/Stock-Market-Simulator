@@ -45,47 +45,47 @@ Classes:
 User:
 This will act as the player for the game
 This class shall have the following
-A float representing the amount of money the user has
-A vector/ tree/ data structure(TBD) to hold all of the stocks 
-A float representing suspicion of SEC
-A float representing current debt
-The user shall also have a list of illnesses. 
-The user shall also have a integer measure of stress, stress causes illnesses
-All of the former values shall have get/set functions
-The player will be able to sabotage and impact the market and specific stocks by shorting or paying specific amounts to a company to fulfill their desires. 
-If stress reaches a max, the player loses and goes into hiding,
-If debt reaches a max/ min payment cannot be met, the mob gets to the player, and the player loses
+* A float representing the amount of money the user has
+* A vector/ tree/ data structure(TBD) to hold all of the stocks 
+* A float representing suspicion of SEC
+* A float representing current debt
+* The user shall also have a list of illnesses. 
+* The user shall also have a integer measure of stress, stress causes illnesses
+* All of the former values shall have get/set functions
+* The player will be able to sabotage and impact the market and specific stocks by shorting or paying specific amounts to a company to fulfill their desires. 
+* If stress reaches a max, the player loses and goes into hiding,
+* If debt reaches a max/ min payment cannot be met, the mob gets to the player, and the player loses
 
 
 
 Illnesses:
-This represents the negative effects that can be applied to a player based on the player stress
-Each illness will have a different probability of happening. 
-These illnesses will change the way the player can see their portfolio and the decisions they make.
-The poison illness will make you read and understand the stock tickers incorrectly.  
-The anxiety attack illness will make you sell all your stock.
-The charabism illness will cause you to not sell your stock in good times due to disbelief it is occuring. 
+* This represents the negative effects that can be applied to a player based on the player stress
+* Each illness will have a different probability of happening. 
+* These illnesses will change the way the player can see their portfolio and the decisions they make.
+* The poison illness will make you read and understand the stock tickers incorrectly.  
+* The anxiety attack illness will make you sell all your stock.
+* The charabism illness will cause you to not sell your stock in good times due to disbelief it is occuring. 
 
 
 Stocks:
 These will act as the in-game counterpart to real life stocks, they shall have either real life names or randomized ones,rand prices, rand typing (Oil,Tech,Agriculture) and rand stability
 For example, walmart stock stability vs penny stock stability
-These shall have a type as a string, or int value, that can be easily searched and sorted by market
-This shall have a price, each stock has a different prices that are changed via events
-The price can also be changed by the algorithm, via setter and getter functions
-The price shall be affected by events that occur each turn/year
-The Stock shall also have a stability rating, representing its market volatility
+* These shall have a type as a string, or int value, that can be easily searched and sorted by market
+* This shall have a price, each stock has a different prices that are changed via events
+* The price can also be changed by the algorithm, via setter and getter functions
+* The price shall be affected by events that occur each turn/year
+* The Stock shall also have a stability rating, representing its market volatility
 
 	
 
 Market:
 * This class shall act as The/the various stock markets available to invest in
-This class shall contain the following
-An integer to determine the stability of the market, and its stocks
-A market shall also contain stocks
-The market shall be able to search through its stocks, when prompted
-The market shall have its stability affected by events
-The stability of the market shall affect the stability of the stocks
+* This class shall contain the following
+* An integer to determine the stability of the market, and its stocks
+* A market shall also contain stocks
+* The market shall be able to search through its stocks, when prompted
+* The market shall have its stability affected by events
+* The stability of the market shall affect the stability of the stocks
 
 Algorithm:
 	This class shall be where events, markets, and stocks are taken into account and then based on what is put into the algorithm, randomization + events + weights shall edit and mold the stocks and markets based on a result. EX: if I give a market and an event of a crash to the algorithm, the algorithm shall then change the stability of the market, and the price of its stocks to a lower number than before, thus representing a real life crash. The algorithm in its current state represents multiple classes and functions to be broken up later

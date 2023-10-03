@@ -128,16 +128,16 @@ SEC can be halted with bribes/ donations/ events to lower pressure
 
 
 classDiagram
-    Market -- Algorithm
-    Events -- Algorithm
-    EventLog -- Events
-    Stocks -- Market
-    Trader -- Controller
-    Controller -- Market
-    EventRoller -- EventModifier
-    EventLog -- EventRoller
-    Events -- EventRoller
-    GUI -- Controller
+    Market <|-- Algorithm
+    Events <|-- Algorithm
+    EventLog <|-- Events
+    Stocks <|-- Market
+    Trader <|-- Controller
+    Controller <|-- Market
+    EventRoller <|-- EventModifier
+    EventLog <|-- EventRoller
+    Events <|-- EventRoller
+    GUI <|-- Controller
 
     class Trader {
         +int money

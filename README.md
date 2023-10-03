@@ -127,7 +127,11 @@ SEC can be halted with bribes/ donations/ events to lower pressure
 * If SEC pressure hits a max, the player will be arrested, and the game will end
 
 
-classDiagram
+
+
+
+```
+classDiagram{
     Market <|-- Algorithm
     Events <|-- Algorithm
     EventLog <|-- Events
@@ -138,7 +142,7 @@ classDiagram
     EventLog <|-- EventRoller
     Events <|-- EventRoller
     GUI <|-- Controller
-
+    
     class Trader {
         +int money
         +float debt
@@ -183,7 +187,8 @@ classDiagram
         +void draw_market()
         
     }
-
+}
+```
 
 ## Contributors
 Ali Elnour ali.elnour@slu.edu

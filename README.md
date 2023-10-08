@@ -195,6 +195,6 @@ Ali Elnour ali.elnour@slu.edu
 
 Om Patel om.patel.1@slu.edu
 
-Noah Guzinski noah.guzinski@slu.edu
+Noah Guzinski noah.guzinski@slu.edu (nguzinskidev@gmail.com)
 
 Rob Helme robby.helme@slu.edu

@@ -131,7 +131,7 @@ SEC can be halted with bribes/ donations/ events to lower pressure
 
 
 
-```classDiagram{
+classDiagram{
     Market <|-- Algorithm
     Events <|-- Algorithm
     EventLog <|-- Events
@@ -188,7 +188,7 @@ SEC can be halted with bribes/ donations/ events to lower pressure
         
     }
 }
-```
+
 
 ## Contributors
 Ali Elnour ali.elnour@slu.edu

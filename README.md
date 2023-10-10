@@ -1,6 +1,6 @@
 # Stock Market Simulator
 ## Overview
-Stock Market Simulator is a Java-based computer game that simulates the dynamics of the stock market. In this game, players take on the role of traders, making financial decisions, managing their portfolio, and navigating various challenges in the stock market environment.
+Stock Market Simulator is a Java-based computer game that simulates the dynamics of the stock market. In this game, players take on the role of traders, making financial decisions, managing their portfolio, and navigating various challenges in the stock market environment. 
 
 ## System Requirements
 Java SE Development Kit (JDK) 19 or later

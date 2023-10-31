@@ -6,7 +6,7 @@ public class Market {
     List<Stock> stocks;
 
     public Market(){
-        Random rand = new Random()
+        Random rand = new Random();
         stocks = new ArrayList<Stock>();
         this.stability = rand.nextInt(4);
         create_stocks(100);

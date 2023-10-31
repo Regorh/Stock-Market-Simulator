@@ -1,3 +1,4 @@
+package stock.model;
 public class User {
 
     private float capital;

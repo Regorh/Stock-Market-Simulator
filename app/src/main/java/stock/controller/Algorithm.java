@@ -45,10 +45,10 @@ public class Algorithm{
         average_stability=average_stability/size;
 
         //flagging for eventlogger
-        this.isHigh = (average_price >= 1000) ? true : false;
-        this.isLow = (average_price <= 300 ) ? true : false;
-        this.isUnstable = (average_stability <= 1.5) ? true : false;
-        this.isStable = (average_stability >= 3.5) ? true : false;
+        market.set_isHigh((average_price >= 1000) ? true : false);
+        market.set_isLow((average_price <= 300 ) ? true : false);
+        market.set_isUnstable((average_stability <= 1.5) ? true : false);
+        market.set_isStable((average_stability >= 3.5) ? true : false) ;
     }
 
     private void stock_changer(Stock stock){
@@ -64,11 +64,7 @@ public class Algorithm{
     }
 
     
-    public boolean isUnstable(){return this.isUnstable;}
-    public boolean isStable(){return this.isStable;}
-    public boolean isHigh(){return this.isHigh;}
-    public boolean isLow(){return this.isLow;}
-
+    
 
 
 

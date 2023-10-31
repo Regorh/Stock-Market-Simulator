@@ -6,12 +6,18 @@ import java.util.Random;
 
 public class Market {
     int stability;
-    Random rand;
+    Random rand = new Random();
     List<Stock> stocks;
+
+    boolean isUnstable = false;
+    boolean isStable = false;
+    boolean isHigh = false;
+    boolean isLow = false;
+
 
     public Market(){
         Random rand = new Random();
-        Random rand = new Random();
+
         stocks = new ArrayList<Stock>();
         this.stability = rand.nextInt(4);
         create_stocks(100);
@@ -38,4 +44,15 @@ public class Market {
         }
         return name;
     }
+
+    public boolean isUnstable(){return this.isUnstable;}
+    public boolean isStable(){return this.isStable;}
+    public boolean isHigh(){return this.isHigh;}
+    public boolean isLow(){return this.isLow;}
+
+    public boolean set_isUnstable(boolean bool){ this.isUnstable = bool;}
+    public boolean set_isStable(boolean bool){this.isStable = bool;}
+    public boolean set_isHigh(boolean bool){this.isHigh = bool;}
+    public boolean set_isLow(boolean bool){this.isLow = bool;}
+
 }

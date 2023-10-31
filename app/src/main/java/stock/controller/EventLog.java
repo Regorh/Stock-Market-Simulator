@@ -1,20 +1,23 @@
-package stock.model;
+package stock.controller;
 
 public class EventLog {
 
-    Algorithm algorithm_parent;
+    private Algorithm algorithm_parent;
 
     public EventLog(Algorithm algorithm_parent){
         this.algorithm_parent = algorithm_parent;
     }
 
     public class Event{
-        public:
+        public
             int affect;
-            String desc;
+            string desc;
             public Event(int affect,String desc){ this.affect = affect; this.desc = desc;}
     }
 
-    public roll_event()
+    public void roll_event(){
+
+        //is this.algorithm_parent.
+    }
     
 }

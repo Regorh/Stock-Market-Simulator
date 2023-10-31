@@ -15,10 +15,10 @@ public class Market {
     public ArrayList get_stock() { return this.stocks; }
 
     //creates stocks of an amount requested, with random values
-    private create_stocks(int num){
+    private void create_stocks(int num){
         for( i = 0; i < num; i++){
 
-            Stock stock = new Stock(create_name(),rand.nextInt(4),(100*rand.nextDouble()));
+            Stock stock = new Stock(create_name(),"testing",rand.nextInt(4),(100*rand.nextDouble()));
             this.stocks.add(stock);
         }
     }

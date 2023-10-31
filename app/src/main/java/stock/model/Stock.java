@@ -1,5 +1,4 @@
-package model;
-
+package stock.model;
 public class Stock {
     
 }

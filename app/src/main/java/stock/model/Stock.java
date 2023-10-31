@@ -1,4 +1,7 @@
 package stock.model;
+
+import java.util.Random;
+
 public class Stock {
     String name;
     String type;
@@ -11,7 +14,11 @@ public class Stock {
         this.type = type;
         this.id = id;
         this.price = price;
-        // TODO rand stability -- awaiting Gradle integration
+
+        // TODO -- improve/specify random behavior
+        Random rnd = new Random();
+        rnd.setSeed(1234567890);
+        this.stability = rnd.nextInt();
     }
 
     float get_price() { return this.price; }

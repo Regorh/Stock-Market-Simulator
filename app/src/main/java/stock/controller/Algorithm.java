@@ -1,2 +1,3 @@
-package controller;
+package stock.controller;
+
 // testing

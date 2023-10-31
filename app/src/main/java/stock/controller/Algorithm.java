@@ -1,4 +1,5 @@
-package controller;
+package stock.controller;
+
 // testing
 import java.util.Random;
 

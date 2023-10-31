@@ -1,4 +1,4 @@
-package view;
+package stock.view;
 
 public class Gui {
     

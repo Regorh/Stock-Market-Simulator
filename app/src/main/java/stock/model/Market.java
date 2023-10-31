@@ -1,6 +1,5 @@
-package model;
-import model.Stock;
-import java.util.Random;
+package stock.model;
+
 public class Market {
     int stability;
     Random rand;

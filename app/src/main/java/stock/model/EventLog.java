@@ -1,4 +1,4 @@
-package model;
+package stock.model;
 
 public class EventLog {
     

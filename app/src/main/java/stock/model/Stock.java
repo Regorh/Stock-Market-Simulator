@@ -24,4 +24,13 @@ public class Stock {
     float get_price() { return this.price; }
 
     void set_price(float price) { this.set_price(price); }
+
+    float get_stability() { return this.stability; }
+
+    String get_type() { return this.type; }
+
+    int get_id() { return this.id; }
+
+    String get_name() { return this.name; }
+
 }

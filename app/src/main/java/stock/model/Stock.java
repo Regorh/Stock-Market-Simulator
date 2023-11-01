@@ -23,7 +23,7 @@ public class Stock {
 
     float get_price() { return this.price; }
 
-    void set_price(float price) { this.set_price(price); }
+    void set_price(float price) { this.price = price; }
 
     float get_stability() { return this.stability; }
 

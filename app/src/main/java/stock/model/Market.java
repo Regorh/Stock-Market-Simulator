@@ -22,19 +22,19 @@ public class Market {
     private void create_stocks(int num){
         for(int i = 0; i < num; i++){
             char letter = (char)(rand.nextInt(24) + 65);
-            String stocktype = "TEST_TYPE: " + letter;
-            Stock stock = new Stock(create_name(), stocktype, rand.nextInt(4), (100*rand.nextFloat()));
+            String stock_type = "TEST_TYPE: " + letter;
+            Stock stock = new Stock(create_name(), stock_type, rand.nextInt(4), (100*rand.nextFloat()));
             this.stocks.add(stock);
         }
     }
 
     //creates a random name when requested, 3 letters, for stock tickers
     private String create_name(){
-        String name = "";
+        StringBuilder name = new StringBuilder();
         for(int i = 0; i < 3; i++){
             char letter = (char)(rand.nextInt(24) + 65);
-            name = name + letter;
+            name.append(letter);
         }
-        return name;
+        return name.toString();
     }
 }

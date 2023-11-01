@@ -3,13 +3,13 @@
  */
 package stock;
 
-import stock.controller.EventRoller;
+import stock.controller.*;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-
+import java.util.Scanner;
 public class App {
     public String getGreeting() {
         return "Hello World!";
@@ -19,19 +19,21 @@ public class App {
         System.out.println(new App().getGreeting());
 
         //this is reading the events text file and populating the possible events
-        File file = new File("stock/controller/events");
+        File file = new File("src/main/java/stock/controller/events.txt");
         ArrayList<String> events= new ArrayList<String>();
-
         //setting up a catch in case file loads wrong
         try {
 
-            //read the file and parse each line
+            //read the file and parse each line, checking if it should be added to events
             BufferedReader br = new BufferedReader(new FileReader(file));
             String event;
-            while((event = br.readLine()) != null)
+            while((event = br.readLine()) != null){
 
-                if (event.charAt(0) != '#' || event.charAt(0) != '\n')
+                //must not start with "#" it also must be longer than 2 letters
+                if (!(event.startsWith("#") || !(event.length() >= 2))) {
                     events.add(event);
+                }
+            }
         }
         catch (Exception e){
             System.out.println("FILE DOES NOT EXIST, EVENTS CANNOT LOAD");
@@ -39,6 +41,7 @@ public class App {
 
         //in case no events are read, we always have at least one event the "None event
         events.add("None");
+        System.out.println(events);
         EventRoller roller = new EventRoller(events);
 
 

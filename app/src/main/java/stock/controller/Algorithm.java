@@ -1,6 +1,8 @@
 package stock.controller;
-
+import stock.model.Market;
+import stock.model.Stock;
 // testing
+import java.util.List;
 import java.util.Random;
 
 public class Algorithm{
@@ -23,7 +25,7 @@ public class Algorithm{
         int current_stability = stock.get_stability();
 
         //will fill out with more weights as we go
-        float new_price = (current_price+current_stability*(current_price*(rand_int)))
+        float new_price = (float) (current_price+current_stability*(current_price*(rand_int)));
 
         stock.set_price(new_price);
     }

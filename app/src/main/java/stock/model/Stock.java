@@ -7,7 +7,7 @@ public class Stock {
     String type;
     int id;
     float price;
-    float stability;
+    int stability;
 
     public Stock(String name, String type, int id, float price) {
         this.name = name;
@@ -21,16 +21,16 @@ public class Stock {
         this.stability = rnd.nextInt();
     }
 
-    float get_price() { return this.price; }
+    public float get_price() { return this.price; }
 
-    void set_price(float price) { this.price = price; }
+    public void set_price(float price) { this.price = price; }
 
-    float get_stability() { return this.stability; }
+    public int get_stability() { return this.stability; }
 
-    String get_type() { return this.type; }
+    public String get_type() { return this.type; }
 
-    int get_id() { return this.id; }
+    public int get_id() { return this.id; }
 
-    String get_name() { return this.name; }
+    public String get_name() { return this.name; }
 
 }

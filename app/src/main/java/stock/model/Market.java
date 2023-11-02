@@ -1,6 +1,7 @@
 package stock.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -36,5 +37,13 @@ public class Market {
             name.append(letter);
         }
         return name.toString();
+    }
+
+    public HashMap<Integer, Float> get_stock_ids() {
+        HashMap<Integer, Float> hm = new HashMap<>();
+        for (Stock stock : this.stocks) {
+            hm.put(stock.get_id(), stock.get_price());
+        }
+        return hm;
     }
 }

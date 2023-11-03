@@ -4,6 +4,9 @@
 package stock.market.simulator;
 
 import org.junit.Test;
+
+import stock.App;
+
 import static org.junit.Assert.*;
 
 public class AppTest {

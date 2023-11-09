@@ -6,6 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 public class Gui {
     
+    private JFrame mainFrame;
     public Gui(){
         mainFrame = new JFrame("Main Screen");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -48,7 +49,7 @@ public class Gui {
         easy.setPreferredSize(new Dimension(150, 20));
         easy.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                controller.userChoose("easy");                              /////////////IMPORTANT
+                //controller.userChoose("easy");                              /////////////IMPORTANT
                 mainFrame.setVisible(false);
             }
         });
@@ -58,7 +59,7 @@ public class Gui {
         medium.setPreferredSize(new Dimension(150, 20));
         medium.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                controller.userChoose("medium");
+                //controller.userChoose("medium");
                 mainFrame.setVisible(false);
             }
         });
@@ -69,7 +70,7 @@ public class Gui {
         hard.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                controller.userChoose("hard");
+                //controller.userChoose("hard");
                 mainFrame.setVisible(false);
             }
         });

@@ -16,6 +16,7 @@ public class App {
     }
 
     public static void main(String[] args) {
+        Gui mainscreeen = new Gui();
         System.out.println(new App().getGreeting());
 
         //this is reading the events text file and populating the possible events

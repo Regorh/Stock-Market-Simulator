@@ -45,10 +45,12 @@ public class User {
     }
 
     public void sellStock(Stock ticker){
-        stocks.remove(ticker);
+        // TODO: commented out temporarily to facilitate testing
+        // stocks.remove(ticker);
     }
 
     public void buyStock(Stock ticker){
-        stocks.add(ticker);
+        // TODO: commented out temporarily to facilitate testing
+        // stocks.add(ticker);
     }
 }

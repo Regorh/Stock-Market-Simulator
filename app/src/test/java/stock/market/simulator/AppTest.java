@@ -5,6 +5,7 @@ package stock.market.simulator;
 
 import org.junit.Test;
 import stock.App;
+import stock.model.Stock;
 
 import static org.junit.Assert.*;
 
@@ -12,5 +13,13 @@ public class AppTest {
     @Test public void appHasAGreeting() {
         App classUnderTest = new App();
         assertNotNull("app should have a greeting", classUnderTest.getGreeting());
+    }
+
+    @Test public void stock_init() {
+        Stock test_stock = new Stock("A", "pharma", 1, 100);
+        assertTrue(test_stock.get_name() == "A");
+        assertTrue(test_stock.get_type() == "pharma");
+        assertTrue(test_stock.get_id() == 1);
+        assertTrue(test_stock.get_price() == 100);
     }
 }

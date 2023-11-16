@@ -1,4 +1,4 @@
-package stockgui;
+package stock.view;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class mainUI {
+public class Gui {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             createAndShowGUI();

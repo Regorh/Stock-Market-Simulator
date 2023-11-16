@@ -94,10 +94,10 @@ public class debtUI extends JFrame {
         transferLabel.setText("Transfer Amount: $" + transferAmount);
     }
 
-    public static void main(String[] args) {
+    /* public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             new debtUI();
         });
-    }
+    } */
 }
 

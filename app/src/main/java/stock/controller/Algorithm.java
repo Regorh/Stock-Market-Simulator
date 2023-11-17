@@ -19,6 +19,10 @@ public class Algorithm{
         this.start = new startUI();
     }
 
+    public void userchoose(String mode){
+
+    }
+
     public void next_day(Market market){
         List<Stock> list_of_stock = market.get_stock();
         //need to call event roller here to decide what event occur,

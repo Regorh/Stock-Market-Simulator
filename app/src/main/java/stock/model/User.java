@@ -12,6 +12,14 @@ public class User {
     private double currentDebt;
     private int stress;
     private transient ArrayList<Stock> stocks = new ArrayList<Stock>();
+
+    public User(int debt, float suspicion,float cash){
+        this.currentDebt = debt;
+        this.suspicionOfSEC = suspicion;
+        this.capital = cash;
+        
+
+    }
     
     public float getCapital(){
         return capital;

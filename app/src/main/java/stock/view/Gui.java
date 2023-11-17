@@ -203,6 +203,8 @@ public class Gui {
         JButton downArrowButton = new JButton("\u2193"); // Down arrow
         JButton buyButton = new JButton("Buy");
         JButton sellButton = new JButton("Sell");
+        JButton nextDay = new JButton("Next Day");
+
 
         JSpinner spinner;
         SpinnerModel spinnermodel = new SpinnerNumberModel(0,0,Integer.MAX_VALUE,1);
@@ -237,6 +239,12 @@ public class Gui {
                 spinner.setValue((int) spinner.getValue() - 1);
             }
         });
+        nextDay.addActionListener(new ActionListener() {
+            @Override 
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
 
         tradePanel.add(spinner);
         tradePanel.add(label1);
@@ -246,6 +254,7 @@ public class Gui {
         tradePanel.add(buyButton);
         tradePanel.add(sellButton);
         tradePanel.add(costLabel);
+        tradePanel.add(nextDay);
         JPanel panel5 = createPanel(Color.ORANGE);
         panel5.add(tradePanel);
 

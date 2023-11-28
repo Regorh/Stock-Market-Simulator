@@ -6,3 +6,5 @@ build
 
 # Ignore class files
 **.class
+bin/
+

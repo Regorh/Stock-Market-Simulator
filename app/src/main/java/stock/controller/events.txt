@@ -8,7 +8,7 @@ oil_crash
 
 #Market Events
 crash
-
+boom
 
 #USER Events
 donated_50_dollars

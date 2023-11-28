@@ -3,7 +3,11 @@
  */
 package stock;
 
+import org.checkerframework.checker.units.qual.A;
 import stock.controller.*;
+import stock.model.Market;
+import stock.model.Stock;
+import stock.model.User;
 import stock.view.Gui;
 
 import java.io.BufferedReader;
@@ -44,7 +48,24 @@ public class App {
         //in case no events are read, we always have at least one event the "None event
         events.add("None");
         System.out.println(events);
+
+        //creating of children
         EventRoller roller = new EventRoller(events);
+        Algorithm algorithm = new Algorithm();
+        User user = new User(algorithm.get_avg());
+
+
+        boolean isDone = false;
+
+        while(!isDone){
+            //if( PUT USER SEC = 100, OR ILLNESS OR DEBT TOO HIGH HERE)
+            // isDone == true
+            String event = roller.roll_out();
+            algorithm.next_day(event);
+            user.process_event(event);
+
+
+        }
 
 
 

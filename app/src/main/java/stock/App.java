@@ -4,6 +4,7 @@
 package stock;
 
 import stock.controller.*;
+import stock.view.Gui;
 
 import java.io.BufferedReader;
 import java.io.File;

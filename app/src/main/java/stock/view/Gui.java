@@ -1,4 +1,4 @@
-package stockgui;
+package stock.view;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -8,7 +8,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class mainUI {
+import stock.model.*;
+import stock.view.*;
+
+
+public class Gui {
+    private Market market;
+    private Stock stocks;
+    private User user;
+
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             createAndShowGUI();
@@ -194,12 +203,19 @@ public class mainUI {
         JButton downArrowButton = new JButton("\u2193"); // Down arrow
         JButton buyButton = new JButton("Buy");
         JButton sellButton = new JButton("Sell");
-        
+
+        JSpinner spinner;
+        SpinnerModel spinnermodel = new SpinnerNumberModel(0,0,Integer.MAX_VALUE,1);
+        spinner = new JSpinner(spinnermodel);
+        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(spinner, "#");
+        spinner.setEditor(editor);
+
+
 
         buyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Handle buy button click
+                
             }
         });
 
@@ -212,17 +228,17 @@ public class mainUI {
         upArrowButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Handle buy button click
+                spinner.setValue((int) spinner.getValue() + 1);
             }
         });
         downArrowButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Handle sell button click
+                spinner.setValue((int) spinner.getValue() - 1);
             }
         });
 
-        tradePanel.add(textField);
+        tradePanel.add(spinner);
         tradePanel.add(label1);
         tradePanel.add(label2);
         tradePanel.add(upArrowButton);

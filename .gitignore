@@ -5,4 +5,5 @@
 build
 
 # Ignore class files
-.class 
+**.class
+

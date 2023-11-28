@@ -1,5 +1,7 @@
 package stock.model;
 
+import java.util.ArrayList;
+
 
 public class User {
 
@@ -9,8 +11,7 @@ public class User {
     private float suspicionOfSEC;                 
     private double currentDebt;
     private int stress;
-
-    private Stock[] stocks;
+    private transient ArrayList<Stock> stocks = new ArrayList<Stock>();
     
     public float getCapital(){
         return capital;

@@ -5,14 +5,18 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
+
+import stock.ControllerInterface;
 public class startUI {
+
+    private ControllerInterface controller;
     
-    public static void main(String[] args){
+    /* public static void main(String[] args){
         startUI main = new startUI();
-    }
+    } */
     
     private JFrame mainFrame;
-    public startUI(){
+    public startUI(ControllerInterface controller){
         mainFrame = new JFrame("Main Screen");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(500, 600);
@@ -54,7 +58,7 @@ public class startUI {
         easy.setPreferredSize(new Dimension(150, 20));
         easy.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //controller.userChoose("easy");                              /////////////IMPORTANT
+                controller.userChoose("easy");                              /////////////IMPORTANT
                 mainFrame.setVisible(false);
             }
         });
@@ -64,7 +68,7 @@ public class startUI {
         medium.setPreferredSize(new Dimension(150, 20));
         medium.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //controller.userChoose("medium");
+                controller.userChoose("medium");
                 mainFrame.setVisible(false);
             }
         });
@@ -75,7 +79,7 @@ public class startUI {
         hard.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                //controller.userChoose("hard");
+                controller.userChoose("hard");
                 mainFrame.setVisible(false);
             }
         });

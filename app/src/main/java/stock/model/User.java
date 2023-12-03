@@ -1,31 +1,43 @@
 package stock.model;
 
 import java.util.ArrayList;
-
+import stock.GameObserver;
 
 public class User {
 
 
     
     private float capital;
-    private float suspicionOfSEC;                 
+    private int suspicionOfSEC;                 
     private double currentDebt;
     private int stress;
     private transient ArrayList<Stock> stocks = new ArrayList<Stock>();
+    private transient ArrayList<GameObserver> observers = new ArrayList<GameObserver>();
 
-    public User(int debt, float suspicion,float cash){
-        this.currentDebt = debt;
-        this.suspicionOfSEC = suspicion;
-        this.capital = cash;
+    //public User(int debt, float suspicion,float cash){
+    public User(){
+        this.currentDebt = 0;
+        this.suspicionOfSEC = 50;
+        this.capital = 0;
         
 
+    }
+
+    public void register(GameObserver observer){
+        observers.add(observer);
+    }
+
+    public void notifyObservers() {
+        for (GameObserver observer : observers) {
+            observer.update();
+        }
     }
     
     public float getCapital(){
         return capital;
     }
 
-    public float getsuspicionOfSEC(){
+    public int getsuspicionOfSEC(){
         return suspicionOfSEC;
     }
 
@@ -37,12 +49,12 @@ public class User {
         capital = value;
     }
 
-    public void setsuspicionOfSEC(float value){
+    public void setsuspicionOfSEC(int value){
         suspicionOfSEC = value;
     }
 
-    public void setcurrentDebt(float value){
-        currentDebt = value;
+    public void setcurrentDebt(float debt){
+        currentDebt = debt;
     }
 
     public void increaseStress(int value){

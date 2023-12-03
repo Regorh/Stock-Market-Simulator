@@ -17,8 +17,8 @@ public class App {
     }
 
     public static void main(String[] args) {
-        Gui mainscreeen = new Gui();
-        System.out.println(new App().getGreeting());
+        GameController controller = new GameController();
+         System.out.println(new App().getGreeting());
 
         //this is reading the events text file and populating the possible events
         File file = new File("src/main/java/stock/controller/events.txt");
@@ -44,7 +44,7 @@ public class App {
         //in case no events are read, we always have at least one event the "None event
         events.add("None");
         System.out.println(events);
-        EventRoller roller = new EventRoller(events);
+        EventRoller roller = new EventRoller(events); 
 
 
 

@@ -8,11 +8,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import stock.model.User;
+import stock.ControllerInterface;
 import stock.model.*;
 import stock.view.*;
+import stock.GameObserver;
 
-
-public class Gui {
+public class Gui implements GameObserver {
+    private User player;
+    private ControllerInterface controller;
     private Market market;
     private Stock stocks;
     private User user;
@@ -20,16 +24,25 @@ public class Gui {
     
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            createAndShowGUI();
+            //createAndShowGUI();
         });
     }
     JPanel familyback;
     
     private static Container marketpane;
-    private static void createAndShowGUI() {
+    //private static void createAndShowGUI() {
+    public Gui(ControllerInterface controller, User player) {
+        this.controller = controller;
+        this.player = player;
+        this.player.register(this);
+
         JFrame frame = new JFrame("Main UI");
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1200, 900);
+        
+        frame.setSize(screenSize.width, screenSize.height);
+        
 
         // Create panels
         //JPanel panel1  = createPanel(Color.red);
@@ -60,23 +73,23 @@ public class Gui {
         "GREEN", 
         "YELLOW",  
         "ORANGE"  
-    };
+        };
 
-    String[] stocks = {
-         "Apple",  
-        "NIO",  
-        "Oracle", 
-        "BLACK",  
-        "BLUE",  
-    };
-    Color[] listColorValues = {  
-        Color.BLACK,  
-        Color.BLUE,  
-        Color.GREEN,  
-        Color.YELLOW,  
-        Color.WHITE,
-        Color.ORANGE
-    };
+        String[] stocks = {
+            "Apple",  
+            "NIO",  
+            "Oracle", 
+            "BLACK",  
+            "BLUE",  
+        };
+        Color[] listColorValues = {  
+            Color.BLACK,  
+            Color.BLUE,  
+            Color.GREEN,  
+            Color.YELLOW,  
+            Color.WHITE,
+            Color.ORANGE
+        };
 
     //Maket Stocks Panel
         JPanel marketPanel = new JPanel();
@@ -142,13 +155,13 @@ public class Gui {
         sec.setAlignmentX(Component.LEFT_ALIGNMENT);
         sec.setForeground(Color.BLACK);
         JProgressBar secBar = new JProgressBar(0,100);
-        secBar.setValue(50);
+        secBar.setValue(player.getsuspicionOfSEC());
         secBar.setStringPainted(true);
         secBar.setForeground(Color.yellow);
         //familyback.setVisible(true);
        // Dimension size = family.getPreferredSize();
         //family.setBounds(50,50,size.width,size.height);
-        JLabel debt = new JLabel("Debt: $1000",SwingConstants.LEFT);
+        JLabel debt = new JLabel("Debt: " + player.getcurrentDebt(),SwingConstants.LEFT);
         debt.setFont(new Font("Arial", Font.BOLD, 10));
         debt.setAlignmentX(Component.LEFT_ALIGNMENT);
         debt.setForeground(Color.BLACK);
@@ -161,7 +174,8 @@ public class Gui {
             }
         });
 
-        JLabel totalPortfolio = new JLabel("Total: $50000");
+        JLabel totalPortfolio = new JLabel("Total cash: " + player.getCapital());
+        totalPortfolio.setHorizontalAlignment(SwingConstants.CENTER);
         totalPortfolio.setFont(new Font("Arial", Font.BOLD, 10));
         totalPortfolio.setAlignmentX(Component.LEFT_ALIGNMENT);
         totalPortfolio.setForeground(Color.BLACK);
@@ -182,7 +196,7 @@ public class Gui {
         statsPanel.add(payOff);
         statsPanel.add(totalPortfolio);
 
-        
+        statsPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE,Integer.MAX_VALUE));
 
         statsPanel.setVisible(true);
         JPanel panel4 = new JPanel();
@@ -207,7 +221,7 @@ public class Gui {
 
 
         JSpinner spinner;
-        SpinnerModel spinnermodel = new SpinnerNumberModel(0,0,Integer.MAX_VALUE,1);
+        SpinnerModel spinnermodel = new SpinnerNumberModel(0, 0, 100000000,1);
         spinner = new JSpinner(spinnermodel);
         JSpinner.NumberEditor editor = new JSpinner.NumberEditor(spinner, "#");
         spinner.setEditor(editor);
@@ -236,7 +250,9 @@ public class Gui {
         downArrowButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                spinner.setValue((int) spinner.getValue() - 1);
+                if((int)spinner.getValue() > 0){
+                    spinner.setValue((int) spinner.getValue() - 1);
+                }
             }
         });
         nextDay.addActionListener(new ActionListener() {
@@ -246,17 +262,18 @@ public class Gui {
             }
         });
 
-        tradePanel.add(spinner);
         tradePanel.add(label1);
+        tradePanel.add(spinner);
         tradePanel.add(label2);
         tradePanel.add(upArrowButton);
+        tradePanel.add(costLabel);
         tradePanel.add(downArrowButton);
         tradePanel.add(buyButton);
-        tradePanel.add(sellButton);
-        tradePanel.add(costLabel);
         tradePanel.add(nextDay);
-        JPanel panel5 = createPanel(Color.ORANGE);
-        panel5.add(tradePanel);
+        tradePanel.add(sellButton);
+
+         JPanel panel5 = new JPanel(new BorderLayout());
+        panel5.add(tradePanel,BorderLayout.CENTER);
 
 // Events display
         JPanel events = new JPanel(new FlowLayout());
@@ -294,4 +311,12 @@ public class Gui {
         return panel;
     }
 
+    @Override
+    public void update(){
+        player.setcurrentDebt((float)2000.00);
+
+    }
+
 }
+
+

@@ -11,17 +11,8 @@ import java.util.Random;
 
 public class Algorithm{
 
-    startUI start;
 
     Random rand = new Random();
-
-    public Algorithm(){
-        this.start = new startUI();
-    }
-
-    public void userchoose(String mode){
-
-    }
 
     public void next_day(Market market){
         List<Stock> list_of_stock = market.get_stock();

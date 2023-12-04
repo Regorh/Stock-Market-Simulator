@@ -11,3 +11,7 @@ oil_boom
 
 #UserEvents
 donated_50_dollars
+double_stress
+got_the_other_guy
+she_took_the_kids
+mysterious_benefactor

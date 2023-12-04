@@ -11,6 +11,15 @@ public class User {
     private float suspicionOfSEC;                 
     private double currentDebt;
     private int stress;
+
+    public User(float avg_cost){
+        this.capital = (int)(avg_cost*10);
+        this.suspicionOfSEC = 0;
+        this.currentDebt = capital*30;
+    }
+    public void process_event(String event){
+
+    }
     private transient ArrayList<Stock> stocks = new ArrayList<Stock>();
     
     public float getCapital(){
@@ -38,7 +47,7 @@ public class User {
     }
 
     public void increaseStress(int value){
-        stress += value;
+        this.stress += value;
     }
 
     public void decreaseStress(int value){

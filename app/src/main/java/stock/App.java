@@ -3,7 +3,11 @@
  */
 package stock;
 
+import org.checkerframework.checker.units.qual.A;
 import stock.controller.*;
+import stock.model.Market;
+import stock.model.Stock;
+import stock.model.User;
 import stock.view.Gui;
 
 import java.io.BufferedReader;
@@ -22,19 +26,37 @@ public class App {
 
         //this is reading the events text file and populating the possible events
         File file = new File("src/main/java/stock/controller/events.txt");
-        ArrayList<String> events= new ArrayList<String>();
-        //setting up a catch in case file loads wrong
+        ArrayList<ArrayList<String>> events = new ArrayList<ArrayList<String>>();
+
+        //creating the 3 lists, for the 3 kinds of event types
+        for(int i = 0 ; i <2 ;i++ ){
+            ArrayList<String> a = new ArrayList<String>();
+            events.add(a);
+        }
         try {
 
             //read the file and parse each line, checking if it should be added to events
             BufferedReader br = new BufferedReader(new FileReader(file));
             String event;
             while((event = br.readLine()) != null){
+                int x = 0;
+                switch(event) {
 
-                //must not start with "#" it also must be longer than 2 letters
-                if (!(event.startsWith("#") || !(event.length() >= 2))) {
-                    events.add(event);
+                    case "#MarketEvents":
+                            x = 0;
+                        break;
+                    case "#UserEvents":
+                            x = 1;
+                        break;
+                    default:
+                        break;
                 }
+                    //adds events to their proper list, only reads in if it is longer than length 2
+                    event = br.readLine();
+                    while(event.length() >= 2){
+                        events.get(x).add(event);
+                        event = br.readLine();
+                    }
             }
         }
         catch (Exception e){
@@ -42,9 +64,25 @@ public class App {
         }
 
         //in case no events are read, we always have at least one event the "None event
-        events.add("None");
         System.out.println(events);
+
+        //creating of children
         EventRoller roller = new EventRoller(events);
+        Algorithm algorithm = new Algorithm();
+        User user = new User(algorithm.get_avg());
+
+
+        boolean isDone = false;
+
+        while(!isDone){
+            //if( PUT USER SEC = 100, OR ILLNESS OR DEBT TOO HIGH HERE)
+            // isDone == true
+            ArrayList<String> event = roller.roll_out();
+            algorithm.next_day(event.get(0));
+            user.process_event(event.get(1));
+
+
+        }
 
 
 

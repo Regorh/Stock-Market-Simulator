@@ -155,7 +155,7 @@ public class Gui implements GameObserver {
         sec.setAlignmentX(Component.LEFT_ALIGNMENT);
         sec.setForeground(Color.BLACK);
         JProgressBar secBar = new JProgressBar(0,100);
-        secBar.setValue(player.getsuspicionOfSEC());
+        secBar.setValue((int) player.getsuspicionOfSEC());
         secBar.setStringPainted(true);
         secBar.setForeground(Color.yellow);
         //familyback.setVisible(true);

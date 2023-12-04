@@ -20,7 +20,7 @@ public class GameController implements ControllerInterface{
 
     public void userChoose(String mode){
         
-        player = new User();
+        player = new User((float)100);
         
         
 

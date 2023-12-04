@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Market {
+public class Market{
     int stability;
     Random rand;
     List<Stock> stocks;
@@ -14,6 +14,15 @@ public class Market {
         stocks = new ArrayList<Stock>();
         this.stability = rand.nextInt(4);
         create_stocks(100);
+    }
+
+    public float get_average_stock_price(){
+        float average_stock_price = 0;
+
+        for(Stock stock : stocks){
+            average_stock_price += stock.get_price();
+        }
+        return  average_stock_price/stocks.size();
     }
 
     public List<Stock> get_stock() { return this.stocks; }
@@ -27,6 +36,8 @@ public class Market {
             this.stocks.add(stock);
         }
     }
+
+
 
     //creates a random name when requested, 3 letters, for stock tickers
     private String create_name(){

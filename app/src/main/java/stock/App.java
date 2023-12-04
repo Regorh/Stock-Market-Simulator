@@ -5,6 +5,7 @@ package stock;
 
 import org.checkerframework.checker.units.qual.A;
 import stock.controller.*;
+import stock.model.GameManager;
 import stock.model.Market;
 import stock.model.Stock;
 import stock.model.User;
@@ -68,7 +69,7 @@ public class App {
 
         //creating of children
         EventRoller roller = new EventRoller(events);
-        Algorithm algorithm = new Algorithm();
+        GameManager algorithm = new GameManager();
         User user = new User(algorithm.get_avg());
 
 

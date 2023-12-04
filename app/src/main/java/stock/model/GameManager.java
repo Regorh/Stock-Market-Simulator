@@ -1,6 +1,4 @@
-package stock.controller;
-import stock.model.Market;
-import stock.model.Stock;
+package stock.model;
 import stock.model.*;
 import stock.view.*;
 
@@ -10,10 +8,10 @@ import stock.view.*;
 import java.util.Random;
 
 
-public class Algorithm {
+public class GameManager {
     Random rand = new Random();
     Market market;
-    public  Algorithm(){
+    public  GameManager(){
         Market market = new Market();
 
     }

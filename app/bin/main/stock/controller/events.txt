@@ -2,13 +2,16 @@
 #ALL LINES BEGINNING WITH '#' and '\n' or newline ARE COMMENTED OUT, use snake case, all must be longer than 2 letters
 
 
-#STOCK EVENTS
-oil_crash
 
 
-#Market Events
+#MarketEvents
 crash
+boom
+oil_boom
 
-
-#USER Events
+#UserEvents
 donated_50_dollars
+double_stress
+got_the_other_guy
+she_took_the_kids
+mysterious_benefactor

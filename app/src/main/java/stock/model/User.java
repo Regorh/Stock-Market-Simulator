@@ -1,13 +1,22 @@
 package stock.model;
 
 import java.util.ArrayList;
+
+import stock.GameObserver;
+
+
 import java.util.HashMap;
 
 public class User {    
+
     private float capital;
-    private float suspicionOfSEC;                 
+    private int suspicionOfSEC;                 
     private double currentDebt;
     private int stress;
+    private transient ArrayList<GameObserver> observers = new ArrayList<GameObserver>();
+
+    //public User(int debt, float suspicion,float cash){
+  
     private ArrayList<String> successfulEvents;
     // private transient ArrayList<Stock> stocks = new ArrayList<Stock>(); TODO figure out where this came from
     private HashMap<String, Integer> stocks;
@@ -18,6 +27,18 @@ public class User {
         this.currentDebt = capital*30;
         this.successfulEvents = new ArrayList<>();
     }
+  
+    
+    public void register(GameObserver observer){
+        observers.add(observer);
+    }
+
+    public void notifyObservers() {
+        for (GameObserver observer : observers) {
+            observer.update();
+        }
+    }
+      
     public void process_event(String event) {
         switch (event) {
             case "donated_50_dollars":
@@ -55,12 +76,14 @@ public class User {
                 }
             default:
                 break;
+
         }
     }
     
     public float getCapital() {
         return this.capital;
     }
+
 
     public float getsuspicionOfSEC() {
         return this.suspicionOfSEC;
@@ -74,12 +97,13 @@ public class User {
         this.capital = value;
     }
 
-    public void setsuspicionOfSEC(float value) {
+    public void setsuspicionOfSEC(int value){
         this.suspicionOfSEC = value;
     }
 
-    public void setcurrentDebt(float value) {
-        this.currentDebt = value;
+    public void setcurrentDebt(float debt){
+        this.currentDebt = debt;
+
     }
 
     public void increaseStress(int value) {

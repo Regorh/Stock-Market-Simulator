@@ -1,9 +1,14 @@
 package stock.controller;
 import stock.model.Market;
 import stock.model.Stock;
+import stock.model.*;
+import stock.view.*;
+
+
 // testing
 
 import java.util.Random;
+
 
 public class Algorithm {
     Random rand = new Random();
@@ -16,6 +21,7 @@ public class Algorithm {
         return market.get_average_stock_price();
     }
     public void next_day(String event){
+
         //need to call event roller here to decide what event occur,
         //this will help add weights to algorithm based on events
         float modify = 0;

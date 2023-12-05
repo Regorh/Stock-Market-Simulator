@@ -35,10 +35,19 @@ public class Market{
 
     //creates stocks of an amount requested, with random values
     private void create_stocks(int num){
+        ArrayList<String> current_stock_names = new ArrayList<>();
+        for (Stock stock : this.stocks) {
+            current_stock_names.add(stock.get_name());
+        }
         for(int i = 0; i < num; i++){
             char letter = (char)(rand.nextInt(24) + 65);
             String stock_type = "TEST_TYPE: " + letter;
-            Stock stock = new Stock(create_name(), stock_type, rand.nextInt(4), (100*rand.nextFloat()));
+            String name = create_name();
+            while (current_stock_names.contains(name)) {
+                name = create_name();
+            }
+            current_stock_names.add(name);
+            Stock stock = new Stock(name, stock_type, rand.nextInt(4), (100*rand.nextFloat()));
             this.stocks.add(stock);
         }
     }

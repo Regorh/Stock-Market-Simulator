@@ -68,6 +68,28 @@ public class Market{
                     stock.set_price(stock.get_price() / 0.9f);
                 }
                 break;
+            case "market_shakeup":
+                this.stability = rand.nextInt(4);
+                break;
+            case "new_stocks":
+                create_stocks(15);
+                break;
+            case "capital_flight":
+                for (Stock stock : this.stocks) {
+                    stock.set_price(stock.get_price() / 10f);
+                }
+                break;
+            case "bull_market":
+                for (Stock stock : this.stocks) {
+                    stock.set_price(stock.get_price() * 1.15f);
+                }
+                break;
+            case "high_stability":
+                this.stability = 4;
+                break;
+            case "high_uncertainty":
+                this.stability = 1;
+                break;
             default:
                 break;
         }

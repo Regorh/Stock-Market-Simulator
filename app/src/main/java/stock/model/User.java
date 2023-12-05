@@ -87,6 +87,9 @@ public class User {
                 this.flag_can_trade = false;
                 this.timer_trade_prohib = 2;
                 break;
+            case "favor_repayment":
+                this.capital *= 1.15f;
+                break;
             default:
                 break;
 

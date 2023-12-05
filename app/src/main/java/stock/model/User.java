@@ -133,11 +133,12 @@ public class User {
     }
 
     public boolean sellStock(String ticker, float price, int quantity) {
-        if (this.stocks.containsKey(ticker) && this.stocks.get(ticker) > quantity && this.flag_can_trade) {
+        if (this.stocks.containsKey(ticker) && this.stocks.get(ticker) >= quantity && this.flag_can_trade) {
             this.stocks.replace(ticker, this.stocks.get(ticker), this.stocks.get(ticker) - quantity);
             this.capital += price * quantity;
             if(this.stocks.get(ticker) == 0){
                 this.stocks.remove(ticker);
+
             }
             return true;
         }

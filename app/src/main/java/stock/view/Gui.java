@@ -35,7 +35,7 @@ public class Gui implements GameObserver {
     private EventRoller roller;
     private ArrayList<String> stockNames = new ArrayList<String>();
     private ArrayList<Float> stockPrices = new ArrayList<Float>();
-    
+    boolean isMarket;
     JLabel toBeTraded;
     JLabel toBeCost;
     JLabel costLabel;
@@ -76,7 +76,7 @@ public class Gui implements GameObserver {
         this.manager.register(this);
         this.roller = roller;
         this.marketPanel = new JPanel(new BorderLayout());
-
+        isMarket = true;
         
         this.market = manager.getMarket();
         this.player = controller.getUser();
@@ -287,6 +287,7 @@ public class Gui implements GameObserver {
                     if (controller.sell(stocktradedStringsell,  controller.get_stock_price((stocktradedStringsell)), (int) spinner.getValue())) {
                         //System.out.println();
                         update();
+                        update();
                         //make sure the gui had the correct stocks to be loaded, if not have them reload, dont just remove the elemeents int he list
 
 
@@ -298,7 +299,13 @@ public class Gui implements GameObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 spinner.setValue((int) spinner.getValue() + 1);
-                costLabel.setText("Cost: " + decimalFormat.format(((int)spinner.getValue() * stocktradedPrice)));
+                float price;
+                if(isMarket){
+                    price = stocktradedPrice;
+                }else{
+                    price = stocktradedPricesell;
+                }
+                costLabel.setText("Cost: " + decimalFormat.format(((int)spinner.getValue() * price)));
             }
         });
 
@@ -307,7 +314,13 @@ public class Gui implements GameObserver {
             public void actionPerformed(ActionEvent e) {
                 if((int)spinner.getValue() > 0){
                     spinner.setValue((int) spinner.getValue() - 1);
-                    costLabel.setText("Cost: " + decimalFormat.format( ((int)spinner.getValue() * stocktradedPrice)));
+                    float price;
+                    if(isMarket){
+                        price = stocktradedPrice;
+                    }else{
+                        price = stocktradedPricesell;
+                    }
+                    costLabel.setText("Cost: " + decimalFormat.format( ((int)spinner.getValue() * price)));
                 }
             }
         });
@@ -360,17 +373,26 @@ public class Gui implements GameObserver {
 
     private void update_owned_list(){
 
+        isMarket=false;
+        if (!usernames.isEmpty()) {
+            for (int i = 0; i < ownListModel.size(); i++) {
+                stocktradedStringsell = usernames.get(i);
+                Integer amount = useramount.get(i);
+                if (amount > 0) {
+                    float price = Float.parseFloat(decimalFormat.format(controller.get_stock_price(stocktradedStringsell)));
+                    String newStock = (usernames.get(i) + "   $" + price + "  " + amount);
+                    ownListModel.set(i, (newStock));
+                } else {
+                    ownListModel.removeElement(i);
+                }
 
-        for (int i = 0; i < ownListModel.size(); i++) {
-             stocktradedStringsell = usernames.get(i);
-            Integer amount = useramount.get(i);
-            if (amount > 0) {
-                float price = Float.parseFloat(decimalFormat.format(controller.get_stock_price(stocktradedStringsell)));
-                String newStock = (usernames.get(i) + "   $" + price + "  " + amount);
-                ownListModel.set(i, (newStock));
-            }else{
-                ownListModel.removeElement(i);
             }
+        }else{
+            ownedPanel.revalidate();
+            ownedPanel.repaint();
+            ownListModel.clear();
+            ownedPane.revalidate();
+            ownedPane.repaint();
 
         }
 
@@ -410,7 +432,7 @@ public class Gui implements GameObserver {
     public void update_market_list(){
         marketPanel.setVisible(false);
 
-
+        isMarket=true;
         System.out.println(marketprices.get(0));
 
         for (int i = 0; i < stockListModel.size(); i++) {
@@ -457,9 +479,6 @@ public class Gui implements GameObserver {
         marketPanel.setVisible(true);
         marketPanel.revalidate();
         marketPanel.repaint();
-
-
-
 
 
     }

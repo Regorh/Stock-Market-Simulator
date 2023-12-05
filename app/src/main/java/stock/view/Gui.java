@@ -68,7 +68,7 @@ public class Gui implements GameObserver {
         this.controller = controller;
         this.manager.register(this);
         this.roller = roller;
-
+        this.marketPanel = new JPanel(new BorderLayout());
 
         
         this.market = manager.getMarket();
@@ -345,9 +345,18 @@ public class Gui implements GameObserver {
             public void valueChanged(ListSelectionEvent e)
             {
                 if (!e.getValueIsAdjusting()) {
-                    
+                    String stock = "#####101010010101001";
+                    if(ownedList.isSelectionEmpty())
+                        stock = ownListModel.get(0);
+
                     costLabel.setText("Cost: $0.00");
-                    String stock = ownedList.getSelectedValue();
+                    if (ownedList.getSelectedValue() != null) {
+                        stock = ownedList.getSelectedValue();
+                    }else{
+                        stock = ownListModel.get(0);
+                    }
+                    costLabel.setText("Cost: $0.00");
+                    stock = ownedList.getSelectedValue();
                     stocktradedString = stock.substring(0,3);
                     toBeTraded.setText("Selected Stock: " + stocktradedString);
                     //Float no = price;
@@ -368,6 +377,7 @@ public class Gui implements GameObserver {
     }
 
     public void update_market_list(){
+        marketPanel.setVisible(false);
         this.stockListModel.clear();
         this.marketPanel = new JPanel(new BorderLayout());
         marketPanel.setVisible(false);
@@ -394,19 +404,24 @@ public class Gui implements GameObserver {
         marketList.addListSelectionListener(new ListSelectionListener()  {
             public void valueChanged(ListSelectionEvent e)
             {
-                if (!e.getValueIsAdjusting()) {
-                    String stock = "#####101010010101001";
-                    costLabel.setText("Cost: $0.00");
-                    if (marketList.getSelectedValue() != null) {
-                        stock = marketList.getSelectedValue();
-                    }else{
-                        stock = stockListModel.get(0);
-                    }
-                    stocktradedString = stock.substring(0,3);
-                    stocktradedPrice = Float.parseFloat(stock.substring(7));
-                    toBeTraded.setText("Selected Stock: " + stocktradedString);
-                    toBeCost.setText("$" + stocktradedPrice);
+                if(marketList.isVisible() && stockListModel.size()>1) {
+                    if (!e.getValueIsAdjusting()) {
+                        String stock = "#####101010010101001";
+                        if (marketList.isSelectionEmpty())
+                            marketList.setSelectedValue(stockListModel.get(0), true);
 
+                        costLabel.setText("Cost: $0.00");
+                        if (marketList.getSelectedValue() != null) {
+                            stock = marketList.getSelectedValue();
+                        } else {
+                            stock = stockListModel.get(0);
+                        }
+                        stocktradedString = stock.substring(0, 3);
+                        stocktradedPrice = Float.parseFloat(stock.substring(7));
+                        toBeTraded.setText("Selected Stock: " + stocktradedString);
+                        toBeCost.setText("$" + stocktradedPrice);
+
+                    }
                 }
             }
         });
@@ -440,14 +455,20 @@ public class Gui implements GameObserver {
         this.useramount = controller.userstockamount();
         update_market_list();
         update_owned_list();
+
         System.out.println("We are here");
+        this.totalPortfolio.setText("Total cash: " + player.getCapital());
+        this.totalPortfolio.revalidate();
+        this.totalPortfolio.repaint();
         this.statsPanel.revalidate();
         this.statsPanel.repaint();
+
         //System.out.println(player.getCapital());
 
         //this.totalPortfolio.repaint();
         frame.revalidate();
         frame.repaint();
+
 
 
         

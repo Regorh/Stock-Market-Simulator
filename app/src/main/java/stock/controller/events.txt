@@ -1,9 +1,6 @@
 #ALL EVENTS GO ON A NEW LINE, THEN ADD THEIR EFFECT TO THE CLASS YOU DESIRE
 #ALL LINES BEGINNING WITH '#' and '\n' or newline ARE COMMENTED OUT, use snake case, all must be longer than 2 letters
 
-
-
-
 #MarketEvents
 crash
 boom

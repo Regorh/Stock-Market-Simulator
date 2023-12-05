@@ -41,9 +41,11 @@ public class Gui implements GameObserver {
     Market market;
     DefaultListModel<Stock> stockListModel;
     DefaultListModel<Stock> ownListModel;
-    String[] stocksBought;
-    
-
+    JList<Stock> marketList;
+    JScrollPane scrollPane;
+    JPanel marketPanel;
+    JList<Stock> ownedList;
+    JPanel ownedPanel;
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             //createAndShowGUI();
@@ -58,7 +60,7 @@ public class Gui implements GameObserver {
         this.controller = controller;
         this.manager.register(this);
         this.roller = roller;
-      
+
 
         
         this.market = manager.getMarket();
@@ -84,7 +86,7 @@ public class Gui implements GameObserver {
         this.stocksBought = 
 
         for(Stock stock: stocksmarket ){
-            stockListModel.addElement(stock);
+            this.stockListModel.addElement(stock);
             //stockNames.add(stock.get_name());
             //stockPrices.add(stock.get_price());
            // nameModel.addElement(stock.get_name());
@@ -92,104 +94,15 @@ public class Gui implements GameObserver {
         }
 
 
-
-        String[] stocks = {
-
-
-        };
-        
-
     //Maket Stocks Panel
         
-       
-
-        //String[] names = stockNames.toArray(new String[0]);
-
-        JList<Stock> marketList = new JList<>(stockListModel);
-        marketList.setCellRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                    JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-
-                JLabel label = (JLabel) super.getListCellRendererComponent(
-                        list, value, index, isSelected, cellHasFocus);
-
-                Stock stock = (Stock) value;
-                
-                label.setText(stock.get_name() + " - $" + stock.get_price()); // Display name and price
-
-                return label;
-            }
-        });
-
-        JScrollPane scrollPane = new JScrollPane(marketList);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-        marketList.addListSelectionListener(new ListSelectionListener()  {  
-                public void valueChanged(ListSelectionEvent e)  
-                {  
-                    if (!e.getValueIsAdjusting()) {
-                        costLabel.setText("Cost: $0.00");
-                        Stock selectedStock = marketList.getSelectedValue();
-                        toBeTraded.setText("Selected Stock: " + selectedStock.get_name());
-                        toBeCost.setText("$" + selectedStock.get_price());
-                        tradedStock = marketList.getSelectedValue(); 
-                        spinner.setValue(0);
-                    }
-                }  
-         });  
-            
-        
-        JPanel marketPanel = new JPanel(new BorderLayout());
-        marketPanel.setVisible(true);
-        marketPanel.add(scrollPane, BorderLayout.CENTER);
-
-
-
+        update_market_list();
 //Owned Stocks Panel
-        
+        update_owned_list();
        
         //ownedPanel.setLayout(new BoxLayout(ownedPanel,BoxLayout.Y_AXIS));
         //ownedPanel.setSize(500,300);
 
-        JList<Stock> ownedList = new JList<>(ownListModel);
-        ownedList.setCellRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                    JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-
-                JLabel label = (JLabel) super.getListCellRendererComponent(
-                        list, value, index, isSelected, cellHasFocus);
-
-                Stock stock = (Stock) value;
-                label.setText(stock.get_name() + " - $" + stock.get_price()); // Display name and price
-
-                return label;
-            }
-        });
-        
-        JScrollPane ownedPane = new JScrollPane(ownedList);
-        ownedPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        
-        ownedList.addListSelectionListener(new ListSelectionListener()  
-            {  
-                public void valueChanged(ListSelectionEvent e)  
-                {  
-                    if (!e.getValueIsAdjusting()) {
-                        costLabel.setText("Cost: $0.00");
-                        Stock selectedStock = marketList.getSelectedValue();
-                        toBeTraded.setText("Selected Stock: " + selectedStock.get_name());
-                        toBeCost.setText("$" + selectedStock.get_price());
-                        tradedStock = marketList.getSelectedValue(); 
-                        spinner.setValue(0);
-                    }                   
-                }  
-            });
-        
-
-        JPanel ownedPanel = new JPanel(new BorderLayout());
-        ownedPanel.add(ownedPane,BorderLayout.CENTER);
-        ownedPanel.setVisible(true);
       
 
 //Player Stats
@@ -295,8 +208,8 @@ public class Gui implements GameObserver {
                     costLabel.setText("Cost: $" + totalCost);
                 } 
             }
-});
-
+        });
+        
 
         
         
@@ -320,7 +233,7 @@ public class Gui implements GameObserver {
         sellButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (controller.sell(tradedStock.get_name(), tradedStock.get_price(), (int)spinner.getValue() ) == true){
+                if (controller.sell(tradedStock.get_name(), tradedStock.get_price(), (int)spinner.getValue() )){
                     update();
                     ownListModel.removeElement(tradedStock);
 
@@ -390,8 +303,97 @@ public class Gui implements GameObserver {
         // Display the frame
         frame.setVisible(true);
     }
+    private void update_owned_list(){
+
+        ownedList = new JList<>(ownListModel);
+        ownedList.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(
+                    JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+
+                JLabel label = (JLabel) super.getListCellRendererComponent(
+                        list, value, index, isSelected, cellHasFocus);
+
+                Stock stock = (Stock) value;
+                label.setText(stock.get_name() + " - $" + stock.get_price()); // Display name and price
+
+                return label;
+            }
+        });
+
+        JScrollPane ownedPane = new JScrollPane(ownedList);
+        ownedPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        ownedList.addListSelectionListener(new ListSelectionListener()
+        {
+            public void valueChanged(ListSelectionEvent e)
+            {
+                if (!e.getValueIsAdjusting()) {
+                    costLabel.setText("Cost: $0.00");
+                    Stock selectedStock = marketList.getSelectedValue();
+                    toBeTraded.setText("Selected Stock: " + selectedStock.get_name());
+                    toBeCost.setText("$" + selectedStock.get_price());
+                    tradedStock = marketList.getSelectedValue();
+                    spinner.setValue(0);
+                }
+            }
+        });
 
 
+        ownedPanel = new JPanel(new BorderLayout());
+        ownedPanel.add(ownedPane,BorderLayout.CENTER);
+        ownedPanel.setVisible(true);
+    }
+
+
+    private void update_market_list(){
+        JList<Stock> marketList = getStockJList();
+
+        this.scrollPane = new JScrollPane(marketList);
+        this.scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        marketList.addListSelectionListener(new ListSelectionListener()  {
+            public void valueChanged(ListSelectionEvent e)
+            {
+                if (!e.getValueIsAdjusting()) {
+                    costLabel.setText("Cost: $0.00");
+                    Stock selectedStock = marketList.getSelectedValue();
+                    toBeTraded.setText("Selected Stock: " + selectedStock.get_name());
+                    toBeCost.setText("$" + selectedStock.get_price());
+                    tradedStock = marketList.getSelectedValue();
+                    spinner.setValue(0);
+                }
+            }
+        });
+
+        this.marketPanel = new JPanel(new BorderLayout());
+        marketPanel.setVisible(true);
+        marketPanel.add(scrollPane, BorderLayout.CENTER);
+
+
+
+    }
+
+    private JList<Stock> getStockJList() {
+        JList<Stock> marketList = new JList<>(stockListModel);
+
+        marketList.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(
+                    JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+
+                JLabel label = (JLabel) super.getListCellRendererComponent(
+                        list, value, index, isSelected, cellHasFocus);
+
+                Stock stock = (Stock) value;
+
+                label.setText(stock.get_name() + " - $" + stock.get_price()); // Display name and price
+
+                return label;
+            }
+        });
+        return marketList;
+    }
 
 
     private static JPanel createPanel(Color color) {
@@ -404,6 +406,10 @@ public class Gui implements GameObserver {
     @Override
     public void update(){
         player = controller.getUser();
+        update_market_list();
+        update_owned_list();
+        System.out.println("We are here");
+
         
     }
 

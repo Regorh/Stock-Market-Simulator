@@ -33,46 +33,8 @@ public class GameController implements ControllerInterface{
 
     public void userChoose(String mode){
 
-        File file = new File("events.txt");
-        ArrayList<ArrayList<String>> events = new ArrayList<ArrayList<String>>();
 
-        //creating the 3 lists, for the 3 kinds of event types
-        for(int i = 0 ; i <2 ;i++ ){
-            ArrayList<String> a = new ArrayList<String>();
-            events.add(a);
-        }
-        try {
-
-            //read the file and parse each line, checking if it should be added to events
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String event;
-            while((event = br.readLine()) != null){
-                int x = 0;
-                switch(event) {
-
-                    case "#MarketEvents":
-                            x = 0;
-                        break;
-                    case "#UserEvents":
-                            x = 1;
-                        break;
-                    default:
-                        break;
-                }
-                    //adds events to their proper list, only reads in if it is longer than length 2
-                    event = br.readLine();
-                    while(event.length() >= 2){
-                        events.get(x).add(event);
-                        event = br.readLine();
-                    }
-            }
-        }
-        catch (Exception e){
-            System.out.println("FILE DOES NOT EXIST, EVENTS CANNOT LOAD");
-        }
-
-
-        this.roller = new EventRoller(events);
+        this.roller = new EventRoller();
         this.gm = new GameManager();
 
         this.user = new User(gm.get_avg());

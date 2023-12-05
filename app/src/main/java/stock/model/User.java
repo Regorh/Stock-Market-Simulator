@@ -33,6 +33,10 @@ public class User {
         this.currentDebt = capital*30;
         this.successfulEvents = new ArrayList<>();
         this.flag_can_trade = true;
+        
+        this.stocks = new HashMap<String, Integer>();
+        
+        
     }
   
       
@@ -152,5 +156,7 @@ public class User {
 
     public boolean get_trade_capability() { return this.flag_can_trade; }
 
-    public HashMap<String, Integer> get_user_stocks() { return this.stocks; }
+    public HashMap<String, Integer> get_user_stocks() { 
+        return this.stocks; 
+    }
 }

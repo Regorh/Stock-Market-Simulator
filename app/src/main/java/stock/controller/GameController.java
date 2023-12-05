@@ -5,7 +5,6 @@ import stock.model.*;
 import stock.view.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Random;
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,6 +12,9 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.List.*;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class GameController implements ControllerInterface{
@@ -22,6 +24,8 @@ public class GameController implements ControllerInterface{
     User user;
     Market market;
     EventRoller roller;
+    HashMap<String, Integer> userstocks;
+
     
 
     public GameController(){
@@ -59,7 +63,7 @@ public class GameController implements ControllerInterface{
 
     public User getUser(){
         return this.user;
-    }
+    } 
 
     public boolean buy(String ticker, float price, int amount){
         
@@ -76,6 +80,7 @@ public class GameController implements ControllerInterface{
         ArrayList<String> currentEvents = roller.roll_out();
         gm.next_day(currentEvents.get(0));
         user.process_event(currentEvents.get(1));
+        game.update_market_list();
         game.update();
 
 
@@ -83,31 +88,69 @@ public class GameController implements ControllerInterface{
 
    
 
-    public ArrayList<String> stocknames(){
+    public ArrayList<String> userstocknames(){
         ArrayList<String> names = new ArrayList<String>();
-        HashMap<String, Integer> stocks = user.get_user_stocks();
-        for (String stockName : stocks.keySet()) {
-            names.add(stockName);
+        this.userstocks = user.get_user_stocks();
+        if (this.userstocks != null) {
+            for (String stockName : this.userstocks.keySet()) {
+                names.add(stockName);
+            }
         }
+        
         return names;
 
     }
 
-    public ArrayList<Float> stockprice(){
+    public ArrayList<Float> userstockprice(){
         ArrayList<Float> prices = new ArrayList<Float>();
         HashMap<String, Integer> stocks = user.get_user_stocks();
         float price = 0;
 
-        
-        for (String stockName : stocks.keySet()) {
-            price = market.get_market_price(stockName);
-            prices.add(price);
+        if (stocks != null) {
+            for (String stockName : stocks.keySet()) {
+                price = market.get_market_price(stockName);
+                prices.add(price);
+            }
         }
         return prices;
         
     }
 
-    
+    public ArrayList<Integer> userstockamount(){
+        ArrayList<Integer> amount = new ArrayList<Integer>();
+        HashMap<String, Integer> stocks = user.get_user_stocks();
+        int value = 0;
+
+        if (stocks != null) {
+            for (Map.Entry<String, Integer> entry : stocks.entrySet()) {
+                value = entry.getValue();
+                amount.add(value);
+            }
+        }
+        return amount; 
+    }
+
+
+
+    public ArrayList<String> marketstocknames(){
+        ArrayList<String> names = new ArrayList<String>();
+        Market market = gm.getMarket();
+        List<Stock> marketstocks = market.get_stock();
+        for( Stock stockName: marketstocks){
+            names.add(stockName.get_name());
+        }
+        return names;
+    }
+
+    public ArrayList<Float> marketstockprice(){
+        ArrayList<Float> prices = new ArrayList<Float>();
+        Market market = gm.getMarket();
+        List<Stock> marketstocks = market.get_stock();
+        for( Stock stockName: marketstocks){
+            prices.add(stockName.get_price());
+        }
+        return prices;
+    }
 
 
 }

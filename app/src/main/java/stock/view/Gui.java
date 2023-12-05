@@ -6,6 +6,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.checkerframework.common.value.qual.StringVal;
+
 import com.google.common.primitives.Floats;
 
 import java.io.*;
@@ -13,7 +15,8 @@ import java.util.List;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import stock.ControllerInterface;
 import stock.model.*;
@@ -41,17 +44,20 @@ public class Gui implements GameObserver {
     Market market;
     DefaultListModel<Stock> stockListModel;
     DefaultListModel<Stock> ownListModel;
-    JList<Stock> marketList;
+    JList<String> marketList;
     JScrollPane scrollPane;
     JPanel marketPanel;
-    JList<Stock> ownedList;
+    JList<String> ownedList;
     JPanel ownedPanel;
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            //createAndShowGUI();
-        });
-    }
+    String stocktradedString;
+    Float stocktradedPrice;
+   
     JPanel familyback;
+    private ArrayList<String> marketnames;
+    private ArrayList<Float> marketprices;
+    private ArrayList<String> usernames;
+    private ArrayList<Float> userprices;
+    private ArrayList<Integer> useramount;
     
     private static Container marketpane;
     //private static void createAndShowGUI() {
@@ -75,23 +81,38 @@ public class Gui implements GameObserver {
         
 
         // Create panels
-        
-        List<Stock> stocksmarket = market.get_stock();
+        this.marketnames = controller.marketstocknames();
+        this.marketprices = controller.marketstockprice();
+        this.usernames = controller.userstocknames();
+        this.userprices = controller.userstockprice();
+        this.useramount = controller.userstockamount();
+
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+
+        //ArrayList<Float> marketprices = controller.marketpricenames();
+        //List<St> stocksmarket = market.get_stock();
+    
         //DefaultListModel<String> nameModel = new DefaultListModel<>();
         //DefaultListModel<Float> priceModel = new DefaultListModel<>();
 
-        this.stockListModel = new DefaultListModel<>();
+        this.stockListModel = new DefaultListModel();
+        //marketnames.setModel(stockListModel);
         this.ownListModel = new DefaultListModel<>();
-        
-        this.stocksBought = 
 
-        for(Stock stock: stocksmarket ){
+        
+
+        
+        
+       
+
+        /* for(Stock stock: stocksmarket ){
             this.stockListModel.addElement(stock);
             //stockNames.add(stock.get_name());
             //stockPrices.add(stock.get_price());
            // nameModel.addElement(stock.get_name());
            // priceModel.addElement(stock.get_price());
-        }
+        } */
 
 
     //Maket Stocks Panel
@@ -201,7 +222,7 @@ public class Gui implements GameObserver {
                 int quantity = (int) spinner.getValue();
                 
                 // Assuming tradedStock is an instance of your Stock class
-                Float costPerUnit = tradedStock.get_price();
+                Float costPerUnit = stocktradedPrice;
         
                 if (costPerUnit != null) {
                     float totalCost = quantity * costPerUnit;
@@ -219,7 +240,7 @@ public class Gui implements GameObserver {
         buyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (controller.buy(tradedStock.get_name(), tradedStock.get_price(), (int)spinner.getValue() ) == true){
+                if (controller.buy(stocktradedString, stocktradedPrice, (int)spinner.getValue() ) == true){
                     update();
                     ownListModel.addElement(tradedStock);
                     
@@ -233,7 +254,7 @@ public class Gui implements GameObserver {
         sellButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (controller.sell(tradedStock.get_name(), tradedStock.get_price(), (int)spinner.getValue() )){
+                if (controller.sell(stocktradedString, stocktradedPrice, (int)spinner.getValue() )){
                     update();
                     ownListModel.removeElement(tradedStock);
 
@@ -245,7 +266,7 @@ public class Gui implements GameObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 spinner.setValue((int) spinner.getValue() + 1);
-                costLabel.setText("Cost: " + ((int)spinner.getValue() * Float.parseFloat(toBeCost.getText())));
+                costLabel.setText("Cost: " + ((int)spinner.getValue() * stocktradedPrice));
             }
         });
 
@@ -254,7 +275,7 @@ public class Gui implements GameObserver {
             public void actionPerformed(ActionEvent e) {
                 if((int)spinner.getValue() > 0){
                     spinner.setValue((int) spinner.getValue() - 1);
-                    costLabel.setText("Cost: " + ((int)spinner.getValue() * Float.parseFloat(toBeCost.getText())));
+                    costLabel.setText("Cost: " + ((int)spinner.getValue() * stocktradedPrice));
                 }
             }
         });
@@ -303,10 +324,27 @@ public class Gui implements GameObserver {
         // Display the frame
         frame.setVisible(true);
     }
-    private void update_owned_list(){
 
-        ownedList = new JList<>(ownListModel);
-        ownedList.setCellRenderer(new DefaultListCellRenderer() {
+
+    private void update_owned_list(){
+        DefaultListModel<String> ownedListModel = new DefaultListModel<>();
+
+        ArrayList<String> userstocks = new ArrayList<String>();
+        for (int i = 0; i < usernames.size(); i++) {
+            Float userStockPrice = userprices.get(i);
+            NumberFormat decimalFormat = new DecimalFormat("#.##");
+            Integer amount = useramount.get(i);
+            Float price = Float.valueOf(decimalFormat.format(userStockPrice));
+            String newStock = (usernames.get(i) + "   $" + price + "  " + amount);
+            userstocks.add(newStock);
+            ownedListModel.addElement(usernames.get(i) + "   $" + price + "  " + amount);
+        }
+
+
+        //this.ownedList = new JList<>(userstocks.toArray(new String[userstocks.size()]));
+        this.ownedList= new JList<>(ownedListModel);
+        this.ownedList.setModel(ownedListModel);
+        /* ownedList.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(
                     JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -319,7 +357,7 @@ public class Gui implements GameObserver {
 
                 return label;
             }
-        });
+        }); */
 
         JScrollPane ownedPane = new JScrollPane(ownedList);
         ownedPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -329,26 +367,42 @@ public class Gui implements GameObserver {
             public void valueChanged(ListSelectionEvent e)
             {
                 if (!e.getValueIsAdjusting()) {
+                    
                     costLabel.setText("Cost: $0.00");
-                    Stock selectedStock = marketList.getSelectedValue();
-                    toBeTraded.setText("Selected Stock: " + selectedStock.get_name());
-                    toBeCost.setText("$" + selectedStock.get_price());
-                    tradedStock = marketList.getSelectedValue();
-                    spinner.setValue(0);
+                    String stock = ownedList.getSelectedValue();
+                    stocktradedString = stock.substring(0,3);
+                    toBeTraded.setText("Selected Stock: " + stocktradedString);
+                    //Float no = price;
+                    stocktradedPrice = Float.parseFloat(stock.substring(8,12));
+                    toBeCost.setText("$" + stocktradedPrice);
+    
+                    spinner.setValue(0); 
                 }
             }
         });
-
 
         ownedPanel = new JPanel(new BorderLayout());
         ownedPanel.add(ownedPane,BorderLayout.CENTER);
         ownedPanel.setVisible(true);
     }
 
+    public void update_market_list(){
+        DefaultListModel<String> marketListModel = new DefaultListModel<>();
 
-    private void update_market_list(){
-        JList<Stock> marketList = getStockJList();
-
+        ArrayList<String> market = new ArrayList<String>();
+        for (int i = 0; i < marketnames.size(); i++) {
+            Float newStockPrice = marketprices.get(i);
+            NumberFormat decimalFormat = new DecimalFormat("#.##");
+            Float price = Float.valueOf(decimalFormat.format(newStockPrice));
+            String newStock = (marketnames.get(i) + "   $" + price );
+    
+            market.add(newStock);
+            marketListModel.addElement(marketnames.get(i) + "   $" + price);
+        }
+        
+        //this.marketList = new JList<>(market.toArray(new String[market.size()]));
+        this.marketList = new JList<>(marketListModel);
+        this.marketList.setModel(marketListModel);
         this.scrollPane = new JScrollPane(marketList);
         this.scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -357,10 +411,11 @@ public class Gui implements GameObserver {
             {
                 if (!e.getValueIsAdjusting()) {
                     costLabel.setText("Cost: $0.00");
-                    Stock selectedStock = marketList.getSelectedValue();
-                    toBeTraded.setText("Selected Stock: " + selectedStock.get_name());
-                    toBeCost.setText("$" + selectedStock.get_price());
-                    tradedStock = marketList.getSelectedValue();
+                    String stock = marketList.getSelectedValue();
+                    stocktradedString = stock.substring(0,3);
+                    stocktradedPrice = Float.parseFloat(stock.substring(7,stock.length()));
+                    toBeTraded.setText("Selected Stock: " + stocktradedString);
+                    toBeCost.setText("$" + stocktradedPrice);
                     spinner.setValue(0);
                 }
             }
@@ -374,7 +429,9 @@ public class Gui implements GameObserver {
 
     }
 
-    private JList<Stock> getStockJList() {
+    /* private JList<Stock> getStockJList() {
+       Market market = controller.getMarket();
+
         JList<Stock> marketList = new JList<>(stockListModel);
 
         marketList.setCellRenderer(new DefaultListCellRenderer() {
@@ -387,14 +444,14 @@ public class Gui implements GameObserver {
 
                 Stock stock = (Stock) value;
 
-                label.setText(stock.get_name() + " - $" + stock.get_price()); // Display name and price
+                label.setText(stock.get_name() + " - $" + stock.get_price()); // Dis name and price
 
                 return label;
             }
         });
         return marketList;
-    }
-
+    } */
+ 
 
     private static JPanel createPanel(Color color) {
         JPanel panel = new JPanel();
@@ -406,9 +463,11 @@ public class Gui implements GameObserver {
     @Override
     public void update(){
         player = controller.getUser();
-        update_market_list();
+        market = controller.getMarket();
+        //update_market_list();
         update_owned_list();
         System.out.println("We are here");
+
 
         
     }

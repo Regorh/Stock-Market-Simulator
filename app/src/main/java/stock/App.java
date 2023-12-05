@@ -69,8 +69,8 @@ public class App {
 
         //creating of children
         EventRoller roller = new EventRoller(events);
-        GameManager algorithm = new GameManager();
-        User user = new User(algorithm.get_avg());
+        GameManager manager = new GameManager();
+        User user = new User(manager.get_avg());
 
 
         boolean isDone = false;
@@ -79,12 +79,16 @@ public class App {
             //if( PUT USER SEC = 100, OR ILLNESS OR DEBT TOO HIGH HERE)
             // isDone == true
             ArrayList<String> event = roller.roll_out();
-            algorithm.next_day(event.get(0));
+            manager.next_day(event.get(0));
             user.process_event(event.get(1));
 
 
         }
 
+        // signifies to user and market that there are no further events
+        // required to internally time duration effects, such as trade inability or crashes
+        user.process_end();
+        // market.process_end();
 
 
 

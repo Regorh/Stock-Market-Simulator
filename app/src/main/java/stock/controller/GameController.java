@@ -8,7 +8,7 @@ import stock.view.*;
 public class GameController implements ControllerInterface{
     startUI start;
     Gui game;
-    GameManager alg;
+    GameManager gm;
     User player;
     Market market;
     

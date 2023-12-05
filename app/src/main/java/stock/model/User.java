@@ -136,6 +136,9 @@ public class User {
         if (this.stocks.containsKey(ticker) && this.stocks.get(ticker) > quantity && this.flag_can_trade) {
             this.stocks.replace(ticker, this.stocks.get(ticker), this.stocks.get(ticker) - quantity);
             this.capital += price * quantity;
+            if(this.stocks.get(ticker) == 0){
+                this.stocks.remove(ticker);
+            }
             return true;
         }
         return false;

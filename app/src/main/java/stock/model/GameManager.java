@@ -1,6 +1,11 @@
 package stock.model;
+import stock.GameObserver;
+import stock.controller.EventRoller;
 import stock.model.*;
 import stock.view.*;
+
+import java.util.List;
+import java.util.ArrayList;
 
 
 // testing
@@ -11,17 +16,35 @@ import java.util.Random;
 public class GameManager {
     Random rand = new Random();
     Market market;
-    public  GameManager(){
-        Market market = new Market();
+    EventRoller roller;
+    User user;
+    private ArrayList<GameObserver> observers = new ArrayList<GameObserver>();
 
+    
+    public GameManager(){
+        market = new Market();
     }
+
+    public void register(GameObserver observer){
+        observers.add(observer);
+    }
+
+    public void notifyObservers() {
+        for (GameObserver observer : observers) {
+            observer.update();
+        }
+    }
+
     public float get_avg(){
         return market.get_average_stock_price();
     }
+
+    
     public void next_day(String event){
 
         //need to call event roller here to decide what event occur,
         //this will help add weights to algorithm based on events
+        
         float modify = 0;
 
         switch(event) {
@@ -41,6 +64,8 @@ public class GameManager {
             //BELOW HERE, we can check if the price has been falling a lot, then make stability lower
         }
 
+        this.notifyObservers();
+
     }
 
 
@@ -53,6 +78,10 @@ public class GameManager {
         float new_price = modify + (float) ( current_price + (sign *current_stability * (current_price * (rand_double))));
 
         stock.set_price(new_price);
+    }
+
+    public Market getMarket() {
+        return this.market;
     }
 
 

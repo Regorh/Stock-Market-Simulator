@@ -10,7 +10,7 @@ public class Market{
     List<Stock> stocks;
 
     public Market(){
-        Random rand = new Random();
+        rand = new Random();
         stocks = new ArrayList<Stock>();
         this.stability = rand.nextInt(4);
         create_stocks(100);
@@ -28,7 +28,7 @@ public class Market{
     public List<Stock> get_stock() { return this.stocks; }
 
     //creates stocks of an amount requested, with random values
-    private void create_stocks(int num){
+    public void create_stocks(int num){
         for(int i = 0; i < num; i++){
             char letter = (char)(rand.nextInt(24) + 65);
             String stock_type = "TEST_TYPE: " + letter;
@@ -40,7 +40,7 @@ public class Market{
 
 
     //creates a random name when requested, 3 letters, for stock tickers
-    private String create_name(){
+    public String create_name(){
         StringBuilder name = new StringBuilder();
         for(int i = 0; i < 3; i++){
             char letter = (char)(rand.nextInt(24) + 65);

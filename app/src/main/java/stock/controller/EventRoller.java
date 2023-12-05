@@ -13,7 +13,14 @@ public class EventRoller {
         this.previous_events = new ArrayList<String>();
         this.rand = new Random();
         //ADD EVENTS TO A NEW LINE IN THE EVENTS FILE
+        
     }
+
+
+
+
+
+
 
     public ArrayList<String> roll_out(){
         //roll for all available events, we can have this roll multiple times/ check if the event is a user/market/stock

@@ -28,16 +28,6 @@ public class User {
         this.successfulEvents = new ArrayList<>();
     }
   
-    
-    public void register(GameObserver observer){
-        observers.add(observer);
-    }
-
-    public void notifyObservers() {
-        for (GameObserver observer : observers) {
-            observer.update();
-        }
-    }
       
     public void process_event(String event) {
         switch (event) {
@@ -114,17 +104,19 @@ public class User {
         this.stress -= value;
     }
 
-    public void sellStock(String ticker, float price) {
+    public boolean sellStock(String ticker, float price, int amount) {
         if (this.stocks.get(ticker) > 0) {
             this.stocks.replace(ticker, this.stocks.get(ticker), this.stocks.get(ticker) - 1);
             this.capital += price;
         }
+        return true;
     }
 
-    public void buyStock(String ticker, float price) {
+    public boolean buyStock(String ticker, float price, int amount) {
         if (this.capital >= price) {
             this.stocks.replace(ticker, this.stocks.get(ticker), this.stocks.get(ticker) + 1);
             this.capital -= price;
         }
+        return true;
     }
 }

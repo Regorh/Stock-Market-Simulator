@@ -59,17 +59,11 @@ public class GameManager {
             default:
                 // code block
         }
-        for( Stock stock : market.get_stock()){
-            stock_changer(modify,stock);
-            //BELOW HERE, we can check if the price has been falling a lot, then make stability lower
-        }
-
-        this.notifyObservers();
-
+        market.change_stocks(modify);
     }
 
 
-    private void stock_changer(float modify, Stock stock){
+    /* private void stock_changer(float modify, Stock stock){
         double rand_double = rand.nextDouble(1);
         float current_price = stock.get_price();
         int current_stability = stock.get_stability();
@@ -78,7 +72,7 @@ public class GameManager {
         float new_price = modify + (float) ( current_price + (sign *current_stability * (current_price * (rand_double))));
 
         stock.set_price(new_price);
-    }
+    } */
 
     public Market getMarket() {
         return this.market;

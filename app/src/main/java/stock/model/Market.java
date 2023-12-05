@@ -34,11 +34,20 @@ public class Market{
     public List<Stock> get_stock() { return this.stocks; }
 
     //creates stocks of an amount requested, with random values
-    public void create_stocks(int num){
+    private void create_stocks(int num){
+        ArrayList<String> current_stock_names = new ArrayList<>();
+        for (Stock stock : this.stocks) {
+            current_stock_names.add(stock.get_name());
+        }
         for(int i = 0; i < num; i++){
             char letter = (char)(rand.nextInt(24) + 65);
             String stock_type = "TEST_TYPE: " + letter;
-            Stock stock = new Stock(create_name(), stock_type, rand.nextInt(4), (100*rand.nextFloat()));
+            String name = create_name();
+            while (current_stock_names.contains(name)) {
+                name = create_name();
+            }
+            current_stock_names.add(name);
+            Stock stock = new Stock(name, stock_type, rand.nextInt(4), (100*rand.nextFloat()));
             this.stocks.add(stock);
         }
     }
@@ -51,6 +60,23 @@ public class Market{
             name.append(letter);
         }
         return name.toString();
+    }
+
+    public void change_stocks(float modify) {
+        for (Stock stock : this.stocks) {
+            stock_changer(modify, stock);
+        }
+    }
+
+    private void stock_changer(float modify, Stock stock){
+        double rand_double = rand.nextDouble(1);
+        float current_price = stock.get_price();
+        int current_stability = stock.get_stability();
+        int sign = (rand.nextFloat(0,1) <= .52)? 1 : -1;
+        //will fill out with more weights as we go
+        float new_price = modify + (float) ( current_price + (sign *current_stability * (current_price * (rand_double))));
+
+        stock.set_price(new_price);
     }
 
     public void process_event(String event) {
@@ -67,6 +93,28 @@ public class Market{
                 for (Stock stock : this.stocks) {
                     stock.set_price(stock.get_price() / 0.9f);
                 }
+                break;
+            case "market_shakeup":
+                this.stability = rand.nextInt(4);
+                break;
+            case "new_stocks":
+                create_stocks(15);
+                break;
+            case "capital_flight":
+                for (Stock stock : this.stocks) {
+                    stock.set_price(stock.get_price() / 10f);
+                }
+                break;
+            case "bull_market":
+                for (Stock stock : this.stocks) {
+                    stock.set_price(stock.get_price() * 1.15f);
+                }
+                break;
+            case "high_stability":
+                this.stability = 4;
+                break;
+            case "high_uncertainty":
+                this.stability = 1;
                 break;
             default:
                 break;

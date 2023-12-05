@@ -161,4 +161,6 @@ public class User {
     }
 
     public boolean get_trade_capability() { return this.flag_can_trade; }
+
+    public HashMap<String, Integer> get_user_stocks() { return this.stocks; }
 }

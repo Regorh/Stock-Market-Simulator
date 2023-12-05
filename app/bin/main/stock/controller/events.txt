@@ -7,7 +7,12 @@
 #MarketEvents
 crash
 boom
-oil_boom
+market_shakeup
+new_stocks
+capital_flight
+bull_market
+high_stability
+high_uncertainty
 
 #UserEvents
 donated_50_dollars
@@ -16,3 +21,4 @@ got_the_other_guy
 she_took_the_kids
 mysterious_benefactor
 cant_trade
+favor_repayment

@@ -71,7 +71,7 @@ public class GameController implements ControllerInterface{
 
         this.roller = new EventRoller(events);
         this.alg = new GameManager();
-    
+
         this.user = new User(alg.get_avg());
         
         

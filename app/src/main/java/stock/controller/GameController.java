@@ -15,8 +15,8 @@ import java.util.Scanner;
 public class GameController implements ControllerInterface{
     startUI start;
     Gui game;
-    GameManager alg;
-    User user;
+    GameManager gm;
+    User player;
     Market market;
     EventRoller roller;
     

@@ -9,6 +9,12 @@ public class Market{
     Random rand;
     List<Stock> stocks;
 
+    // flags: typically toggled by event processing
+    // private boolean flag_crash;
+
+    // timers: ensures flags un-toggle on time
+    // private int timer_crash;
+
     public Market(){
         rand = new Random();
         stocks = new ArrayList<Stock>();
@@ -36,16 +42,41 @@ public class Market{
             this.stocks.add(stock);
         }
     }
-
-
-
-    //creates a random name when requested, 3 letters, for stock tickers
-    public String create_name(){
+    
+    private String create_name(){
+        //creates a random name when requested, 3 letters, for stock tickers
         StringBuilder name = new StringBuilder();
         for(int i = 0; i < 3; i++){
             char letter = (char)(rand.nextInt(24) + 65);
             name.append(letter);
         }
         return name.toString();
+    }
+
+    public void process_event(String event) {
+        switch (event) {
+            case "crash":
+                // stocks lose 10% value
+                for (Stock stock : this.stocks) {
+                    stock.set_price(stock.get_price() * 0.9f);
+                }
+                break;
+            case "boom":
+                // stocks gain 11.11...% value
+                // crash and boom cancel one another out
+                for (Stock stock : this.stocks) {
+                    stock.set_price(stock.get_price() / 0.9f);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void process_end() {
+        // signifies to the class that no further events for the turn
+        // are queued. used to tick through timed events
+
+        // exists for futureproofing, no current use case
     }
 }

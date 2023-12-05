@@ -14,6 +14,12 @@ public class User {
     private double currentDebt;
     private int stress;
     private transient ArrayList<GameObserver> observers = new ArrayList<GameObserver>();
+    
+    // flags: typically toggled by event processing
+    private boolean flag_can_trade;
+
+    // timers: ensures flags un-toggle on time
+    private int timer_trade_prohib;
 
     //public User(int debt, float suspicion,float cash){
   
@@ -26,6 +32,7 @@ public class User {
         this.suspicionOfSEC = 0;
         this.currentDebt = capital*30;
         this.successfulEvents = new ArrayList<>();
+        this.flag_can_trade = true;
     }
   
       
@@ -64,10 +71,24 @@ public class User {
                         this.stocks.replace(stock, this.stocks.get(stock), this.stocks.get(stock) + 1);
                     }
                 }
+            case "cant_trade":
+                // cannot transact for the next two turns
+                // timer ticks down when process_end is called
+                this.flag_can_trade = false;
+                this.timer_trade_prohib = 2;
+                break;
             default:
                 break;
 
         }
+    }
+
+    public void process_end() {
+        // signifies to the class that no further events for the turn
+        // are queued. used to tick through timed events
+        // e.g. "cant_trade"
+        if (this.timer_trade_prohib > 0) { this.timer_trade_prohib -= 1; } 
+        else { this.flag_can_trade = true; }
     }
     
     public float getCapital() {

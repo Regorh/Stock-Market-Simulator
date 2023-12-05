@@ -49,6 +49,7 @@ public class Gui implements GameObserver {
     JPanel marketPanel;
     JList<String> ownedList;
     JPanel ownedPanel;
+    JScrollPane ownedPane;
     String stocktradedString;
     Float stocktradedPrice;
     int quantity;
@@ -58,12 +59,14 @@ public class Gui implements GameObserver {
     private ArrayList<String> usernames;
     private ArrayList<Float> userprices;
     private ArrayList<Integer> useramount;
+    DecimalFormat decimalFormat;
     JFrame frame;
     JLabel totalPortfolio;
     JPanel statsPanel;
     private static Container marketpane;
     //private static void createAndShowGUI() {
     public Gui(ControllerInterface controller, GameManager manager, EventRoller roller ) {
+        this.decimalFormat = new DecimalFormat("#.##");
         this.manager = manager;
         this.controller = controller;
         this.manager.register(this);
@@ -89,7 +92,6 @@ public class Gui implements GameObserver {
         this.userprices = controller.userstockprice();
         this.useramount = controller.userstockamount();
 
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
 
         this.stockListModel = new DefaultListModel<String>();
@@ -101,8 +103,41 @@ public class Gui implements GameObserver {
         
        
 
-    //Maket Stocks Panel
-        
+
+        //creating market panel
+        for (int i = 0; i < marketnames.size(); i++) {
+            Float newStockPrice = marketprices.get(i);
+            Float price = Float.valueOf(decimalFormat.format(newStockPrice));
+            String newStock = (marketnames.get(i) + "   $" + price );
+            System.out.println(marketnames.get(i) + "   $" + price);
+            stockListModel.addElement(marketnames.get(i) + "   $" + price);
+        }
+
+        this.marketList = new JList<>(stockListModel);
+        this.marketList.setModel(stockListModel);
+        this.scrollPane = new JScrollPane(marketList);
+        this.scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        marketPanel.add(scrollPane, BorderLayout.CENTER);
+
+        //creating stock panel
+        ArrayList<String> userstocks = new ArrayList<String>();
+        for (int i = 0; i < usernames.size(); i++) {
+            Float userStockPrice = userprices.get(i);
+            Integer amount = useramount.get(i);
+            Float price = Float.valueOf(this.decimalFormat.format(userStockPrice));
+            String newStock = (usernames.get(i) + "   $" + price + "  " + amount);
+            userstocks.add(newStock);
+            ownListModel.addElement(usernames.get(i) + "   $" + price + "  " + amount);
+        }
+
+        this.ownedList= new JList<>(ownListModel);
+        this.ownedList.setModel(ownListModel);
+        this.ownedPane = new JScrollPane(ownedList);
+        ownedPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        ownedPanel = new JPanel(new BorderLayout());
+        ownedPanel.add(ownedPane,BorderLayout.CENTER);
+
+
         update_market_list();
 //Owned Stocks Panel
         update_owned_list();
@@ -318,27 +353,15 @@ public class Gui implements GameObserver {
 
 
     private void update_owned_list(){
-        this.ownListModel.clear();
 
-        ArrayList<String> userstocks = new ArrayList<String>();
-        for (int i = 0; i < usernames.size(); i++) {
+
+        for (int i = 0; i < ownListModel.size(); i++) {
             Float userStockPrice = userprices.get(i);
-            NumberFormat decimalFormat = new DecimalFormat("#.##");
             Integer amount = useramount.get(i);
-            Float price = Float.valueOf(decimalFormat.format(userStockPrice));
+            float price = Float.parseFloat(this.decimalFormat.format(userStockPrice));
             String newStock = (usernames.get(i) + "   $" + price + "  " + amount);
-            userstocks.add(newStock);
-            ownListModel.addElement(usernames.get(i) + "   $" + price + "  " + amount);
+            ownListModel.set(i,(usernames.get(i) + "   $" + price + "  " + amount));
         }
-
-
-        //this.ownedList = new JList<>(userstocks.toArray(new String[userstocks.size()]));
-        this.ownedList= new JList<>(ownListModel);
-        this.ownedList.setModel(ownListModel);
-
-
-        JScrollPane ownedPane = new JScrollPane(ownedList);
-        ownedPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         ownedList.addListSelectionListener(new ListSelectionListener()
         {
@@ -368,38 +391,33 @@ public class Gui implements GameObserver {
             }
         });
 
-        ownedPanel = new JPanel(new BorderLayout());
-        ownedPanel.add(ownedPane,BorderLayout.CENTER);
         ownedPanel.setVisible(true);
-        marketPanel.revalidate();
-        marketPanel.repaint();
+        ownedPanel.revalidate();
+        ownedPanel.repaint();
 
     }
 
+
     public void update_market_list(){
-        marketPanel.setVisible(false);
-        this.stockListModel.clear();
-        this.marketPanel = new JPanel(new BorderLayout());
         marketPanel.setVisible(false);
 
 
         System.out.println(marketprices.get(0));
 
-        for (int i = 0; i < marketnames.size(); i++) {
+        for (int i = 0; i < stockListModel.size(); i++) {
             Float newStockPrice = marketprices.get(i);
-            NumberFormat decimalFormat = new DecimalFormat("#.##");
-            Float price = Float.valueOf(decimalFormat.format(newStockPrice));
+            float price = Float.parseFloat(this.decimalFormat.format(newStockPrice));
             String newStock = (marketnames.get(i) + "   $" + price );
             System.out.println(marketnames.get(i) + "   $" + price);
-            stockListModel.addElement(marketnames.get(i) + "   $" + price);
+            stockListModel.set(i,(marketnames.get(i) + "   $" + price));
         }
 
         System.out.println("Doing it");
         //this.marketList = new JList<>(market.toArray(new String[market.size()]));
-        this.marketList = new JList<>(stockListModel);
-        this.marketList.setModel(stockListModel);
-        this.scrollPane = new JScrollPane(marketList);
-        this.scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        //this.marketList = new JList<>(stockListModel);
+        //this.marketList.setModel(stockListModel);
+        //this.scrollPane = new JScrollPane(marketList);
+        //this.scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         marketList.addListSelectionListener(new ListSelectionListener()  {
             public void valueChanged(ListSelectionEvent e)
@@ -427,7 +445,6 @@ public class Gui implements GameObserver {
         });
 
         marketPanel.setVisible(true);
-        marketPanel.add(scrollPane, BorderLayout.CENTER);
         marketPanel.revalidate();
         marketPanel.repaint();
 

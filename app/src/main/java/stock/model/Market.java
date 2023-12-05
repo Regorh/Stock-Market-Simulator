@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.google.common.math.PairedStats;
+
 public class Market{
     int stability;
     Random rand;
@@ -126,5 +128,15 @@ public class Market{
         // are queued. used to tick through timed events
 
         // exists for futureproofing, no current use case
+    }
+
+    public float get_market_price(String ticker){
+        float price = 0;
+        for(Stock stock: stocks){
+            if(stock.get_name() == ticker){
+                price = stock.get_price();
+            }
+        }
+        return price;
     }
 }

@@ -41,6 +41,7 @@ public class Gui implements GameObserver {
     Market market;
     DefaultListModel<Stock> stockListModel;
     DefaultListModel<Stock> ownListModel;
+    String[] stocksBought;
     
 
     public static void main(String[] args) {
@@ -80,7 +81,7 @@ public class Gui implements GameObserver {
         this.stockListModel = new DefaultListModel<>();
         this.ownListModel = new DefaultListModel<>();
         
-
+        this.stocksBought = 
 
         for(Stock stock: stocksmarket ){
             stockListModel.addElement(stock);
@@ -93,15 +94,7 @@ public class Gui implements GameObserver {
 
 
         String[] stocks = {
-            "Apple",  "NIO",  "Oracle",  "BLACK",   "BLUE",   "Apple",   "NIO",   "Oracle", 
-             "Apple",  "NIO",  "Oracle",  "BLACK",   "BLUE",   "Apple",   "NIO",   "Oracle", 
-            "Apple",  "NIO",  "Oracle",  "BLACK",   "BLUE",   "Apple",   "NIO",   "Oracle", 
-            "Apple",  "NIO",  "Oracle",  "BLACK",   "BLUE",   "Apple",   "NIO",   "Oracle", 
-            "Apple",  "NIO",  "Oracle",  "BLACK",   "BLUE",   "Apple",   "NIO",   "Oracle", 
-            "Apple",  "NIO",  "Oracle",  "BLACK",   "BLUE",   "Apple",   "NIO",   "Oracle", 
-            "Apple",  "NIO",  "Oracle",  "BLACK",   "BLUE",   "Apple",   "NIO",   "Oracle", 
-            "Apple",  "NIO",  "Oracle",  "BLACK",   "BLUE",   "Apple",   "NIO",   "Oracle", 
-            "Apple",  "NIO",  "Oracle",  "BLACK",   "BLUE",   "Apple",   "NIO",   "Oracle" 
+
 
         };
         
@@ -316,7 +309,7 @@ public class Gui implements GameObserver {
                 if (controller.buy(tradedStock.get_name(), tradedStock.get_price(), (int)spinner.getValue() ) == true){
                     update();
                     ownListModel.addElement(tradedStock);
-
+                    
 
                 }
                     
@@ -357,6 +350,7 @@ public class Gui implements GameObserver {
             public void actionPerformed(ActionEvent e) {
                 
                 controller.nextday();
+                
 
             }
         });

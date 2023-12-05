@@ -4,12 +4,15 @@ import stock.ControllerInterface;
 import stock.model.*;
 import stock.view.*;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Random;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.List.*;
 
 
 public class GameController implements ControllerInterface{
@@ -114,9 +117,35 @@ public class GameController implements ControllerInterface{
         game.update();
 
 
+    }
 
+   
+
+    public ArrayList<String> stocknames(){
+        ArrayList<String> names = new ArrayList<String>();
+        HashMap<String, Integer> stocks = user.get_user_stocks();
+        for (String stockName : stocks.keySet()) {
+            names.add(stockName);
+        }
+        return names;
 
     }
+
+    public ArrayList<Float> stockprice(){
+        ArrayList<Float> prices = new ArrayList<Float>();
+        HashMap<String, Integer> stocks = user.get_user_stocks();
+        float price = 0;
+
+        
+        for (String stockName : stocks.keySet()) {
+            price = market.get_market_price(stockName);
+            prices.add(price);
+        }
+        return prices;
+        
+    }
+
+    
 
 
 }

@@ -16,14 +16,14 @@ public class GameController implements ControllerInterface{
     startUI start;
     Gui game;
     GameManager gm;
-    User player;
+    User user;
     Market market;
     EventRoller roller;
     
 
     public GameController(){
         this.start = new startUI(this);
-        this.alg = new GameManager();
+        this.gm = new GameManager();
         
 
     }
@@ -70,9 +70,9 @@ public class GameController implements ControllerInterface{
 
 
         this.roller = new EventRoller(events);
-        this.alg = new GameManager();
+        this.gm = new GameManager();
 
-        this.user = new User(alg.get_avg());
+        this.user = new User(gm.get_avg());
         
         
 
@@ -85,11 +85,11 @@ public class GameController implements ControllerInterface{
         }
         user.setCapital((float) 1000.00);
         user.setsuspicionOfSEC(50);
-        this.game = new Gui(this,alg, roller);
+        this.game = new Gui(this,gm, roller);
     }
 
     public Market getMarket(){
-        return alg.getMarket();
+        return gm.getMarket();
     }
 
     public User getUser(){
@@ -109,7 +109,7 @@ public class GameController implements ControllerInterface{
 
     public void nextday(){
         ArrayList<String> currentEvents = roller.roll_out();
-        alg.next_day(currentEvents.get(0));
+        gm.next_day(currentEvents.get(0));
         user.process_event(currentEvents.get(1));
         game.update();
 

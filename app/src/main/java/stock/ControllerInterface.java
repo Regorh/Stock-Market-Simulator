@@ -31,6 +31,7 @@ public interface ControllerInterface {
     public ArrayList<String> userstocknames();
 
     public ArrayList<Integer> userstockamount();
+    public Float get_stock_price(String name);
     
 
 }

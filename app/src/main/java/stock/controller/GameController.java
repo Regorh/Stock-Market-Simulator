@@ -135,5 +135,8 @@ public class GameController implements ControllerInterface {
     public ArrayList<Float> marketstockprices() {
         return gm.get_stock_prices();
     }
+    public Float get_stock_price(String name){
+        return gm.get_market_price(name);
+    }
 }
 

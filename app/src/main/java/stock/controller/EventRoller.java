@@ -28,28 +28,38 @@ public class EventRoller {
         try {
 
             //read the file and parse each line, checking if it should be added to events
+            int y = -1;
             BufferedReader br = new BufferedReader(new FileReader(file));
             String event;
             while((event = br.readLine()) != null){
-                System.out.println("here");
-                int x = switch (event) {
-                    case "#MarketEvents" -> 0;
-                    case "#UserEvents" -> 1;
-                    default -> -1;
+                int x;
+                switch (event) {
+
+                    case("#MarketEvents"):
+                        x = 0;
+                        y = 0;
+                    break;
+
+                    case("#UserEvents"):
+                        y = 1;
+                        x = 1;
+                        break;
+
+                    default:
+                        x = -1;
                 };
+
+                System.out.println(event+x);
                 //adds events to their proper list, only reads in if it is longer than length 2
-
-                System.out.println(event);
-
-                if(event.length() >= 2 && x > -1){
-                    events.get(x).add(event);
-                    System.out.println("added "+event);
+                if(y>=0) {
+                    events.get(y).add(event);
                 }
             }
         }
         catch (Exception e){
             System.out.println("FILE DOES NOT EXIST, EVENTS CANNOT LOAD");
         }
+        System.out.println(events);
         this.events = events;
 
     }
@@ -65,6 +75,7 @@ public class EventRoller {
         ArrayList<String> current_events = new ArrayList<String>();
 
         for(ArrayList<String> eventList : events) {
+            System.out.println(eventList);
             int randint = rand.nextInt(0, eventList.size() - 1);
             String event = eventList.get(randint);
             this.previous_events.add(event);

@@ -75,12 +75,12 @@ public class User {
                         this.stocks.replace(stock, this.stocks.get(stock), this.stocks.get(stock) + 1);
                     }
                 }
-            case "cant_trade":
+           // case "cant_trade":
                 // cannot transact for the next two turns
                 // timer ticks down when process_end is called
-                this.flag_can_trade = false;
-                this.timer_trade_prohib = 2;
-                break;
+               // this.flag_can_trade = false;
+                //this.timer_trade_prohib = 2;
+               // break;
             case "favor_repayment":
                 this.capital *= 1.15f;
                 break;

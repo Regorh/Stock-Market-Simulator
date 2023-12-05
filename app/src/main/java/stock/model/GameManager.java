@@ -78,6 +78,14 @@ public class GameManager {
         return this.market;
     }
 
+    public ArrayList<String> get_stock_names(){
+        return market.get_stock_names();
+
+    }
+    public ArrayList<Float> get_stock_prices(){
+        return market.get_stock_prices();
+    }
+
    
 
 

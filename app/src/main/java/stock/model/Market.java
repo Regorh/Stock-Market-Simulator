@@ -76,8 +76,10 @@ public class Market{
         int current_stability = stock.get_stability();
         int sign = (rand.nextFloat(0,1) <= .52)? 1 : -1;
         //will fill out with more weights as we go
-        float new_price = modify + (float) ( current_price + (sign *current_stability * (current_price * (rand_double))));
-
+        float new_price = modify + (float) ( current_price + (sign * (current_price * (rand_double))));
+        if (new_price <= .5 ){
+            new_price = 0.5F;
+        }
         stock.set_price(new_price);
     }
 
@@ -139,4 +141,21 @@ public class Market{
         }
         return price;
     }
+
+    public ArrayList<String> get_stock_names(){
+        ArrayList<String> marketstocks = new ArrayList<String>();
+        for( Stock stockName: stocks){
+            marketstocks.add(stockName.get_name());
+        }
+        return marketstocks;
+    }
+
+    public ArrayList<Float> get_stock_prices(){
+        ArrayList<Float> marketstocks = new ArrayList<Float>();
+        for( Stock stockName: stocks){
+            marketstocks.add(stockName.get_price());
+        }
+        return marketstocks;
+    }
+
 }

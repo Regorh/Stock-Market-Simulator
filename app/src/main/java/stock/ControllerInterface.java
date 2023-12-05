@@ -24,7 +24,7 @@ public interface ControllerInterface {
 
     public ArrayList<String> marketstocknames();
 
-    public ArrayList<Float> marketstockprice();
+    public ArrayList<Float> marketstockprices();
 
     public ArrayList<Float> userstockprice();
 

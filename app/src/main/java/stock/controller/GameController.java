@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class GameController implements ControllerInterface{
+public class GameController implements ControllerInterface {
     startUI start;
     Gui game;
     GameManager gm;
@@ -26,69 +26,65 @@ public class GameController implements ControllerInterface{
     EventRoller roller;
     HashMap<String, Integer> userstocks;
 
-    
 
-    public GameController(){
+    public GameController() {
         this.start = new startUI(this);
         this.gm = new GameManager();
-        
+
 
     }
 
-    public void userChoose(String mode){
+    public void userChoose(String mode) {
 
 
         this.roller = new EventRoller();
         this.gm = new GameManager();
 
         this.user = new User(gm.get_avg());
-        
-        
+
 
         if (mode.equals("easy")) {
             user.setcurrentDebt((float) 100.00);
-        }else if (mode.equals("medium")){
+        } else if (mode.equals("medium")) {
             user.setcurrentDebt((float) 1000.00);
-        }else if (mode.equals("hard")){
+        } else if (mode.equals("hard")) {
             user.setcurrentDebt((float) 10000.00);
         }
         user.setCapital((float) 1000.00);
         user.setsuspicionOfSEC(50);
-        this.game = new Gui(this,gm, roller);
+        this.game = new Gui(this, gm, roller);
     }
 
-    public Market getMarket(){
+    public Market getMarket() {
         return gm.getMarket();
     }
 
-    public User getUser(){
+    public User getUser() {
         return this.user;
-    } 
+    }
 
-    public boolean buy(String ticker, float price, int amount){
-        
+    public boolean buy(String ticker, float price, int amount) {
+
         return user.buyStock(ticker, price, amount);
-       
+
     }
 
-    public boolean sell(String ticker, float price, int amount){
-         return user.sellStock(ticker, price, amount);
+    public boolean sell(String ticker, float price, int amount) {
+        return user.sellStock(ticker, price, amount);
     }
 
 
-    public void nextday(){
+    public void nextday() {
         ArrayList<String> currentEvents = roller.roll_out();
         gm.next_day(currentEvents.get(0));
         user.process_event(currentEvents.get(1));
-        game.update_market_list();
         game.update();
 
 
     }
 
-   
 
-    public ArrayList<String> userstocknames(){
+    public ArrayList<String> userstocknames() {
         ArrayList<String> names = new ArrayList<String>();
         this.userstocks = user.get_user_stocks();
         if (this.userstocks != null) {
@@ -96,12 +92,12 @@ public class GameController implements ControllerInterface{
                 names.add(stockName);
             }
         }
-        
+
         return names;
 
     }
 
-    public ArrayList<Float> userstockprice(){
+    public ArrayList<Float> userstockprice() {
         ArrayList<Float> prices = new ArrayList<Float>();
         HashMap<String, Integer> stocks = user.get_user_stocks();
         float price = 0;
@@ -113,10 +109,10 @@ public class GameController implements ControllerInterface{
             }
         }
         return prices;
-        
+
     }
 
-    public ArrayList<Integer> userstockamount(){
+    public ArrayList<Integer> userstockamount() {
         ArrayList<Integer> amount = new ArrayList<Integer>();
         HashMap<String, Integer> stocks = user.get_user_stocks();
         int value = 0;
@@ -127,30 +123,17 @@ public class GameController implements ControllerInterface{
                 amount.add(value);
             }
         }
-        return amount; 
+        return amount;
     }
 
 
+    public ArrayList<String> marketstocknames() {
+        return gm.get_stock_names();
 
-    public ArrayList<String> marketstocknames(){
-        ArrayList<String> names = new ArrayList<String>();
-        Market market = gm.getMarket();
-        List<Stock> marketstocks = market.get_stock();
-        for( Stock stockName: marketstocks){
-            names.add(stockName.get_name());
-        }
-        return names;
     }
 
-    public ArrayList<Float> marketstockprice(){
-        ArrayList<Float> prices = new ArrayList<Float>();
-        Market market = gm.getMarket();
-        List<Stock> marketstocks = market.get_stock();
-        for( Stock stockName: marketstocks){
-            prices.add(stockName.get_price());
-        }
-        return prices;
+    public ArrayList<Float> marketstockprices() {
+        return gm.get_stock_prices();
     }
-
-
 }
+

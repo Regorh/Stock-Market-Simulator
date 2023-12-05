@@ -59,7 +59,8 @@ public class Gui implements GameObserver {
     private ArrayList<Float> userprices;
     private ArrayList<Integer> useramount;
     JFrame frame;
-    
+    JLabel totalPortfolio;
+    JPanel statsPanel;
     private static Container marketpane;
     //private static void createAndShowGUI() {
     public Gui(ControllerInterface controller, GameManager manager, EventRoller roller ) {
@@ -108,7 +109,7 @@ public class Gui implements GameObserver {
 
 
 //Player Stats
-        JPanel statsPanel = new JPanel();
+        this.statsPanel = new JPanel();
         statsPanel.setLayout(new BoxLayout(statsPanel,BoxLayout.Y_AXIS));
         //JPanel familyback = new JPanel();
         JLabel family = new JLabel("FAMILY",SwingConstants.LEFT);
@@ -144,11 +145,11 @@ public class Gui implements GameObserver {
             }
         });
 
-        JLabel totalPortfolio = new JLabel("Total cash: " + player.getCapital());
-        totalPortfolio.setHorizontalAlignment(SwingConstants.CENTER);
-        totalPortfolio.setFont(new Font("Arial", Font.BOLD, 10));
-        totalPortfolio.setAlignmentX(Component.LEFT_ALIGNMENT);
-        totalPortfolio.setForeground(Color.BLACK);
+        this.totalPortfolio = new JLabel("Total cash: " + player.getCapital());
+        this.totalPortfolio.setHorizontalAlignment(SwingConstants.CENTER);
+        this.totalPortfolio.setFont(new Font("Arial", Font.BOLD, 10));
+        this.totalPortfolio.setAlignmentX(Component.LEFT_ALIGNMENT);
+        this.totalPortfolio.setForeground(Color.BLACK);
 
      
        // familyBar.set
@@ -246,6 +247,7 @@ public class Gui implements GameObserver {
                 if (controller.sell(stocktradedString, stocktradedPrice, (int)spinner.getValue() )){
                     update();
                     ownListModel.removeElement(tradedStock);
+
 
 
                 }
@@ -404,7 +406,7 @@ public class Gui implements GameObserver {
                     stocktradedPrice = Float.parseFloat(stock.substring(7));
                     toBeTraded.setText("Selected Stock: " + stocktradedString);
                     toBeCost.setText("$" + stocktradedPrice);
-                    spinner.setValue(0);
+
                 }
             }
         });
@@ -439,6 +441,11 @@ public class Gui implements GameObserver {
         update_market_list();
         update_owned_list();
         System.out.println("We are here");
+        this.statsPanel.revalidate();
+        this.statsPanel.repaint();
+        //System.out.println(player.getCapital());
+
+        //this.totalPortfolio.repaint();
         frame.revalidate();
         frame.repaint();
 

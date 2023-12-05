@@ -2,6 +2,7 @@ package stock.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import com.google.common.math.PairedStats;
@@ -156,6 +157,14 @@ public class Market{
             marketstocks.add(stockName.get_price());
         }
         return marketstocks;
+    }
+    public Float get_stock_price(String name){
+        for(Stock stock :stocks){
+            if(Objects.equals(stock.get_name(), name)){
+                return stock.get_price();
+            }
+        }
+        return 0.0F;
     }
 
 }

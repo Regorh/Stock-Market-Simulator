@@ -104,7 +104,7 @@ public class GameController implements ControllerInterface {
 
         if (stocks != null) {
             for (String stockName : stocks.keySet()) {
-                price = market.get_market_price(stockName);
+                price = gm.get_market_price(stockName);
                 prices.add(price);
             }
         }

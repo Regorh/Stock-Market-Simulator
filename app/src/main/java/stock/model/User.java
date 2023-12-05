@@ -138,17 +138,29 @@ public class User {
         this.stress -= value;
     }
 
-    public void sellStock(String ticker, float price) {
-        if (this.stocks.get(ticker) > 0 && this.flag_can_trade) {
-            this.stocks.replace(ticker, this.stocks.get(ticker), this.stocks.get(ticker) - 1);
-            this.capital += price;
+    public boolean sellStock(String ticker, float price, int quantity) {
+        if (this.stocks.containsKey(ticker) && this.stocks.get(ticker) > quantity && this.flag_can_trade) {
+            this.stocks.replace(ticker, this.stocks.get(ticker), this.stocks.get(ticker) - quantity);
+            this.capital += price * quantity;
+            return true;
         }
+        return false;
     }
 
-    public void buyStock(String ticker, float price) {
-        if (this.capital >= price && this.flag_can_trade) {
-            this.stocks.replace(ticker, this.stocks.get(ticker), this.stocks.get(ticker) + 1);
-            this.capital -= price;
+    public boolean buyStock(String ticker, float price, int quantity) {
+        if (this.capital >= price * quantity && this.flag_can_trade) {
+            if (!this.stocks.containsKey(ticker)) {
+                this.stocks.put(ticker, quantity);
+            } else {
+                this.stocks.replace(ticker, this.stocks.get(ticker), this.stocks.get(ticker) + quantity);
+            }
+            this.capital -= price * quantity;
+            return true;
         }
+        return false;
     }
+
+    public boolean get_trade_capability() { return this.flag_can_trade; }
+
+    public HashMap<String, Integer> get_user_stocks() { return this.stocks; }
 }

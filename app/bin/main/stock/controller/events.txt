@@ -1,24 +1,26 @@
-#ALL EVENTS GO ON A NEW LINE, THEN ADD THEIR EFFECT TO THE CLASS YOU DESIRE
-#ALL LINES BEGINNING WITH '#' and '\n' or newline ARE COMMENTED OUT, use snake case, all must be longer than 2 letters
+# Lines that begin with '#' are commented out
+# Lines that are enclosed with square brackets indicate an event category
+# Lines underneath each event category represent events for that category
 
+[MarketEvents]
+{ crash: "" }
+{ boom: "" }
+{ market_shakeup: "" }
+{ new_stocks: "" }
+{ capital_flight: "" }
+{ bull_market: "" }
+{ high_stability: "" }
+{ high_uncertainty: "" }
 
+[UserEvents]
+{ donated_50_dollars: "" }
+{ double_stress: "" }
+{ got_the_other_guy: "" }
+{ she_took_the_kids: "" }
+{ mysterious_benefactor: "" }
+{ cant_trade: "" }
+{ favor_repayment: "" }
 
-
-#MarketEvents
-crash
-boom
-market_shakeup
-new_stocks
-capital_flight
-bull_market
-high_stability
-high_uncertainty
-
-#UserEvents
-donated_50_dollars
-double_stress
-got_the_other_guy
-she_took_the_kids
-mysterious_benefactor
-cant_trade
-favor_repayment
+[IllegalEvents]
+{ steal_500: "" }
+{ embezzlement_for_vacation: "" }

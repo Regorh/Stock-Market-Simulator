@@ -30,6 +30,7 @@ public class GameController implements ControllerInterface {
     public GameController() {
         this.start = new startUI(this);
         this.gm = new GameManager();
+        this.roller = new EventRoller();
 
 
     }
@@ -37,8 +38,8 @@ public class GameController implements ControllerInterface {
     public void userChoose(String mode) {
 
 
-        this.roller = new EventRoller();
-        this.gm = new GameManager();
+        // this.roller = new EventRoller();
+        // this.gm = new GameManager();
 
         this.user = new User(gm.get_avg());
 

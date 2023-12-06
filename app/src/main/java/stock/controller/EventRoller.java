@@ -4,88 +4,86 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
-public class EventRoller {
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-    private ArrayList<ArrayList<String>> events;
+public class EventRoller {
+    private record Event(String name, String description) {}
+
+    HashMap<String, ArrayList<Event>> events;
     private ArrayList<String> previous_events;
     private Random rand;
 
-    public EventRoller(){
+    public EventRoller() {
         this.previous_events = new ArrayList<String>();
         this.rand = new Random();
+        this.events = new HashMap<>();
 
         //ADD EVENTS TO A NEW LINE IN THE EVENTS FILE
-
         File file = new File("src/main/java/stock/controller/events.txt");
-        ArrayList<ArrayList<String>> events = new ArrayList<ArrayList<String>>();
 
-        //creating the 3 lists, for the 3 kinds of event types
-        for(int i = 0 ; i <2 ;i++ ){
-            ArrayList<String> a = new ArrayList<String>();
-            events.add(a);
-        }
+        // ArrayList<ArrayList<String>> events = new ArrayList<ArrayList<String>>();
+        String events_txt = new String();
         try {
-
-            //read the file and parse each line, checking if it should be added to events
-            int y = -1;
             BufferedReader br = new BufferedReader(new FileReader(file));
-            String event;
-            while((event = br.readLine()) != null){
-                int x;
-                switch (event) {
-
-                    case("#MarketEvents"):
-                        x = 0;
-                        y = 0;
-                    break;
-
-                    case("#UserEvents"):
-                        y = 1;
-                        x = 1;
-                        break;
-
-                    default:
-                        x = -1;
-                };
-
-                System.out.println(event+x);
-                //adds events to their proper list, only reads in if it is longer than length 2
-                if(y>=0) {
-                    events.get(y).add(event);
-                }
+            String line = new String();
+            while((line = br.readLine()) != null) {
+                events_txt += line + "\n";
             }
-        }
-        catch (Exception e){
+            br.close();
+        } catch (Exception e) {
             System.out.println("FILE DOES NOT EXIST, EVENTS CANNOT LOAD");
         }
-        System.out.println(events);
-        this.events = events;
-
-    }
-
-
-
-
-
-
-
-    public ArrayList<String> roll_out(){
-        //roll for all available events, we can have this roll multiple times/ check if the event is a user/market/stock
-        ArrayList<String> current_events = new ArrayList<String>();
-
-        for(ArrayList<String> eventList : events) {
-            System.out.println(eventList);
-            int randint = rand.nextInt(0, eventList.size() - 1);
-            String event = eventList.get(randint);
-            this.previous_events.add(event);
-            current_events.add(event);
-
+        String pattern_str = "(?:\\[(\\w+)Events\\]\\n)(?:([\\w\\n{}\\s:\"]+))+";
+        Pattern p = Pattern.compile(pattern_str, Pattern.MULTILINE);
+        Matcher m = p.matcher(events_txt);
+        while (m.find()) {
+            String event_category = m.group(1);
+            String event_block = m.group(2);
+            Matcher block_matches = Pattern.compile("\\{\\s*(\\w+):\\s*\"(.*)\"\\s*\\}").matcher(event_block);
+            ArrayList<Event> event_contents = new ArrayList<>();
+            while (block_matches.find()) {
+                Event event = new Event(block_matches.group(1), block_matches.group(2));
+                event_contents.add(event);
+            }
+            this.events.put(event_category, event_contents);
         }
-        //saving a list of previous events
-        return  current_events;
+        // Output diagnostic info related to event loading to standard output
+        System.out.println("Event parsing successful:");
+        System.out.println("  Category Count: " + this.events.size());
+        for (String cat : this.events.keySet()) {
+            System.out.println("    " + cat + " Event Count: " + this.events.get(cat).size());
+        }
     }
 
+    public ArrayList<String> roll_out() {
+        // Current rolls once for each specified event type (event_categories).
+        // Special event types, such as IllegalEvents, are not rolled here. If a new category of rollable action
+        // needs to be rolled, add its category name to event_categories.
+        ArrayList<String> current_events = new ArrayList<String>();
+        
+        String[] event_categories = { "Market", "User" };
+        for (String category : event_categories) {
+            int rand_int = rand.nextInt(0, this.events.get(category).size() - 1);
+            Event rolled_ev = this.events.get(category).get(rand_int);
+            this.previous_events.add(rolled_ev.name);
+            current_events.add(rolled_ev.name);
+        }
+
+        return current_events;
+    }
 
     public ArrayList<String> get_previous_events(){return this.previous_events;}
+
+    public String get_description_for(String event_name) {
+        String desc = new String();
+        for (ArrayList<Event> coll : this.events.values()) {
+            for (Event ev : coll) {
+                if (ev.name == event_name) desc = ev.description;
+            }
+        }
+        return desc;
+    }
 }

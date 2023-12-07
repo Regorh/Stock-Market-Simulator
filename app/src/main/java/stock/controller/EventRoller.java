@@ -24,27 +24,33 @@ public class EventRoller {
         //ADD EVENTS TO A NEW LINE IN THE EVENTS FILE
         File file = new File("src/main/java/stock/controller/events.txt");
 
-        // ArrayList<ArrayList<String>> events = new ArrayList<ArrayList<String>>();
         String events_txt = new String();
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line = new String();
             while((line = br.readLine()) != null) {
+                // Read in all lines of the file into a single string, preserving newlines.
                 events_txt += line + "\n";
             }
             br.close();
         } catch (Exception e) {
             System.out.println("FILE DOES NOT EXIST, EVENTS CANNOT LOAD");
         }
+        
+        // Collecting all capture groups & matches against the above regex pattern.
+        // This preliminary step first separates blocks by event type.
         String pattern_str = "(?:\\[(\\w+)Events\\]\\n" + //
                 ")(?:([\\w\\n" + //
                 "\\{\\}\\s\\:\\\"\\!\\?\\'\\.\\;\\,\\-\\$]+))+";
         Pattern p = Pattern.compile(pattern_str, Pattern.MULTILINE);
         Matcher m = p.matcher(events_txt);
         while (m.find()) {
+            // event_block refers to the body of text after the event category tag (e.g. [MarketEvent])
             String event_category = m.group(1);
             String event_block = m.group(2);
-            Matcher block_matches = Pattern.compile("\\{\\s*(\\w+)\\s{0,2}:\\s*\\\"(.*)\\\"\\s*\\}").matcher(event_block);
+
+            // This pattern extracts each event name and description pair from the event block
+            Matcher block_matches = Pattern.compile("\\{\\s*(\\w+)\\s{0,}:\\s*\\\"(.*)\\\"\\s*\\}").matcher(event_block);
             ArrayList<Event> event_contents = new ArrayList<>();
             while (block_matches.find()) {
                 Event event = new Event(block_matches.group(1), block_matches.group(2));

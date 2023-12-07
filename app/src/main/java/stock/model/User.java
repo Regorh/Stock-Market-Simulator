@@ -42,6 +42,7 @@ public class User {
       
     public void process_event(String event) {
         switch (event) {
+            // User Events
             case "donated_50_dollars":
                 if (this.capital >= 50) {
                     this.capital -= 50;
@@ -84,6 +85,19 @@ public class User {
             case "favor_repayment":
                 this.capital *= 1.15f;
                 break;
+
+            // Illegal Events
+            case "steal_500":
+                this.capital += 500f;
+                this.suspicionOfSEC += 5;
+                break;
+            case "embezzlement_for_vacation":
+                if (this.stress >= 30) {
+                    this.stress -= 30;
+                } else {
+                    this.stress -= this.stress;
+                }
+                this.suspicionOfSEC += 15;
             default:
                 break;
 

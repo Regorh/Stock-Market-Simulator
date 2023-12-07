@@ -36,13 +36,15 @@ public class EventRoller {
         } catch (Exception e) {
             System.out.println("FILE DOES NOT EXIST, EVENTS CANNOT LOAD");
         }
-        String pattern_str = "(?:\\[(\\w+)Events\\]\\n)(?:([\\w\\n{}\\s:\"]+))+";
+        String pattern_str = "(?:\\[(\\w+)Events\\]\\n" + //
+                ")(?:([\\w\\n" + //
+                "\\{\\}\\s\\:\\\"\\!\\?\\'\\.\\;\\,\\-\\$]+))+";
         Pattern p = Pattern.compile(pattern_str, Pattern.MULTILINE);
         Matcher m = p.matcher(events_txt);
         while (m.find()) {
             String event_category = m.group(1);
             String event_block = m.group(2);
-            Matcher block_matches = Pattern.compile("\\{\\s*(\\w+):\\s*\"(.*)\"\\s*\\}").matcher(event_block);
+            Matcher block_matches = Pattern.compile("\\{\\s*(\\w+)\\s{0,2}:\\s*\\\"(.*)\\\"\\s*\\}").matcher(event_block);
             ArrayList<Event> event_contents = new ArrayList<>();
             while (block_matches.find()) {
                 Event event = new Event(block_matches.group(1), block_matches.group(2));

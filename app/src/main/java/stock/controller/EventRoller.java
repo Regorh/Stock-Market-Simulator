@@ -68,10 +68,19 @@ public class EventRoller {
         
         String[] event_categories = { "Market", "User" };
         for (String category : event_categories) {
-            int rand_int = rand.nextInt(0, this.events.get(category).size() - 1);
-            Event rolled_ev = this.events.get(category).get(rand_int);
-            this.previous_events.add(rolled_ev.name);
-            current_events.add(rolled_ev.name);
+            // This variable decides the percentage chance that an event is NOT rolled.
+            // By default, it sits at 50%
+            int chance_of_none = 50;
+            boolean should_roll = rand.nextInt(0, 100) > (chance_of_none - 1);
+            if (should_roll) {
+                int rand_int = rand.nextInt(0, this.events.get(category).size() - 1);
+                Event rolled_ev = this.events.get(category).get(rand_int);
+                this.previous_events.add(rolled_ev.name);
+                current_events.add(rolled_ev.name);
+            } else {
+                this.previous_events.add("none");
+                current_events.add("none");
+            }
         }
 
         return current_events;
@@ -80,6 +89,7 @@ public class EventRoller {
     public ArrayList<String> get_previous_events(){return this.previous_events;}
 
     public String get_description_for(String event_name) {
+        if (event_name == "none") return "Nothing happened.";
         String desc = new String();
         for (ArrayList<Event> coll : this.events.values()) {
             for (Event ev : coll) {

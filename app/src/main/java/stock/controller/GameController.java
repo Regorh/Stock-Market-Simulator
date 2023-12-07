@@ -77,6 +77,7 @@ public class GameController implements ControllerInterface {
 
     public void nextday() {
         ArrayList<String> currentEvents = roller.roll_out();
+        System.out.println("Turn events: " + currentEvents); // TODO debugging
         gm.next_day(currentEvents.get(0));
         user.process_event(currentEvents.get(1));
         game.update();

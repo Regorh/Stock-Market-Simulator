@@ -24,7 +24,6 @@ public class GameController implements ControllerInterface {
     User user;
     Market market;
     EventRoller roller;
-    // HashMap<String, Integer> userstocks;
 
 
     public GameController() {
@@ -36,13 +35,7 @@ public class GameController implements ControllerInterface {
     }
 
     public void userChoose(String mode) {
-
-
-        // this.roller = new EventRoller();
-        // this.gm = new GameManager();
-
         this.user = new User(gm.get_avg());
-
 
         if (mode.equals("easy")) {
             user.setcurrentDebt((float) 100.00);
@@ -87,21 +80,12 @@ public class GameController implements ControllerInterface {
 
 
     public ArrayList<String> userstocknames() {
-        /* ArrayList<String> names = new ArrayList<String>();
-        this.userstocks = user.get_user_stocks();
-        if (this.userstocks != null) {
-            for (String stockName : this.userstocks.keySet()) {
-                names.add(stockName);
-            }
-        } */
-
         ArrayList<String> names = new ArrayList<>();
         for (String stock_name : user.get_user_stocks().keySet()) {
             names.add(stock_name);
         }
 
         return names;
-
     }
 
     public ArrayList<Float> userstockprice() {

@@ -50,7 +50,10 @@ public class Market{
                 name = create_name();
             }
             current_stock_names.add(name);
-            Stock stock = new Stock(name, stock_type, rand.nextInt(4), (100*rand.nextFloat()));
+            float price = (100 * rand.nextFloat());
+            int mid_price = (int)(price * 100);
+            price = mid_price / 100f;
+            Stock stock = new Stock(name, stock_type, rand.nextInt(4), price);
             this.stocks.add(stock);
         }
     }

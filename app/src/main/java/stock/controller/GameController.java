@@ -24,7 +24,7 @@ public class GameController implements ControllerInterface {
     User user;
     Market market;
     EventRoller roller;
-    HashMap<String, Integer> userstocks;
+    // HashMap<String, Integer> userstocks;
 
 
     public GameController() {
@@ -87,12 +87,17 @@ public class GameController implements ControllerInterface {
 
 
     public ArrayList<String> userstocknames() {
-        ArrayList<String> names = new ArrayList<String>();
+        /* ArrayList<String> names = new ArrayList<String>();
         this.userstocks = user.get_user_stocks();
         if (this.userstocks != null) {
             for (String stockName : this.userstocks.keySet()) {
                 names.add(stockName);
             }
+        } */
+
+        ArrayList<String> names = new ArrayList<>();
+        for (String stock_name : user.get_user_stocks().keySet()) {
+            names.add(stock_name);
         }
 
         return names;

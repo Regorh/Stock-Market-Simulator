@@ -283,11 +283,16 @@ public class Gui implements GameObserver {
         sellButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if((int) spinner.getValue() > 0) {
-                    if (controller.sell(stocktradedStringsell,  controller.get_stock_price((stocktradedStringsell)), (int) spinner.getValue())) {
+                // TODO debug
+                System.out.println("===\nSpinner Val: " + (Integer)spinner.getValue());
+                System.out.println("STSS:" + stocktradedStringsell);
+                System.out.println("Stock Price: " + controller.get_stock_price(stocktradedStringsell) + "\n===");
+                //
+                if((Integer) spinner.getValue() > 0) {
+                    if (controller.sell(stocktradedStringsell,  controller.get_stock_price((stocktradedStringsell)), (Integer) spinner.getValue())) {
                         //System.out.println();
                         update();
-                        update();
+                        // update();
                         //make sure the gui had the correct stocks to be loaded, if not have them reload, dont just remove the elemeents int he list
 
 
@@ -374,6 +379,7 @@ public class Gui implements GameObserver {
     private void update_owned_list(){
 
         isMarket=false;
+        this.usernames = controller.userstocknames();
         if (!usernames.isEmpty()) {
             for (int i = 0; i < ownListModel.size(); i++) {
                 stocktradedStringsell = usernames.get(i);
@@ -385,7 +391,6 @@ public class Gui implements GameObserver {
                 } else {
                     ownListModel.removeElement(i);
                 }
-
             }
         }else{
             ownedPanel.revalidate();
@@ -393,8 +398,7 @@ public class Gui implements GameObserver {
             ownListModel.clear();
             ownedPane.revalidate();
             ownedPane.repaint();
-
-        }
+        } 
 
         ownedList.addListSelectionListener(new ListSelectionListener()
         {

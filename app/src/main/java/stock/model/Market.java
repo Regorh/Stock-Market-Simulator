@@ -74,7 +74,7 @@ public class Market{
         }
     }
 
-    private void stock_changer(float modify, Stock stock){
+    private void stock_changer(float modify, Stock stock) {
         double rand_double = rand.nextDouble(1);
         float current_price = stock.get_price();
         int current_stability = stock.get_stability();

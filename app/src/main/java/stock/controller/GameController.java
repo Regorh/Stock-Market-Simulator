@@ -24,13 +24,14 @@ public class GameController implements ControllerInterface {
     User user;
     Market market;
     EventRoller roller;
+    int day;
 
 
     public GameController() {
         this.start = new startUI(this);
         this.gm = new GameManager();
         this.roller = new EventRoller();
-
+        this.day = 1;
 
     }
 
@@ -75,6 +76,10 @@ public class GameController implements ControllerInterface {
         user.process_event(currentEvents.get(1));
         game.update();
 
+        // can use this to show how far the player lasted
+        this.day += 1;
+        // check to see if game should end
+        boolean game_should_end = user.reached_fail_state();
 
     }
 

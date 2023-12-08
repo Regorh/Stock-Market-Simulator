@@ -104,4 +104,13 @@ public class EventRoller {
         }
         return desc;
     }
+
+    public ArrayList<String> roll_illegal_actions(int presses) {
+        ArrayList<String> illegal_events = new ArrayList<>();
+        for (int i = 0; i < presses; i++) {
+            int rand_int = rand.nextInt(0, this.events.get("Illegal").size());
+            illegal_events.add(this.events.get("Illegal").get(rand_int).name);
+        }
+        return illegal_events;
+    }
 }

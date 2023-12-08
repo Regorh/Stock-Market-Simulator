@@ -177,4 +177,15 @@ public class User {
     public HashMap<String, Integer> get_user_stocks() { 
         return this.stocks; 
     }
+
+    public boolean reached_fail_state() {
+        if (
+            this.stress > 100 ||
+            this.capital < 0 ||
+            this.suspicionOfSEC > 100
+        ) {
+            return true;
+        }
+        return false;
+    }
 }

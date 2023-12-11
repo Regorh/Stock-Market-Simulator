@@ -126,6 +126,7 @@ public class Gui implements GameObserver {
 
         //creating stock panel, populating with info
         ArrayList<String> userstocks = new ArrayList<String>();
+        this.useramount = controller.userstockamount();
         for (int i = 0; i < usernames.size(); i++) {
             Float userStockPrice = userprices.get(i);
             Integer amount = useramount.get(i);
@@ -380,6 +381,7 @@ public class Gui implements GameObserver {
 
         isMarket=false;
         this.usernames = controller.userstocknames();
+        this.useramount = controller.userstockamount();
         if (!usernames.isEmpty()) {
             for (int i = 0; i < ownListModel.size(); i++) {
                 stocktradedStringsell = usernames.get(i);

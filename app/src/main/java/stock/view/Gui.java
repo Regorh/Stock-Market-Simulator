@@ -450,7 +450,7 @@ public class Gui implements GameObserver {
         {
             public void valueChanged(ListSelectionEvent e)
             {
-                if (!e.getValueIsAdjusting()) {
+                /* if (!e.getValueIsAdjusting()) {
                     if(ownedList.isSelectionEmpty())
                         chosen_stock_sell = ownListModel.get(0);
 
@@ -468,7 +468,7 @@ public class Gui implements GameObserver {
                     toBeCost.setText("$" + decimalFormat.format(stocktradedPricesell));
 
                     spinner.setValue(0);
-                }
+                } */
             }
         });
 

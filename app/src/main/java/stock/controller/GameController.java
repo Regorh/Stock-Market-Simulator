@@ -40,13 +40,17 @@ public class GameController implements ControllerInterface {
 
         if (mode.equals("easy")) {
             user.setcurrentDebt((float) 100.00);
+            user.setsuspicionOfSEC(0);
         } else if (mode.equals("medium")) {
             user.setcurrentDebt((float) 1000.00);
+            user.set_stress(25);            
+            user.setsuspicionOfSEC(25);
         } else if (mode.equals("hard")) {
             user.setcurrentDebt((float) 10000.00);
+            user.setsuspicionOfSEC(50);
+            user.set_stress(50);
         }
         user.setCapital((float) 1000.00);
-        user.setsuspicionOfSEC(50);
         this.game = new Gui(this, gm, roller);
     }
 
@@ -80,7 +84,6 @@ public class GameController implements ControllerInterface {
         this.day += 1;
         // check to see if game should end
         boolean game_should_end = user.reached_fail_state();
-
     }
 
 

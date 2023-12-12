@@ -117,8 +117,16 @@ public class User {
     }
 
 
-    public float getsuspicionOfSEC() {
+    public int getsuspicionOfSEC() {
         return this.suspicionOfSEC;
+    }
+
+    public int get_stress() {
+        return this.stress;
+    }
+
+    public void set_stress(int stress) {
+        this.stress = stress;
     }
 
     public double getcurrentDebt() {
@@ -151,7 +159,9 @@ public class User {
             if (this.stocks.get(ticker) == quantity) {
                 this.stocks.remove(ticker);
             } else {
-                this.stocks.replace(ticker, this.stocks.get(ticker), this.stocks.get(ticker) - quantity);
+                // this.stocks.replace(ticker, this.stocks.get(ticker) - quantity);
+                this.stocks.put(ticker, this.stocks.get(ticker) - quantity);
+
             }
             this.capital += price * quantity;
             return true;
@@ -164,7 +174,8 @@ public class User {
             if (!this.stocks.containsKey(ticker)) {
                 this.stocks.put(ticker, quantity);
             } else {
-                this.stocks.replace(ticker, this.stocks.get(ticker), this.stocks.get(ticker) + quantity);
+                // this.stocks.replace(ticker, this.stocks.get(ticker) + quantity);
+                this.stocks.put(ticker, quantity + this.stocks.get(ticker));
             }
             this.capital -= price * quantity;
             return true;

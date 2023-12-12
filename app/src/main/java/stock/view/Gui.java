@@ -25,12 +25,11 @@ import stock.GameObserver;
 import stock.controller.EventRoller;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 public class Gui implements GameObserver {
     private User player;
     private ControllerInterface controller;
-    private Stock stocks;
-    private User user;
     private GameManager manager;
     private EventRoller roller;
     private ArrayList<String> stockNames = new ArrayList<String>();
@@ -67,6 +66,8 @@ public class Gui implements GameObserver {
     String chosen_stock_sell;
     String stocktradedStringsell;
     Float stocktradedPricesell;
+    JProgressBar stressBar;
+    JProgressBar secBar;
     private static Container marketpane;
     //private static void createAndShowGUI() {
     public Gui(ControllerInterface controller, GameManager manager, EventRoller roller ) {
@@ -154,23 +155,23 @@ public class Gui implements GameObserver {
         this.statsPanel = new JPanel();
         statsPanel.setLayout(new BoxLayout(statsPanel,BoxLayout.Y_AXIS));
         //JPanel familyback = new JPanel();
-        JLabel family = new JLabel("FAMILY",SwingConstants.LEFT);
+        JLabel family = new JLabel("STRESS",SwingConstants.LEFT);
         family.setFont(new Font("Arial", Font.BOLD, 10));
         family.setAlignmentX(Component.LEFT_ALIGNMENT);
         family.setForeground(Color.BLACK);
-        JProgressBar familyBar = new JProgressBar(0,100);
-        familyBar.setValue(50);
-        familyBar.setStringPainted(true);
-        familyBar.setForeground(Color.yellow);
+        this.stressBar = new JProgressBar(0,100);
+        this.stressBar.setValue(player.get_stress());
+        this.stressBar.setStringPainted(true);
+        this.stressBar.setForeground(Color.yellow);
         //familyback.setBackground(new Color(0, 0, 139));
-        JLabel sec = new JLabel("SEC",SwingConstants.LEFT);
+        JLabel sec = new JLabel("SEC'S SUSPICION",SwingConstants.LEFT);
         sec.setFont(new Font("Arial", Font.BOLD, 10));
         sec.setAlignmentX(Component.LEFT_ALIGNMENT);
         sec.setForeground(Color.BLACK);
-        JProgressBar secBar = new JProgressBar(0,100);
-        secBar.setValue((int) player.getsuspicionOfSEC());
-        secBar.setStringPainted(true);
-        secBar.setForeground(Color.yellow);
+        this.secBar = new JProgressBar(0,100);
+        this.secBar.setValue(player.getsuspicionOfSEC());
+        this.secBar.setStringPainted(true);
+        this.secBar.setForeground(Color.yellow);
         //familyback.setVisible(true);
        // Dimension size = family.getPreferredSize();
         //family.setBounds(50,50,size.width,size.height);
@@ -200,7 +201,7 @@ public class Gui implements GameObserver {
 
         
         statsPanel.add(family);
-        statsPanel.add(familyBar);
+        statsPanel.add(stressBar);
         statsPanel.add(Box.createVerticalStrut(10));
         statsPanel.add(sec);
         statsPanel.add(secBar);
@@ -265,12 +266,33 @@ public class Gui implements GameObserver {
         buyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int a  = 0;
-                if((int) spinner.getValue() >= 1) {
-
-                    a = (int)spinner.getValue();
+                int spinner_value = (int)spinner.getValue();
+                if (spinner_value >= 1) {
+                    // spinner_value = (int)spinner.getValue();
                     if (controller.buy(stocktradedString, controller.get_stock_price(stocktradedString), (int) spinner.getValue())){
-                        ownListModel.addElement(stocktradedString + "   $" + controller.get_stock_price(stocktradedString) + "  " + a);
+                        // ownListModel.addElement(stocktradedString + "   $" + controller.get_stock_price(stocktradedString) + "  " + a);
+                        Enumeration<String> ticker_enumeration = ownListModel.elements();
+                        boolean owns_ticker = false;
+                        int ticker_idx = 0;
+                        int enumeration_counter = 0;
+                        while (ticker_enumeration.hasMoreElements()) {
+                            String ticker_full = ticker_enumeration.nextElement();
+                            String ticker_substr = ticker_full.substring(0, 3);
+                            System.out.println("SUBSTR: \"" + ticker_substr + "\" VS. \"" + stocktradedString + "\"");
+                            if (stocktradedString.equals(ticker_substr)) {
+                                System.out.println("HIT");
+                                owns_ticker = true;
+                                ticker_idx = enumeration_counter;
+                            }
+                            enumeration_counter += 1;
+                        }
+                        if (!owns_ticker) {
+                            ownListModel.addElement(stocktradedString + "   $" + controller.get_stock_price(stocktradedString) + "  " + spinner_value);
+                        } else {
+                            ownListModel.set(ticker_idx, stocktradedString + "   $" + controller.get_stock_price(stocktradedString) + "  " + spinner_value);
+                        }
+
+                        //
                         update();
 
                     }
@@ -285,18 +307,40 @@ public class Gui implements GameObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO debug
-                System.out.println("===\nSpinner Val: " + (Integer)spinner.getValue());
-                System.out.println("STSS:" + stocktradedStringsell);
-                System.out.println("Stock Price: " + controller.get_stock_price(stocktradedStringsell) + "\n===");
+                // System.out.println("===\nSpinner Val: " + (Integer)spinner.getValue());
+                // System.out.println("STSS:" + stocktradedStringsell);
+                // System.out.println("Stock Price: " + controller.get_stock_price(stocktradedStringsell) + "\n===");
                 //
-                if((Integer) spinner.getValue() > 0) {
+
+                int spinner_value = (int) spinner.getValue();
+                if(spinner_value > 0) {
                     if (controller.sell(stocktradedStringsell,  controller.get_stock_price((stocktradedStringsell)), (Integer) spinner.getValue())) {
-                        //System.out.println();
+                        Enumeration<String> ticker_enumeration = ownListModel.elements();
+                        boolean owns_ticker = false;
+                        int ticker_idx = 0;
+                        int enumeration_counter = 0;
+                        while (ticker_enumeration.hasMoreElements()) {
+                            String ticker_full = ticker_enumeration.nextElement();
+                            String ticker_substr = ticker_full.substring(0, 3);
+                            System.out.println("SUBSTR: \"" + ticker_substr + "\" VS. \"" + stocktradedString + "\"");
+                            if (stocktradedString.equals(ticker_substr)) {
+                                System.out.println("HIT");
+                                owns_ticker = true;
+                                ticker_idx = enumeration_counter;
+                            }
+                            enumeration_counter += 1;
+                        }
+                        if (!owns_ticker) {
+                            ownListModel.addElement(stocktradedString + "   $" + controller.get_stock_price(stocktradedString) + "  " + spinner_value);
+                        } else {
+                            ownListModel.set(ticker_idx, stocktradedString + "   $" + controller.get_stock_price(stocktradedString) + "  " + spinner_value);
+                        }
+
+                        //
+                        
                         update();
                         // update();
                         //make sure the gui had the correct stocks to be loaded, if not have them reload, dont just remove the elemeents int he list
-
-
                     }
                 }
             }
@@ -512,6 +556,12 @@ public class Gui implements GameObserver {
         this.totalPortfolio.setText("Total cash: " + player.getCapital());
         this.totalPortfolio.revalidate();
         this.totalPortfolio.repaint();
+        this.secBar.setValue(player.getsuspicionOfSEC());
+        this.secBar.revalidate();
+        this.secBar.repaint();
+        this.stressBar.setValue(player.get_stress());
+        this.stressBar.revalidate();
+        this.stressBar.repaint();
         this.statsPanel.revalidate();
         this.statsPanel.repaint();
         spinner.setValue(0);

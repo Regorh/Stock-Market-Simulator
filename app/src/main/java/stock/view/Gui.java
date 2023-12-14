@@ -32,6 +32,7 @@ public class Gui implements GameObserver {
     private ControllerInterface controller;
     private GameManager manager;
 
+    private EventRoller roller;
     boolean isMarket;
     JLabel toBeTraded;
     JLabel toBeCost;
@@ -327,7 +328,7 @@ public class Gui implements GameObserver {
                         if (!owns_ticker) {
                             ownListModel.addElement(stocktradedString + "   $" + controller.get_stock_price(stocktradedString) + "  " + spinner_value);
                         } else {
-                            ownListModel.set(ticker_idx, stocktradedString + "   $" + controller.get_stock_price(stocktradedString) + "  " + spinner_value);
+                            ownListModel.set(ticker_idx, stocktradedString + "   $" + controller.get_stock_price(stocktradedString) + "  " + controller.get_user_quantity_for(stocktradedString));
                         }
 
                         //
@@ -351,6 +352,8 @@ public class Gui implements GameObserver {
                 //
 
                 int spinner_value = (int) spinner.getValue();
+                stocktradedStringsell = marketList.getSelectedValue().substring(0,3);
+                int user_quantity_before_change = controller.get_user_quantity_for(stocktradedString);
                 if(spinner_value > 0) {
                     if (controller.sell(stocktradedStringsell,  controller.get_stock_price((stocktradedStringsell)), (Integer) spinner.getValue())) {
                         Enumeration<String> ticker_enumeration = ownListModel.elements();
@@ -368,10 +371,10 @@ public class Gui implements GameObserver {
                             }
                             enumeration_counter += 1;
                         }
-                        if (!owns_ticker) {
-                            ownListModel.addElement(stocktradedString + "   $" + controller.get_stock_price(stocktradedString) + "  " + spinner_value);
+                        if (!owns_ticker || user_quantity_before_change - spinner_value == 0) {
+                            ownListModel.remove(ticker_idx);
                         } else {
-                            ownListModel.set(ticker_idx, stocktradedString + "   $" + controller.get_stock_price(stocktradedString) + "  " + spinner_value);
+                            ownListModel.set(ticker_idx, stocktradedString + "   $" + controller.get_stock_price(stocktradedString) + "  " + controller.get_user_quantity_for(stocktradedString));
                         }
 
                         //
@@ -475,6 +478,7 @@ public class Gui implements GameObserver {
         isMarket=false;
         this.userNames = controller.userstocknames();
         this.userAmount = controller.userstockamount();
+/* 
         if (!userNames.isEmpty()) {
             for (int i = 0; i < ownListModel.size(); i++) {
                 stocktradedStringsell = userNames.get(i);
@@ -487,13 +491,25 @@ public class Gui implements GameObserver {
                     ownListModel.removeElement(i);
                 }
             }
-        }else{
+
+            boolean owns_ticker = false;
+            int ticker_idx = 0;
+            int enumeration_counter = 0;
+            for (String ticker_name : userNames) {
+                
+            }
+        } else {
             ownedPanel.revalidate();
             ownedPanel.repaint();
             ownListModel.clear();
             ownedPane.revalidate();
             ownedPane.repaint();
         } 
+         */
+        ownedPanel.revalidate();
+        ownedPanel.repaint();
+        ownedPane.revalidate();
+        ownedPane.repaint();
 
         ownedList.addListSelectionListener(new ListSelectionListener()
         {

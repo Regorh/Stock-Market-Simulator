@@ -36,4 +36,6 @@ public interface ControllerInterface {
     public String get_event_description();
 
     public void currentDebt(float debt);
+
+    public int get_user_quantity_for(String ticker);
 }

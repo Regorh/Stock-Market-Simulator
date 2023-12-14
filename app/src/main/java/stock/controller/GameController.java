@@ -150,5 +150,9 @@ public class GameController implements ControllerInterface {
     public void currentDebt(float debt){
         user.setcurrentDebt(debt);
     }
+
+    public int get_user_quantity_for(String ticker) {
+        return this.user.get_quantity_for(ticker);
+    }
 }
 

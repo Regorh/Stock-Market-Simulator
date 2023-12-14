@@ -155,17 +155,22 @@ public class User {
     }
 
     public boolean sellStock(String ticker, float price, int quantity) {
-        if (this.stocks.containsKey(ticker) && this.stocks.get(ticker) >= quantity && this.flag_can_trade) {
+        System.out.println("Ticker: " + ticker);
+        if (this.stocks.containsKey(ticker) && this.flag_can_trade) {
             if (this.stocks.get(ticker) == quantity) {
                 this.stocks.remove(ticker);
-            } else {
+            } else if (this.stocks.get(ticker) > quantity) {
                 // this.stocks.replace(ticker, this.stocks.get(ticker) - quantity);
                 this.stocks.put(ticker, this.stocks.get(ticker) - quantity);
-
+            } else {
+                System.out.println("SELL FAILURE: INCORRECT QUANTITY");
+                return false;
             }
             this.capital += price * quantity;
+            System.out.println("SELL SUCCESS");
             return true;
         }
+        System.out.println("SELL FAILURE: " + this.stocks.containsKey(ticker) + ", " + this.flag_can_trade);
         return false;
     }
 
@@ -198,5 +203,9 @@ public class User {
             return true;
         }
         return false;
+    }
+
+    public int get_quantity_for(String ticker) {
+        return this.stocks.get(ticker);
     }
 }

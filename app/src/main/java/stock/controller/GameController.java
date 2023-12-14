@@ -25,6 +25,8 @@ public class GameController implements ControllerInterface {
     Market market;
     EventRoller roller;
     int day;
+    String userEvent;
+    String gameEvent;
 
 
     public GameController() {
@@ -76,6 +78,8 @@ public class GameController implements ControllerInterface {
     public void nextday() {
         ArrayList<String> currentEvents = roller.roll_out();
         System.out.println("Turn events: " + currentEvents); // TODO debugging
+        this.userEvent = currentEvents.get(1);
+        this.gameEvent = currentEvents.get(0);
         gm.next_day(currentEvents.get(0));
         user.process_event(currentEvents.get(1));
         game.update();
@@ -136,6 +140,15 @@ public class GameController implements ControllerInterface {
     }
     public Float get_stock_price(String name){
         return gm.get_market_price(name);
+    }
+
+    public String get_event_description(){
+        return "User: \n" + roller.get_description_for(userEvent) + "\n\n" + "Market:  \n" +  
+        roller.get_description_for(gameEvent);
+    }
+
+    public void currentDebt(float debt){
+        user.setcurrentDebt(debt);
     }
 }
 

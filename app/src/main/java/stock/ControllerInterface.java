@@ -33,5 +33,7 @@ public interface ControllerInterface {
     public ArrayList<Integer> userstockamount();
     public Float get_stock_price(String name);
     
+    public String get_event_description();
 
+    public void currentDebt(float debt);
 }

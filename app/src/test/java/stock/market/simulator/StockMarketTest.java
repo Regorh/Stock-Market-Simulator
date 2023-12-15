@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
 public class StockMarketTest {
     @Test public void user_stock_transactions() {
         // general test to ensure that stock interactions function correctly
+        
         User user = new User(500);
         user.setCapital(500);
         user.buyStock("abc", 1, 1);

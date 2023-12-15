@@ -41,16 +41,19 @@ public class GameController implements ControllerInterface {
         this.user = new User(gm.get_avg());
 
         if (mode.equals("easy")) {
-            user.setcurrentDebt((float) 100.00);
+            user.setcurrentDebt((float) 10000.00);
             user.setsuspicionOfSEC(0);
+            user.setPayoff(50.0f);
         } else if (mode.equals("medium")) {
-            user.setcurrentDebt((float) 1000.00);
+            user.setcurrentDebt((float) 100000.00);
             user.set_stress(25);            
             user.setsuspicionOfSEC(25);
+            user.setPayoff(10.0f);
         } else if (mode.equals("hard")) {
-            user.setcurrentDebt((float) 10000.00);
+            user.setcurrentDebt((float) 10000000.00);
             user.setsuspicionOfSEC(50);
             user.set_stress(50);
+            user.setPayoff(1.0f);
         }
         user.setCapital((float) 1000.00);
         this.game = new Gui(this, gm, roller);
@@ -147,8 +150,11 @@ public class GameController implements ControllerInterface {
         roller.get_description_for(gameEvent);
     }
 
-    public void currentDebt(float debt){
-        user.setcurrentDebt(debt);
+    public void currentDebt(){
+        user.payoffDebt();
+
     }
+
+
 }
 

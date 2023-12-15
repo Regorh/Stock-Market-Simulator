@@ -7,14 +7,15 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import stock.ControllerInterface;
+/* 
+The startUI is a pop up screen that is created and presented to the user when 
+they run the program. There will be three buttons from which the user will select 
+difficulty. This button selection will send a string to the game controller.
+
+*/
 public class startUI {
 
-    private ControllerInterface controller;
-    
-    /* public static void main(String[] args){
-        startUI main = new startUI();
-    } */
-    
+
     private JFrame mainFrame;
     public startUI(ControllerInterface controller){
         mainFrame = new JFrame("Main Screen");

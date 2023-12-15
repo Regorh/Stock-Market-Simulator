@@ -31,6 +31,9 @@ public class Gui implements GameObserver {
     private User player;
     private ControllerInterface controller;
     private GameManager manager;
+    private EventRoller roller;
+    
+    gameOver end;
 
     boolean isMarket;
     JLabel toBeTraded;
@@ -71,6 +74,8 @@ public class Gui implements GameObserver {
     JLabel debtLabel;
     JLabel walletLabel;
     JLabel transferLabel;
+    JLabel debt;
+
 
     //private static void createAndShowGUI() {
     public Gui(ControllerInterface controller, GameManager manager, EventRoller roller ) {
@@ -194,9 +199,13 @@ public class Gui implements GameObserver {
         debtPanel.add(inputCheck);
         debtPanel.add(acceptButton);
         debtPanel.setVisible(true);*/
-        JPanel panel2 = new JPanel();
+        JPanel titlePanel = new JPanel(new FlowLayout());
+        JLabel title = new JLabel("Stock Market Game");
+        title.setFont(new Font("Comic Sans", Font.BOLD, 50));
+        titlePanel.add(title);
         //panel2.add(debtPanel); 
 
+        
 
 
 
@@ -205,40 +214,52 @@ public class Gui implements GameObserver {
 //Player Stats
         this.statsPanel = new JPanel();
         statsPanel.setLayout(new BoxLayout(statsPanel,BoxLayout.Y_AXIS));
-        JLabel family = new JLabel("STRESS",SwingConstants.LEFT);
-        family.setFont(new Font("Arial", Font.BOLD, 10));
-        family.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JLabel family = new JLabel("STRESS",SwingConstants.CENTER);
+        family.setFont(new Font("Arial", Font.BOLD, 30));
+        family.setAlignmentX(Component.CENTER_ALIGNMENT);
         family.setForeground(Color.BLACK);
         this.stressBar = new JProgressBar(0,100);
         this.stressBar.setValue(player.get_stress());
         this.stressBar.setStringPainted(true);
         this.stressBar.setForeground(Color.yellow);
-        JLabel sec = new JLabel("SEC'S SUSPICION",SwingConstants.LEFT);
-        sec.setFont(new Font("Arial", Font.BOLD, 10));
-        sec.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JLabel sec = new JLabel("SEC'S SUSPICION",SwingConstants.CENTER);
+        sec.setFont(new Font("Arial", Font.BOLD, 30));
+        sec.setAlignmentX(Component.CENTER_ALIGNMENT);
         sec.setForeground(Color.BLACK);
         this.secBar = new JProgressBar(0,100);
         this.secBar.setValue(player.getsuspicionOfSEC());
         this.secBar.setStringPainted(true);
         this.secBar.setForeground(Color.yellow);
 
-        JLabel debt = new JLabel("Debt: " + player.getcurrentDebt(),SwingConstants.LEFT);
-        debt.setFont(new Font("Arial", Font.BOLD, 10));
-        debt.setAlignmentX(Component.LEFT_ALIGNMENT);
-        debt.setForeground(Color.BLACK);
+        this.debt = new JLabel("Debt: " + player.getcurrentDebt(),SwingConstants.CENTER);
+        this.debt.setFont(new Font("Arial", Font.BOLD, 25));
+        this.debt.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.debt.setForeground(Color.BLACK);
         JButton payOff = new JButton("Payoff");
-        payOff.setBackground(Color.GREEN);
+        
         payOff.setOpaque(true);
+        payOff.setAlignmentY(Component.CENTER_ALIGNMENT);
         payOff.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                //open up new gui. 
+                controller.currentDebt();
+                update();
             }
         });
 
+        JButton illegal = new JButton("Illegal Action");
+        illegal.setOpaque(true);
+        illegal.setAlignmentY(Component.CENTER_ALIGNMENT);
+        illegal.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                
+                update();
+            }
+        });     
+
         this.totalPortfolio = new JLabel("Total cash: " + player.getCapital());
         this.totalPortfolio.setHorizontalAlignment(SwingConstants.CENTER);
-        this.totalPortfolio.setFont(new Font("Arial", Font.BOLD, 10));
-        this.totalPortfolio.setAlignmentX(Component.LEFT_ALIGNMENT);
+        this.totalPortfolio.setFont(new Font("Arial", Font.BOLD, 30));
+        this.totalPortfolio.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.totalPortfolio.setForeground(Color.BLACK);
 
         
@@ -249,8 +270,9 @@ public class Gui implements GameObserver {
         statsPanel.add(secBar);
         statsPanel.add(Box.createVerticalStrut(10));
         statsPanel.add(debt);
-        statsPanel.add(payOff);
         statsPanel.add(totalPortfolio);
+        statsPanel.add(payOff);
+        statsPanel.add(illegal);
 
         statsPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE,Integer.MAX_VALUE));
 
@@ -294,12 +316,6 @@ public class Gui implements GameObserver {
                 } 
             }
         });
-        
-
-        
-        
-
-
 
         buyButton.addActionListener(new ActionListener() {
             @Override
@@ -329,15 +345,9 @@ public class Gui implements GameObserver {
                         } else {
                             ownListModel.set(ticker_idx, stocktradedString + "   $" + controller.get_stock_price(stocktradedString) + "  " + spinner_value);
                         }
-
-                        //
                         update();
-
                     }
-                }
-
-                    
-                
+                } 
             }
         });
 
@@ -459,7 +469,7 @@ public class Gui implements GameObserver {
 
         // Add panels to the frame
         frame.add(marketPanel);
-        frame.add(panel2);
+        frame.add(titlePanel);
         frame.add(ownedList);
         frame.add(statPanel);
         frame.add(tradingPanel);
@@ -588,8 +598,15 @@ public class Gui implements GameObserver {
 
     @Override
     public void update(){
+        
         player = controller.getUser();
         market = controller.getMarket();
+
+        if (player.reached_fail_state()){
+            frame.setVisible(false);
+            this.end = new gameOver();
+
+        }
         this.marketPrices = controller.marketstockprices();
         this.userNames = controller.userstocknames();
         this.userPrices = controller.userstockprice();
@@ -609,6 +626,8 @@ public class Gui implements GameObserver {
         this.eventsField.setText(controller.get_event_description());
         this.eventsField.revalidate();
         this.eventsField.repaint();
+
+        this.debt.setText("Debt: " + player.getcurrentDebt());
 
         /* this.debtLabel = new JLabel("Debt: $" + player.getcurrentDebt());
         this.debtLabel.revalidate();

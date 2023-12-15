@@ -11,8 +11,9 @@ public class User {
 
     private float capital;
     private int suspicionOfSEC;                 
-    private double currentDebt;
+    private float currentDebt;
     private int stress;
+    private float payoffvalue;
     private transient ArrayList<GameObserver> observers = new ArrayList<GameObserver>();
     
     // flags: typically toggled by event processing
@@ -33,7 +34,7 @@ public class User {
         this.currentDebt = capital*30;
         this.successfulEvents = new ArrayList<>();
         this.flag_can_trade = true;
-        
+        this.payoffvalue = 0.00f;
         this.stocks = new HashMap<String, Integer>();
         
         
@@ -129,7 +130,7 @@ public class User {
         this.stress = stress;
     }
 
-    public double getcurrentDebt() {
+    public float getcurrentDebt() {
         return this.currentDebt;
     }
 
@@ -152,6 +153,10 @@ public class User {
 
     public void decreaseStress(int value) {
         this.stress -= value;
+    }
+
+    public void setPayoff(float value){
+        this.payoffvalue = value;
     }
 
     public boolean sellStock(String ticker, float price, int quantity) {
@@ -198,5 +203,13 @@ public class User {
             return true;
         }
         return false;
+    }
+
+    public void payoffDebt(){
+        if((this.getcurrentDebt() - payoffvalue)> 0 & ((this.getCapital() - payoffvalue) > 0)){
+            this.setcurrentDebt(this.getcurrentDebt()- payoffvalue);
+            this.setCapital(this.getCapital() - payoffvalue);
+        }
+        
     }
 }

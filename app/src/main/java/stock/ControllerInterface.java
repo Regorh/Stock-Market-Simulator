@@ -37,5 +37,5 @@ public interface ControllerInterface {
 
     public void currentDebt();
 
-
+    public int get_user_quantity_for(String ticker);
 }

@@ -41,33 +41,41 @@ public class User {
     }
   
       
-    public void process_event(String event) {
+    public boolean process_event(String event) {
+        boolean event_fired = true;
         switch (event) {
             // User Events
             case "donated_50_dollars":
                 if (this.capital >= 50) {
                     this.capital -= 50;
                     successfulEvents.add(event);
+                } else {
+                    event_fired = false;
                 }
                 break;
             case "double_stress":
-                this.stress = (this.stress <= 25) ? this.stress * 2 : this.stress;
                 if (this.stress <= 25) {
                     this.stress *= 2;
                     successfulEvents.add(event);
+                } else {
+                    event_fired = false;
                 }
                 break;
             case "got_the_other_guy":
                 if (this.suspicionOfSEC >= 75) {
                     this.suspicionOfSEC -= 10;
                     successfulEvents.add(event);
+                } else {
+                    event_fired = false;
                 }
                 break;
             case "she_took_the_kids":
-                if (this.stress >= 80 && this.suspicionOfSEC >= 60 && this.successfulEvents.size() >= 3) {
+                if (this.stress >= 80 && this.suspicionOfSEC >= 60) {
                     this.capital /= 2;
                     this.stress = 90;
                     successfulEvents.add(event);
+                } else {
+                    event_fired = false;
                 }
                 break;
             case "mysterious_benefactor":
@@ -76,6 +84,8 @@ public class User {
                     for (String stock : this.stocks.keySet()) {
                         this.stocks.replace(stock, this.stocks.get(stock), this.stocks.get(stock) + 1);
                     }
+                } else {
+                    event_fired = false;
                 }
            // case "cant_trade":
                 // cannot transact for the next two turns
@@ -101,8 +111,8 @@ public class User {
                 this.suspicionOfSEC += 15;
             default:
                 break;
-
         }
+        return event_fired;
     }
 
     public void process_end() {
@@ -160,17 +170,22 @@ public class User {
     }
 
     public boolean sellStock(String ticker, float price, int quantity) {
-        if (this.stocks.containsKey(ticker) && this.stocks.get(ticker) >= quantity && this.flag_can_trade) {
+        System.out.println("Ticker: " + ticker);
+        if (this.stocks.containsKey(ticker) && this.flag_can_trade) {
             if (this.stocks.get(ticker) == quantity) {
                 this.stocks.remove(ticker);
-            } else {
+            } else if (this.stocks.get(ticker) > quantity) {
                 // this.stocks.replace(ticker, this.stocks.get(ticker) - quantity);
                 this.stocks.put(ticker, this.stocks.get(ticker) - quantity);
-
+            } else {
+                System.out.println("SELL FAILURE: INCORRECT QUANTITY");
+                return false;
             }
             this.capital += price * quantity;
+            System.out.println("SELL SUCCESS");
             return true;
         }
+        System.out.println("SELL FAILURE: " + this.stocks.containsKey(ticker) + ", " + this.flag_can_trade);
         return false;
     }
 
@@ -205,11 +220,14 @@ public class User {
         return false;
     }
 
-    public void payoffDebt(){
+    public void payoffDebt() {
         if((this.getcurrentDebt() - payoffvalue)> 0 & ((this.getCapital() - payoffvalue) > 0)){
             this.setcurrentDebt(this.getcurrentDebt()- payoffvalue);
             this.setCapital(this.getCapital() - payoffvalue);
-        }
-        
+        }   
+    }
+
+    public int get_quantity_for(String ticker) {
+        return this.stocks.get(ticker);
     }
 }

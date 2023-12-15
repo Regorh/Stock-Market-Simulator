@@ -26,7 +26,7 @@ public class GameController implements ControllerInterface {
     EventRoller roller;
     int day;
     String userEvent;
-    String gameEvent;
+    String marketEvent;
 
 
     public GameController() {
@@ -82,9 +82,9 @@ public class GameController implements ControllerInterface {
         ArrayList<String> currentEvents = roller.roll_out();
         System.out.println("Turn events: " + currentEvents); // TODO debugging
         this.userEvent = currentEvents.get(1);
-        this.gameEvent = currentEvents.get(0);
+        this.marketEvent = currentEvents.get(0);
         gm.next_day(currentEvents.get(0));
-        user.process_event(currentEvents.get(1));
+        this.userEvent = (user.process_event(currentEvents.get(1))) ? this.userEvent : "none";
         game.update();
 
         // can use this to show how far the player lasted
@@ -146,8 +146,10 @@ public class GameController implements ControllerInterface {
     }
 
     public String get_event_description(){
-        return "User: \n" + roller.get_description_for(userEvent) + "\n\n" + "Market:  \n" +  
-        roller.get_description_for(gameEvent);
+        String event_str = new String();
+        event_str += "User: \n" + roller.get_description_for(userEvent) + "\n\n";
+        event_str += "Market:  \n" + roller.get_description_for(marketEvent);
+        return event_str;
     }
 
     public void currentDebt(){
@@ -155,6 +157,8 @@ public class GameController implements ControllerInterface {
 
     }
 
-
+    public int get_user_quantity_for(String ticker) {
+        return this.user.get_quantity_for(ticker);
+    }
 }
 

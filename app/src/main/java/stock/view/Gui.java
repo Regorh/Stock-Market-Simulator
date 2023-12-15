@@ -478,34 +478,7 @@ public class Gui implements GameObserver {
         isMarket=false;
         this.userNames = controller.userstocknames();
         this.userAmount = controller.userstockamount();
-/* 
-        if (!userNames.isEmpty()) {
-            for (int i = 0; i < ownListModel.size(); i++) {
-                stocktradedStringsell = userNames.get(i);
-                Integer amount = userAmount.get(i);
-                if (amount > 0) {
-                    float price = Float.parseFloat(decimalFormat.format(controller.get_stock_price(stocktradedStringsell)));
-                    String newStock = (userNames.get(i) + "   $" + price + "  " + amount);
-                    ownListModel.set(i, (newStock));
-                } else {
-                    ownListModel.removeElement(i);
-                }
-            }
-
-            boolean owns_ticker = false;
-            int ticker_idx = 0;
-            int enumeration_counter = 0;
-            for (String ticker_name : userNames) {
-                
-            }
-        } else {
-            ownedPanel.revalidate();
-            ownedPanel.repaint();
-            ownListModel.clear();
-            ownedPane.revalidate();
-            ownedPane.repaint();
-        } 
-         */
+        
         ownedPanel.revalidate();
         ownedPanel.repaint();
         ownedPane.revalidate();

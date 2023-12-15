@@ -40,33 +40,41 @@ public class User {
     }
   
       
-    public void process_event(String event) {
+    public boolean process_event(String event) {
+        boolean event_fired = true;
         switch (event) {
             // User Events
             case "donated_50_dollars":
                 if (this.capital >= 50) {
                     this.capital -= 50;
                     successfulEvents.add(event);
+                } else {
+                    event_fired = false;
                 }
                 break;
             case "double_stress":
-                this.stress = (this.stress <= 25) ? this.stress * 2 : this.stress;
                 if (this.stress <= 25) {
                     this.stress *= 2;
                     successfulEvents.add(event);
+                } else {
+                    event_fired = false;
                 }
                 break;
             case "got_the_other_guy":
                 if (this.suspicionOfSEC >= 75) {
                     this.suspicionOfSEC -= 10;
                     successfulEvents.add(event);
+                } else {
+                    event_fired = false;
                 }
                 break;
             case "she_took_the_kids":
-                if (this.stress >= 80 && this.suspicionOfSEC >= 60 && this.successfulEvents.size() >= 3) {
+                if (this.stress >= 80 && this.suspicionOfSEC >= 60) {
                     this.capital /= 2;
                     this.stress = 90;
                     successfulEvents.add(event);
+                } else {
+                    event_fired = false;
                 }
                 break;
             case "mysterious_benefactor":
@@ -75,6 +83,8 @@ public class User {
                     for (String stock : this.stocks.keySet()) {
                         this.stocks.replace(stock, this.stocks.get(stock), this.stocks.get(stock) + 1);
                     }
+                } else {
+                    event_fired = false;
                 }
            // case "cant_trade":
                 // cannot transact for the next two turns
@@ -100,8 +110,8 @@ public class User {
                 this.suspicionOfSEC += 15;
             default:
                 break;
-
         }
+        return event_fired;
     }
 
     public void process_end() {

@@ -63,7 +63,7 @@ Stocks:
 * Events can affect the pricing of the stocks, determined by their stability
   
 Market:
-*This is owned by the Game Manager
+* This is owned by the Game Manager
 * This owns Stocks
 * There shall be a market that contains stock
 * The market also has a stability, changing the average volitility of the market

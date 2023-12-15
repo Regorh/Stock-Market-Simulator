@@ -29,7 +29,7 @@ public class gameOverUI {
         playerstress.setAlignmentX(Component.CENTER_ALIGNMENT);
         JLabel playersuspicion = new JLabel("SEC Suspicion: " + player.getsuspicionOfSEC());
         playersuspicion.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JLabel playerdays = new JLabel("Your survived " + controller.get_days_played() + " days.");
+        JLabel playerdays = new JLabel("You survived " + controller.get_days_played() + " days.");
         playerdays.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         mainPanel.add(playerdays, SwingConstants.CENTER);

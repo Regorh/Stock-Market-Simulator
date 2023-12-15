@@ -41,61 +41,65 @@ User-friendly GUI for an engaging gameplay experience.
 
 ## High Level Design
 
+### This game uses MVC structure
+
 Classes:
 
 User:
-This will act as the player for the game
-This class shall have the following
-* a number representing the user's capital
-  	* if capital reaches 0 the game will end
-* a list of owned stocks
-* a number representing the suscpicion by the SEC
-  	* if suscpicion is over max, the game will end
-* a number representing the current debt of the user
-* a numer representing the stress of the user
-  	* if stress reaches a max the game will end
-
+*This is owned by the Game Controller
+*This will act as the player for the game.
+*The User has a debt to pay off, and the SEC to avoid, this is the goal of the game.
+*The User has the ability to own stocks as well as sell.
+*The User can commit illegal actions by clicking a button, thus causing a random positive event to occur next turn.
+	* This will cause suspicion to go up, if it reaches 100 the game ends
+* if the User runs out of money the game ends
+* Events can occur that will increase the players stress
+	* if stress reaches 100 the game can also end
+  
 Stocks:
-These will act as the in-game counterpart to real life stocks,
-* stocks shall have a name visible to the user.
-* sotcks shall have a price,
- 	*each stock can be changed via events
-  	*each stock price will also change based on the next day action
-
+* This is owned by the Market
+* These will act as the in-game counterpart to real life stocks,
+* each stock has a price, type, and stability
+* Events can affect the pricing of the stocks, determined by their stability
+  
 Market:
+*This is owned by the Game Manager
+* This owns Stocks
 * There shall be a market that contains stock
 * The market also has a stability, changing the average volitility of the market
-* The market shall have its stability affected by events
+* The market as a whole can also be effected by events
 
 GameManager
-* The game manager shall own a market.
-* The game manager shall change market prices based on alogrithmic rolls.
-	* The game manager shall have the ability to take in events as a weight.
-	* The game manager shall have default weights to if a market will go up or down
-	* The magnitude of market change shall be determined in the algorithm given the stability of the market
-* The game manager edit the weights and stocks to create a semi unpredictable, market
+* This is owned by the Game Controller
+* This owns the Market
+* The game manager asks it's market to do some changes to its stocks, based on data the game manager holds, such as events
 
 EventRoller:
-* The Event roller shall roll events for both User and Market
-* The Event roller shall hold multiple pre-decided events. 
-  	* These events shall be cycled through randomly. 
-	* There will be predetermined events that will occur if conditions in the market are met. 
-	* events can effect the prices of stocks, the capital of the User, and any stats the User has
-* events will make changes occur on the UI such as the stock prices listed, and display of description. 
+* This is owned by the Game Controller
+* This loads in events and event types from a editable text file
+* it then will roll for events when asked by Game Controller
+* Events are passed to the class that expects them, that class is resposible for event handling
 	
 Start UI:
+*Owned by Game Controller
 * Presents user with difficulty options for a new game
 * difficulty changes the starting stress, capital, and SEC suspicion
 * Leads the player into the main GUI
   
 GUI:
-* The GUI will present the user with their trader profile.
-* This profile will entail the stocks they hold, the markets they can trade in, and their overall profile. 
-* The overall profile in the GUI will show the trader their debt, SEC suspicion, and the amount of capital they hold. 
-* It will have buttons which the trader can click to buy, sell, perform illegal actions,
-* It will also hold text boxes in which the trader can type in the amount they would like to buy or sell of a stock. 
-* This will also show a list of events that have made an impact on the market
+* Owned by Game Contoller
+* Shows all available stocks
+* Allows for the buying and selling via buttons,
+* shows the stats of the User
+* This is the main way the user interacts with the game.
+* allows for all events/ stocks to roll upon the selection of the next day button
 
+Game Contoller:
+* This is the main driver of the game
+* Owns GUI, Start UI, GameManager, User, and EventRoller
+* This runs through the actions performed by the user, 
+* it is the MVC controller and observer, for what is pressed on the GUI for the frontend to the backend
+  
 
 
 

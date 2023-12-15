@@ -34,8 +34,6 @@ public class Gui implements GameObserver {
     private EventRoller roller;
     
     gameOver end;
-
-    private EventRoller roller;
     boolean isMarket;
     JLabel toBeTraded;
     JLabel toBeCost;

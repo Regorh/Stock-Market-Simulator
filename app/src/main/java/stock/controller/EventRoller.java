@@ -105,7 +105,7 @@ public class EventRoller {
         return desc;
     }
 
-    public String roll_illegal_actions(int presses) {
+    public String roll_illegal_actions() {
         int rand_int = rand.nextInt(0, this.events.get("Illegal").size());
         return this.events.get("Illegal").get(rand_int).name;
     }

@@ -40,4 +40,6 @@ public interface ControllerInterface {
     public int get_user_quantity_for(String ticker);
 
     public void set_illegal(boolean status);
+
+    public int get_days_played();
 }

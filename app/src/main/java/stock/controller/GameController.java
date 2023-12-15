@@ -174,5 +174,9 @@ public class GameController implements ControllerInterface {
     public int get_user_quantity_for(String ticker) {
         return this.user.get_quantity_for(ticker);
     }
+
+    public int get_days_played() {
+        return this.day;
+    }
 }
 

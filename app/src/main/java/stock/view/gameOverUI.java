@@ -20,18 +20,25 @@ public class gameOverUI {
         JLabel endGame = new JLabel(" GAME OVER");
         endGame.setFont(new Font("Arial", Font.BOLD, 50));
         JLabel playercapital = new JLabel("Player ended with: $" + player.getCapital());
-        JLabel playerdebt = new JLabel("Debt: $" + player.getCapital());
-        JLabel playerstress = new JLabel("Stress: " + player.get_stress());
-        JLabel playersuspicion = new JLabel("SEC Suspicion: " + player.getsuspicionOfSEC());
         playercapital.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel playerdebt = new JLabel("Debt: $" + player.getCapital());
         playerdebt.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel playerstress = new JLabel("Stress: " + player.get_stress());
         playerstress.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel playersuspicion = new JLabel("SEC Suspicion: " + player.getsuspicionOfSEC());
         playersuspicion.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mainPanel.add(endGame,SwingConstants.CENTER);
-        mainPanel.add(playercapital,SwingConstants.CENTER);
-        mainPanel.add(playerdebt,SwingConstants.CENTER);
-        mainPanel.add(playerstress,SwingConstants.CENTER);
+        
         mainPanel.add(playersuspicion,SwingConstants.CENTER);
+        mainPanel.add(playerstress,SwingConstants.CENTER);
+        mainPanel.add(playerdebt,SwingConstants.CENTER);
+        mainPanel.add(playercapital,SwingConstants.CENTER);
+        mainPanel.add(endGame,SwingConstants.CENTER);
+       
+
+
+
+
+
         frame.add(mainPanel);
         frame.setVisible(true);
 

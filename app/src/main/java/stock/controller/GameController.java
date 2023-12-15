@@ -25,8 +25,10 @@ public class GameController implements ControllerInterface {
     Market market;
     EventRoller roller;
     int day;
-    String userEvent;
-    String marketEvent;
+    String user_event_name;
+    String market_event_name;
+    String illegal_event_name;
+    boolean roll_illegal_flag;
 
 
     public GameController() {
@@ -34,7 +36,7 @@ public class GameController implements ControllerInterface {
         this.gm = new GameManager();
         this.roller = new EventRoller();
         this.day = 1;
-
+        this.roll_illegal_flag = false;
     }
 
     public void userChoose(String mode) {
@@ -81,10 +83,13 @@ public class GameController implements ControllerInterface {
     public void nextday() {
         ArrayList<String> currentEvents = roller.roll_out();
         System.out.println("Turn events: " + currentEvents); // TODO debugging
-        this.userEvent = currentEvents.get(1);
-        this.marketEvent = currentEvents.get(0);
+        this.user_event_name = currentEvents.get(1);
+        this.market_event_name = currentEvents.get(0);
         gm.next_day(currentEvents.get(0));
-        this.userEvent = (user.process_event(currentEvents.get(1))) ? this.userEvent : "none";
+        this.user_event_name = (user.process_event(currentEvents.get(1))) ? this.user_event_name : "none";
+        if (this.roll_illegal_flag) {
+            this.illegal_event_name = roller.roll_illegal_actions();
+        }
         game.update();
 
         // can use this to show how far the player lasted
@@ -147,8 +152,11 @@ public class GameController implements ControllerInterface {
 
     public String get_event_description(){
         String event_str = new String();
-        event_str += "User: \n" + roller.get_description_for(userEvent) + "\n\n";
-        event_str += "Market:  \n" + roller.get_description_for(marketEvent);
+        event_str += "User: \n" + roller.get_description_for(this.user_event_name) + "\n\n";
+        event_str += "Market:  \n" + roller.get_description_for(this.market_event_name);
+        if (this.roll_illegal_flag) {
+            event_str += "Illegal: \n" + roller.get_description_for(this.illegal_event_name);
+        }
         return event_str;
     }
 

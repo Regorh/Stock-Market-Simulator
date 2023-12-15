@@ -34,6 +34,8 @@ public class Market{
         return  average_stock_price/stocks.size();
     }
 
+    public int get_stability() { return this.stability; }
+
     public List<Stock> get_stock() { return this.stocks; }
 
     //creates stocks of an amount requested, with random values

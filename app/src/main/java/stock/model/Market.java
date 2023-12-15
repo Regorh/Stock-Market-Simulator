@@ -2,18 +2,15 @@ package stock.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
+
+import com.google.common.math.PairedStats;
 
 public class Market{
     int stability;
     Random rand;
     List<Stock> stocks;
-
-    // flags: typically toggled by event processing
-    // private boolean flag_crash;
-
-    // timers: ensures flags un-toggle on time
-    // private int timer_crash;
 
     public Market(){
         rand = new Random();
@@ -31,10 +28,12 @@ public class Market{
         return  average_stock_price/stocks.size();
     }
 
+    public int get_stability() { return this.stability; }
+
     public List<Stock> get_stock() { return this.stocks; }
 
-    //creates stocks of an amount requested, with random values
     private void create_stocks(int num){
+        //creates stocks of an amount requested, with random values
         ArrayList<String> current_stock_names = new ArrayList<>();
         for (Stock stock : this.stocks) {
             current_stock_names.add(stock.get_name());
@@ -47,7 +46,10 @@ public class Market{
                 name = create_name();
             }
             current_stock_names.add(name);
-            Stock stock = new Stock(name, stock_type, rand.nextInt(4), (100*rand.nextFloat()));
+            float price = (100 * rand.nextFloat());
+            int mid_price = (int)(price * 100);
+            price = mid_price / 100f;
+            Stock stock = new Stock(name, stock_type, rand.nextInt(4), price);
             this.stocks.add(stock);
         }
     }
@@ -63,19 +65,23 @@ public class Market{
     }
 
     public void change_stocks(float modify) {
+        // allows randomization for each stock in the market on turn rollover
         for (Stock stock : this.stocks) {
             stock_changer(modify, stock);
         }
     }
 
-    private void stock_changer(float modify, Stock stock){
+    private void stock_changer(float modify, Stock stock) {
+        // per change_stocks, but for each individual stock
         double rand_double = rand.nextDouble(1);
         float current_price = stock.get_price();
         int current_stability = stock.get_stability();
         int sign = (rand.nextFloat(0,1) <= .52)? 1 : -1;
         //will fill out with more weights as we go
-        float new_price = modify + (float) ( current_price + (sign *current_stability * (current_price * (rand_double))));
-
+        float new_price = modify + (float) ( current_price + (sign * (current_price * (rand_double))));
+        if (new_price <= .5 ){
+            new_price = 0.5F;
+        }
         stock.set_price(new_price);
     }
 
@@ -121,10 +127,38 @@ public class Market{
         }
     }
 
-    public void process_end() {
-        // signifies to the class that no further events for the turn
-        // are queued. used to tick through timed events
-
-        // exists for futureproofing, no current use case
+    public float get_market_price(String ticker){
+        float price = 0;
+        for(Stock stock: stocks){
+            if(stock.get_name() == ticker){
+                price = stock.get_price();
+            }
+        }
+        return price;
     }
+
+    public ArrayList<String> get_stock_names(){
+        ArrayList<String> marketstocks = new ArrayList<String>();
+        for( Stock stockName: stocks){
+            marketstocks.add(stockName.get_name());
+        }
+        return marketstocks;
+    }
+
+    public ArrayList<Float> get_stock_prices(){
+        ArrayList<Float> marketstocks = new ArrayList<Float>();
+        for( Stock stockName: stocks){
+            marketstocks.add(stockName.get_price());
+        }
+        return marketstocks;
+    }
+    public Float get_stock_price(String name){
+        for(Stock stock :stocks){
+            if(Objects.equals(stock.get_name(), name)){
+                return stock.get_price();
+            }
+        }
+        return 0.0F;
+    }
+
 }

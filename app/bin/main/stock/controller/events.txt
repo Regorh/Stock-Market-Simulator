@@ -1,24 +1,37 @@
-#ALL EVENTS GO ON A NEW LINE, THEN ADD THEIR EFFECT TO THE CLASS YOU DESIRE
-#ALL LINES BEGINNING WITH '#' and '\n' or newline ARE COMMENTED OUT, use snake case, all must be longer than 2 letters
+# Lines that begin with '#' are commented out
+# Lines that are enclosed with square brackets indicate an event category
+# Lines underneath each event category represent events for that category
 
+# Syntax is { [event_title]: "[event_description]" }
+# Quotation marks are required, but the curly braces can be freely expanded or contracted.
+# event_title and event_description can also be on separate lines.
+# See "crash" and "boom" for examples
+# Keep in mind that descriptions must be on one line, and enclosed in quotes.
 
+[MarketEvents]
+{ 
+    crash: 
+    "Sudden market downturn means sudden losses!" 
+}
+{ boom: "Market's on the upswing." }
+{ market_shakeup: "The news brings fears of an unstable future; stock trade habits are changing..." }
+{ new_stocks: "New players have hit the market." }
+{ capital_flight: "The wealthy are fleeing. The market is dying." }
+{ bull_market: "Stock indexes are on the rise." }
+{ high_stability: "Calm news, calm seas." }
+{ high_uncertainty: "Widespread uncertainty has the populace nervous. The market is affected in turn." }
 
+[UserEvents]
+{ donated_50_dollars: "A particular charity caught your eye, and you decided to pitch in." }
+{ double_stress: "Bad news about a relative's health has you on edge." }
+{ got_the_other_guy: "The SEC busted a known insider trading ring, taking the heat off you -- for a time." }
+{ she_took_the_kids: "She's gone. She took the little ones, too." }
+{ mysterious_benefactor: "What? Somehow, you have one more share in every stock you've invested in. Odd..." }
+{ cant_trade: "No transactions." }
+{ 
+    favor_repayment: "Someone who owed you finally made good on his end of the bargain. Enjoy the windfall."
+}
 
-#MarketEvents
-crash
-boom
-market_shakeup
-new_stocks
-capital_flight
-bull_market
-high_stability
-high_uncertainty
-
-#UserEvents
-donated_50_dollars
-double_stress
-got_the_other_guy
-she_took_the_kids
-mysterious_benefactor
-cant_trade
-favor_repayment
+[IllegalEvents]
+{ steal_500: "What company is gonna miss $500?" }
+{ embezzlement_for_vacation: "You pull some strings and secure a luxurious vacation for you and yours." }

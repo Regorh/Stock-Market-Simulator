@@ -33,7 +33,7 @@ public class Gui implements GameObserver {
     private GameManager manager;
     private EventRoller roller;
     
-    gameOver end;
+    gameOverUI end;
     boolean isMarket;
     JLabel toBeTraded;
     JLabel toBeCost;
@@ -160,57 +160,25 @@ public class Gui implements GameObserver {
 
 //Debt Payoff Panel
 
-       /*  this.debtPanel = new JPanel();
-        debtPanel.setLayout(new GridLayout(3,2));
-        this.debtLabel = new JLabel("Debt: $" + player.getcurrentDebt());
-        this.walletLabel = new JLabel("Wallet: $" + player.getCapital());
-        this.transferLabel = new JLabel("<html>Transfer Amount:<br/>  0.00  </html>", SwingConstants.CENTER);
-        JTextField transferAmount = new JTextField();
-        JLabel inputCheck = new JLabel();
 
-        //JButton incrementButton = new JButton("Increase");
-        //JButton decrementButton = new JButton("Decrease");
-        JButton acceptButton = new JButton("Accept");
-        acceptButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try{
-                    float f = Float.parseFloat(transferAmount.getText());
-                    if (player.getCapital() - f >= 0) {
-                        controller.currentDebt(player.getCapital() - f);
-                        inputCheck.setText("It worked" + player.getcurrentDebt());
-                        update();
-                    } else {
-                        inputCheck.setText("Not enough cash");
-                        update();
-                    }
-                } catch (NumberFormatException a) {
-                    inputCheck.setText("Invalid Input. Enter as 0.00");
-                    update();
-                }
-            }
-        }); */
-
-/* 
-        debtPanel.add(walletLabel);
-        debtPanel.add(debtLabel);
-        debtPanel.add(transferLabel);
-        debtPanel.add(transferAmount);
-        debtPanel.add(inputCheck);
-        debtPanel.add(acceptButton);
-        debtPanel.setVisible(true);*/
-        JPanel titlePanel = new JPanel(new FlowLayout());
-        JLabel title = new JLabel("Stock Market Game");
-        title.setFont(new Font("Comic Sans", Font.BOLD, 50));
-        titlePanel.add(title);
-        //panel2.add(debtPanel); 
-
+        JPanel titlePanel = new JPanel();
+        titlePanel.setLayout(new BoxLayout(titlePanel,BoxLayout.Y_AXIS));
+        JLabel title1 = new JLabel("Stock");
+        title1.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel title2 = new JLabel("Market");
+        title2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel title3 = new JLabel("Game");
+        title3.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title1.setFont(new Font("Comic Sans", Font.BOLD, 50));
+        title2.setFont(new Font("Comic Sans", Font.BOLD, 50));
+        title3.setFont(new Font("Comic Sans", Font.BOLD, 50));  
+        titlePanel.add(Box.createVerticalStrut(200));
+        titlePanel.add(title3, SwingConstants.CENTER);
+        titlePanel.add(title2, SwingConstants.CENTER);
+        titlePanel.add(title1,SwingConstants.CENTER);
         
 
-
-
-
-
+ 
 //Player Stats
         this.statsPanel = new JPanel();
         statsPanel.setLayout(new BoxLayout(statsPanel,BoxLayout.Y_AXIS));
@@ -245,16 +213,6 @@ public class Gui implements GameObserver {
                 update();
             }
         });
-
-        /* JButton illegal = new JButton("Illegal Action");
-        illegal.setOpaque(true);
-        illegal.setAlignmentY(Component.CENTER_ALIGNMENT);
-        illegal.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                
-                update();
-            }
-        });     */ 
 
         this.illegal = new JCheckBox("Commit Illegal Action?"); 
         
@@ -609,7 +567,7 @@ public class Gui implements GameObserver {
         // check to see if game should end
         if (player.reached_fail_state()){
             frame.setVisible(false);
-            this.end = new gameOver();
+            this.end = new gameOverUI(player);
         }
         this.marketPrices = controller.marketstockprices();
         this.userNames = controller.userstocknames();
@@ -632,21 +590,9 @@ public class Gui implements GameObserver {
 
         this.debt.setText("Debt: " + player.getcurrentDebt());
 
-        /* this.debtLabel = new JLabel("Debt: $" + player.getcurrentDebt());
-        this.debtLabel.revalidate();
-        this.debtLabel.repaint();
-    
-        this.walletLabel = new JLabel("Wallet: $" + player.getCapital());
-        this.walletLabel.revalidate();
-        this.walletLabel.repaint(); */
-
-
         this.totalPortfolio.setText("Total cash: " + player.getCapital());
         this.totalPortfolio.revalidate();
         this.totalPortfolio.repaint();
-
-        /* this.debtPanel.revalidate();
-        this.debtPanel.repaint(); */
 
         this.statsPanel.revalidate();
         this.statsPanel.repaint();

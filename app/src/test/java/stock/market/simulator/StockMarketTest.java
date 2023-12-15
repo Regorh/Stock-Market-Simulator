@@ -15,8 +15,12 @@ import stock.App;
 import static org.junit.Assert.*;
 
 public class StockMarketTest {
-    @Test public void intialPatternSize() {
-       
+    @Test public void playerCapital() {
+       User player = new User(100);
+       player.setCapital(275.00f);
+        
+       if 
+       assertArrayEquals(float:275.00f, )
       
     }
 

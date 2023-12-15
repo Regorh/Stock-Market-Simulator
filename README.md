@@ -69,7 +69,7 @@ Market:
 * The market also has a stability, changing the average volitility of the market
 * The market as a whole can also be effected by events
 
-GameManager
+GameManager:
 * This is owned by the Game Controller
 * This owns the Market
 * The game manager asks it's market to do some changes to its stocks, based on data the game manager holds, such as events

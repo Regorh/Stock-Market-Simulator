@@ -74,6 +74,7 @@ public class Gui implements GameObserver {
     JLabel walletLabel;
     JLabel transferLabel;
     JLabel debt;
+    JCheckBox illegal;
 
 
     //private static void createAndShowGUI() {
@@ -245,7 +246,7 @@ public class Gui implements GameObserver {
             }
         });
 
-        JButton illegal = new JButton("Illegal Action");
+        /* JButton illegal = new JButton("Illegal Action");
         illegal.setOpaque(true);
         illegal.setAlignmentY(Component.CENTER_ALIGNMENT);
         illegal.addActionListener(new ActionListener() {
@@ -253,7 +254,10 @@ public class Gui implements GameObserver {
                 
                 update();
             }
-        });     
+        });     */ 
+
+        this.illegal = new JCheckBox("Commit Illegal Action?"); 
+        
 
         this.totalPortfolio = new JLabel("Total cash: " + player.getCapital());
         this.totalPortfolio.setHorizontalAlignment(SwingConstants.CENTER);
@@ -593,6 +597,9 @@ public class Gui implements GameObserver {
             frame.setVisible(false);
             this.end = new gameOver();
 
+        }
+        if(this.illegal.isSelected()){
+            
         }
         this.marketPrices = controller.marketstockprices();
         this.userNames = controller.userstocknames();

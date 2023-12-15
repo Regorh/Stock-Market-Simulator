@@ -5,12 +5,14 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
+
+import stock.ControllerInterface;
 import stock.model.*;
 
 public class gameOverUI {
     private JFrame frame;
 
-    public gameOverUI(User player){
+    public gameOverUI(User player, ControllerInterface controller){
         frame = new JFrame("Game Over");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500,500 );
@@ -27,7 +29,10 @@ public class gameOverUI {
         playerstress.setAlignmentX(Component.CENTER_ALIGNMENT);
         JLabel playersuspicion = new JLabel("SEC Suspicion: " + player.getsuspicionOfSEC());
         playersuspicion.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
+        JLabel playerdays = new JLabel("Your survived " + controller.get_days_played() + " days.");
+        playerdays.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        mainPanel.add(playerdays, SwingConstants.CENTER);
         mainPanel.add(playersuspicion,SwingConstants.CENTER);
         mainPanel.add(playerstress,SwingConstants.CENTER);
         mainPanel.add(playerdebt,SwingConstants.CENTER);

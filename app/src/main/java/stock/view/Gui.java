@@ -567,7 +567,7 @@ public class Gui implements GameObserver {
         // check to see if game should end
         if (player.reached_fail_state()){
             frame.setVisible(false);
-            this.end = new gameOverUI(player);
+            this.end = new gameOverUI(player, controller);
         }
         this.marketPrices = controller.marketstockprices();
         this.userNames = controller.userstocknames();

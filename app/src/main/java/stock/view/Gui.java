@@ -258,6 +258,17 @@ public class Gui implements GameObserver {
 
         this.illegal = new JCheckBox("Commit Illegal Action?"); 
         
+        illegal.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                // TODO Auto-generated method stub
+                if (illegal.isSelected()){
+                    controller.set_illegal(true);
+                } else {
+                    controller.set_illegal(false);
+                }
+            }
+        });
 
         this.totalPortfolio = new JLabel("Total cash: " + player.getCapital());
         this.totalPortfolio.setHorizontalAlignment(SwingConstants.CENTER);
@@ -432,6 +443,8 @@ public class Gui implements GameObserver {
             public void actionPerformed(ActionEvent e) {
                 
                 controller.nextday();
+                String desc = controller.get_event_description();
+                eventsField.setText(desc);
                 
 
             }
@@ -593,13 +606,10 @@ public class Gui implements GameObserver {
         player = controller.getUser();
         market = controller.getMarket();
 
+        // check to see if game should end
         if (player.reached_fail_state()){
             frame.setVisible(false);
             this.end = new gameOver();
-
-        }
-        if(this.illegal.isSelected()){
-            
         }
         this.marketPrices = controller.marketstockprices();
         this.userNames = controller.userstocknames();
@@ -617,7 +627,6 @@ public class Gui implements GameObserver {
         this.stressBar.revalidate();
         this.stressBar.repaint();
 
-        this.eventsField.setText(controller.get_event_description());
         this.eventsField.revalidate();
         this.eventsField.repaint();
 

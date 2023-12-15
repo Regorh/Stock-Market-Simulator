@@ -37,6 +37,7 @@ public class GameController implements ControllerInterface {
         this.roller = new EventRoller();
         this.day = 1;
         this.roll_illegal_flag = false;
+        this.illegal_event_name = "none";
     }
 
     public void userChoose(String mode) {
@@ -85,17 +86,18 @@ public class GameController implements ControllerInterface {
         System.out.println("Turn events: " + currentEvents); // TODO debugging
         this.user_event_name = currentEvents.get(1);
         this.market_event_name = currentEvents.get(0);
+        if (this.roll_illegal_flag) {
+            this.illegal_event_name = roller.roll_illegal_action();
+            System.out.println("NAME: " + illegal_event_name);
+            user.process_event(illegal_event_name);
+        }
         gm.next_day(currentEvents.get(0));
         this.user_event_name = (user.process_event(currentEvents.get(1))) ? this.user_event_name : "none";
-        if (this.roll_illegal_flag) {
-            this.illegal_event_name = roller.roll_illegal_actions();
-        }
         game.update();
 
         // can use this to show how far the player lasted
         this.day += 1;
-        // check to see if game should end
-        boolean game_should_end = user.reached_fail_state();
+        
     }
 
 
@@ -150,10 +152,14 @@ public class GameController implements ControllerInterface {
         return gm.get_market_price(name);
     }
 
+    public void set_illegal(boolean status) {
+        this.roll_illegal_flag = status;
+    }
+
     public String get_event_description(){
         String event_str = new String();
         event_str += "User: \n" + roller.get_description_for(this.user_event_name) + "\n\n";
-        event_str += "Market:  \n" + roller.get_description_for(this.market_event_name);
+        event_str += "Market:  \n" + roller.get_description_for(this.market_event_name) + "\n\n";
         if (this.roll_illegal_flag) {
             event_str += "Illegal: \n" + roller.get_description_for(this.illegal_event_name);
         }

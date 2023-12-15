@@ -12,12 +12,6 @@ public class Market{
     Random rand;
     List<Stock> stocks;
 
-    // flags: typically toggled by event processing
-    // private boolean flag_crash;
-
-    // timers: ensures flags un-toggle on time
-    // private int timer_crash;
-
     public Market(){
         rand = new Random();
         stocks = new ArrayList<Stock>();
@@ -34,10 +28,12 @@ public class Market{
         return  average_stock_price/stocks.size();
     }
 
+    public int get_stability() { return this.stability; }
+
     public List<Stock> get_stock() { return this.stocks; }
 
-    //creates stocks of an amount requested, with random values
     private void create_stocks(int num){
+        //creates stocks of an amount requested, with random values
         ArrayList<String> current_stock_names = new ArrayList<>();
         for (Stock stock : this.stocks) {
             current_stock_names.add(stock.get_name());
@@ -69,12 +65,14 @@ public class Market{
     }
 
     public void change_stocks(float modify) {
+        // allows randomization for each stock in the market on turn rollover
         for (Stock stock : this.stocks) {
             stock_changer(modify, stock);
         }
     }
 
     private void stock_changer(float modify, Stock stock) {
+        // per change_stocks, but for each individual stock
         double rand_double = rand.nextDouble(1);
         float current_price = stock.get_price();
         int current_stability = stock.get_stability();
@@ -127,13 +125,6 @@ public class Market{
             default:
                 break;
         }
-    }
-
-    public void process_end() {
-        // signifies to the class that no further events for the turn
-        // are queued. used to tick through timed events
-
-        // exists for futureproofing, no current use case
     }
 
     public float get_market_price(String ticker){

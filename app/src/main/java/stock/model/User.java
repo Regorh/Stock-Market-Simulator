@@ -14,18 +14,13 @@ public class User {
     private float currentDebt;
     private int stress;
     private float payoffvalue;
-    private transient ArrayList<GameObserver> observers = new ArrayList<GameObserver>();
     
     // flags: typically toggled by event processing
     private boolean flag_can_trade;
 
     // timers: ensures flags un-toggle on time
     private int timer_trade_prohib;
-
-    //public User(int debt, float suspicion,float cash){
-  
     private ArrayList<String> successfulEvents;
-    // private transient ArrayList<Stock> stocks = new ArrayList<Stock>(); TODO figure out where this came from
     private HashMap<String, Integer> stocks;
 
     public User(float avg_cost) {
@@ -36,10 +31,7 @@ public class User {
         this.flag_can_trade = true;
         this.payoffvalue = 0.00f;
         this.stocks = new HashMap<String, Integer>();
-        
-        
     }
-  
       
     public boolean process_event(String event) {
         boolean event_fired = true;
@@ -87,12 +79,6 @@ public class User {
                 } else {
                     event_fired = false;
                 }
-           // case "cant_trade":
-                // cannot transact for the next two turns
-                // timer ticks down when process_end is called
-               // this.flag_can_trade = false;
-                //this.timer_trade_prohib = 2;
-               // break;
             case "favor_repayment":
                 this.capital *= 1.15f;
                 break;
@@ -170,22 +156,17 @@ public class User {
     }
 
     public boolean sellStock(String ticker, float price, int quantity) {
-        System.out.println("Ticker: " + ticker);
         if (this.stocks.containsKey(ticker) && this.flag_can_trade) {
             if (this.stocks.get(ticker) == quantity) {
                 this.stocks.remove(ticker);
             } else if (this.stocks.get(ticker) > quantity) {
-                // this.stocks.replace(ticker, this.stocks.get(ticker) - quantity);
                 this.stocks.put(ticker, this.stocks.get(ticker) - quantity);
             } else {
-                System.out.println("SELL FAILURE: INCORRECT QUANTITY");
                 return false;
             }
             this.capital += price * quantity;
-            System.out.println("SELL SUCCESS");
             return true;
         }
-        System.out.println("SELL FAILURE: " + this.stocks.containsKey(ticker) + ", " + this.flag_can_trade);
         return false;
     }
 
@@ -228,6 +209,7 @@ public class User {
     }
 
     public int get_quantity_for(String ticker) {
+        // return the quantity of shares the user owns of a given stock
         return this.stocks.get(ticker);
     }
 }

@@ -31,7 +31,7 @@ public class User {
         this.flag_can_trade = true;
         this.payoffvalue = 0.00f;
         this.stocks = new HashMap<String, Integer>();
-    }
+    } 
       
     public boolean process_event(String event) {
         boolean event_fired = true;

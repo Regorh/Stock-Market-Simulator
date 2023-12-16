@@ -4,6 +4,17 @@ on:
   push:
 
 jobs:
+  test-gradle-project:
+    runs-on: ubuntu-latest
+    name: Test
+    steps:
+    - name: Checkout project sources
+      uses: actions/checkout@v3
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
+    - name: Run build with Gradle Wrapper
+      run: ./gradle test
+
   build-gradle-project:
     runs-on: ubuntu-latest
     steps:

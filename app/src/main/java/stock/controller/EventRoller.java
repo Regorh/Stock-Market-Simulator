@@ -9,10 +9,11 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class EventRoller {
-    private record Event(String name, String description) {}
+import stock.model.Event;
 
-    HashMap<String, ArrayList<EventRoller.Event>> events;
+public class EventRoller {
+
+    HashMap<String, ArrayList<Event>> events;
     private ArrayList<String> previous_events;
     private Random rand;
 
@@ -51,9 +52,9 @@ public class EventRoller {
 
             // This pattern extracts each event name and description pair from the event block
             Matcher block_matches = Pattern.compile("\\{\\s*(\\w+)\\s{0,}:\\s*\\\"(.*)\\\"\\s*\\}").matcher(event_block);
-            ArrayList<EventRoller.Event> event_contents = new ArrayList<>();
+            ArrayList<Event> event_contents = new ArrayList<>();
             while (block_matches.find()) {
-                EventRoller.Event event = new EventRoller.Event(block_matches.group(1), block_matches.group(2));
+                Event event = new Event(block_matches.group(1), block_matches.group(2));
                 event_contents.add(event);
             }
             this.events.put(event_category, event_contents);
@@ -80,9 +81,9 @@ public class EventRoller {
             boolean should_roll = rand.nextInt(0, 100) > (chance_of_none - 1);
             if (should_roll) {
                 int rand_int = rand.nextInt(0, this.events.get(category).size() - 1);
-                EventRoller.Event rolled_ev = this.events.get(category).get(rand_int);
-                this.previous_events.add(rolled_ev.name);
-                current_events.add(rolled_ev.name);
+                Event rolled_ev = this.events.get(category).get(rand_int);
+                this.previous_events.add(rolled_ev.get_name());
+                current_events.add(rolled_ev.get_name());
             } else {
                 this.previous_events.add("none");
                 current_events.add("none");
@@ -97,9 +98,9 @@ public class EventRoller {
     public String get_description_for(String event_name) {
         if (event_name == "none") return "Nothing happened.";
         String desc = new String();
-        for (ArrayList<EventRoller.Event> coll : this.events.values()) {
-            for (EventRoller.Event ev : coll) {
-                if (ev.name == event_name) desc = ev.description;
+        for (ArrayList<Event> coll : this.events.values()) {
+            for (Event ev : coll) {
+                if (ev.get_name() == event_name) desc = ev.get_description();
             }
         }
         return desc;
@@ -107,6 +108,6 @@ public class EventRoller {
 
     public String roll_illegal_action() {
         int rand_int = rand.nextInt(0, this.events.get("Illegal").size());
-        return this.events.get("Illegal").get(rand_int).name;
+        return this.events.get("Illegal").get(rand_int).get_name();
     }
 }

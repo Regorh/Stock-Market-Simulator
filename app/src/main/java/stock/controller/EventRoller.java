@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class EventRoller {
     private record Event(String name, String description) {}
 
-    HashMap<String, ArrayList<Event>> events;
+    HashMap<String, ArrayList<EventRoller.Event>> events;
     private ArrayList<String> previous_events;
     private Random rand;
 
@@ -51,9 +51,9 @@ public class EventRoller {
 
             // This pattern extracts each event name and description pair from the event block
             Matcher block_matches = Pattern.compile("\\{\\s*(\\w+)\\s{0,}:\\s*\\\"(.*)\\\"\\s*\\}").matcher(event_block);
-            ArrayList<Event> event_contents = new ArrayList<>();
+            ArrayList<EventRoller.Event> event_contents = new ArrayList<>();
             while (block_matches.find()) {
-                Event event = new Event(block_matches.group(1), block_matches.group(2));
+                EventRoller.Event event = new EventRoller.Event(block_matches.group(1), block_matches.group(2));
                 event_contents.add(event);
             }
             this.events.put(event_category, event_contents);
@@ -80,7 +80,7 @@ public class EventRoller {
             boolean should_roll = rand.nextInt(0, 100) > (chance_of_none - 1);
             if (should_roll) {
                 int rand_int = rand.nextInt(0, this.events.get(category).size() - 1);
-                Event rolled_ev = this.events.get(category).get(rand_int);
+                EventRoller.Event rolled_ev = this.events.get(category).get(rand_int);
                 this.previous_events.add(rolled_ev.name);
                 current_events.add(rolled_ev.name);
             } else {
@@ -97,8 +97,8 @@ public class EventRoller {
     public String get_description_for(String event_name) {
         if (event_name == "none") return "Nothing happened.";
         String desc = new String();
-        for (ArrayList<Event> coll : this.events.values()) {
-            for (Event ev : coll) {
+        for (ArrayList<EventRoller.Event> coll : this.events.values()) {
+            for (EventRoller.Event ev : coll) {
                 if (ev.name == event_name) desc = ev.description;
             }
         }

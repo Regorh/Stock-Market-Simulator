@@ -40,6 +40,7 @@ public class GameController implements ControllerInterface {
         this.illegal_event_name = "none";
     }
 
+    //send the button click from the controller which creates and sets the user
     public void userChoose(String mode) {
         this.user = new User(gm.get_avg());
 
@@ -80,10 +81,10 @@ public class GameController implements ControllerInterface {
         return user.sellStock(ticker, price, amount);
     }
 
-
     public void nextday() {
+        // Rolls the event roller which produces events which will be processed this turn   
         ArrayList<String> currentEvents = roller.roll_out();
-        System.out.println("Turn events: " + currentEvents); // TODO debugging
+        System.out.println("Turn events: " + currentEvents);
         this.user_event_name = currentEvents.get(1);
         this.market_event_name = currentEvents.get(0);
         if (this.roll_illegal_flag) {
@@ -95,6 +96,8 @@ public class GameController implements ControllerInterface {
         this.user_event_name = (user.process_event(currentEvents.get(1))) ? this.user_event_name : "none";
         game.update();
 
+        user.increaseStress(2);
+
         // can use this to show how far the player lasted
         this.day += 1;
         
@@ -102,19 +105,19 @@ public class GameController implements ControllerInterface {
 
 
     public ArrayList<String> userstocknames() {
+        //produces a list of the current stocks that the user owns
         ArrayList<String> names = new ArrayList<>();
         for (String stock_name : user.get_user_stocks().keySet()) {
             names.add(stock_name);
         }
-
         return names;
     }
 
     public ArrayList<Float> userstockprice() {
+        //produces a list of the current prices of the stocks that the user owns
         ArrayList<Float> prices = new ArrayList<Float>();
         HashMap<String, Integer> stocks = user.get_user_stocks();
         float price = 0;
-
         if (stocks != null) {
             for (String stockName : stocks.keySet()) {
                 price = gm.get_market_price(stockName);
@@ -126,6 +129,7 @@ public class GameController implements ControllerInterface {
     }
 
     public ArrayList<Integer> userstockamount() {
+        //produces a list of the current amount of the stocks that the user owns
         ArrayList<Integer> amount = new ArrayList<Integer>();
         HashMap<String, Integer> stocks = user.get_user_stocks();
         int value = 0;
@@ -157,6 +161,7 @@ public class GameController implements ControllerInterface {
     }
 
     public String get_event_description(){
+        // outputs a string that is sent to the GUI to be display to the user
         String event_str = new String();
         event_str += "User: \n" + roller.get_description_for(this.user_event_name) + "\n\n";
         event_str += "Market:  \n" + roller.get_description_for(this.market_event_name) + "\n\n";
@@ -173,6 +178,10 @@ public class GameController implements ControllerInterface {
 
     public int get_user_quantity_for(String ticker) {
         return this.user.get_quantity_for(ticker);
+    }
+
+    public int get_days_played() {
+        return this.day;
     }
 }
 

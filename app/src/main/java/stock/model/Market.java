@@ -75,7 +75,6 @@ public class Market{
         // per change_stocks, but for each individual stock
         double rand_double = rand.nextDouble(1);
         float current_price = stock.get_price();
-        int current_stability = stock.get_stability();
         int sign = (rand.nextFloat(0,1) <= .52)? 1 : -1;
         //will fill out with more weights as we go
         float new_price = modify + (float) ( current_price + (sign * (current_price * (rand_double))));

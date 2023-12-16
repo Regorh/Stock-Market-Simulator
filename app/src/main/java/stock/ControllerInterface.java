@@ -8,15 +8,11 @@ public interface ControllerInterface {
 
     public void userChoose(String mode);
      
-    //public void initializeState();
-
     public void nextday();
 
     public Market getMarket();
 
     public User getUser();
-
-
 
     public boolean buy(String get_name, float get_price, int value);
 
@@ -40,4 +36,6 @@ public interface ControllerInterface {
     public int get_user_quantity_for(String ticker);
 
     public void set_illegal(boolean status);
+
+    public int get_days_played();
 }

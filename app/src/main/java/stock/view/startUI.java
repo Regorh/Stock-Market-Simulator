@@ -7,17 +7,15 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import stock.ControllerInterface;
-/* 
-The startUI is a pop up screen that is created and presented to the user when 
-they run the program. There will be three buttons from which the user will select 
-difficulty. This button selection will send a string to the game controller.
 
-*/
+
 public class startUI {
-
-
+    
     private JFrame mainFrame;
     public startUI(ControllerInterface controller){
+        //The startUI is a pop up screen that is created and presented to the user when 
+        //they run the program. There will be three buttons from which the user will select 
+        //difficulty. This button selection will send a string to the game controller.
         mainFrame = new JFrame("Main Screen");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(500, 600);
@@ -59,7 +57,7 @@ public class startUI {
         easy.setPreferredSize(new Dimension(150, 20));
         easy.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                controller.userChoose("easy");                              /////////////IMPORTANT
+                controller.userChoose("easy");         
                 mainFrame.setVisible(false);
             }
         });
@@ -78,13 +76,11 @@ public class startUI {
         hard.setAlignmentX(Component.CENTER_ALIGNMENT);
         hard.setPreferredSize(new Dimension(150, 20));
         hard.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 controller.userChoose("hard");
                 mainFrame.setVisible(false);
             }
         });
-
 
         buttonPanel.add(easy);
         buttonPanel.add(Box.createRigidArea(new Dimension(0, 20)));
@@ -97,10 +93,6 @@ public class startUI {
         mainPanel.add(boardPanel);
         mainFrame.add(mainPanel);
         mainFrame.setVisible(true);
-    }
-
-    public void makeVisible() {
-        this.mainFrame.setVisible(true);
     }
 }
 

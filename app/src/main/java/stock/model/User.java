@@ -175,7 +175,6 @@ public class User {
             if (!this.stocks.containsKey(ticker)) {
                 this.stocks.put(ticker, quantity);
             } else {
-                // this.stocks.replace(ticker, this.stocks.get(ticker) + quantity);
                 this.stocks.put(ticker, quantity + this.stocks.get(ticker));
             }
             this.capital -= price * quantity;

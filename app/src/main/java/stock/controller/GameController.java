@@ -96,6 +96,8 @@ public class GameController implements ControllerInterface {
         this.user_event_name = (user.process_event(currentEvents.get(1))) ? this.user_event_name : "none";
         game.update();
 
+        user.increaseStress(2);
+
         // can use this to show how far the player lasted
         this.day += 1;
         

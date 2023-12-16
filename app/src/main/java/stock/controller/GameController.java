@@ -40,6 +40,7 @@ public class GameController implements ControllerInterface {
         this.illegal_event_name = "none";
     }
 
+    //send the button click from the controller which creates and sets the user
     public void userChoose(String mode) {
         this.user = new User(gm.get_avg());
 
@@ -80,7 +81,7 @@ public class GameController implements ControllerInterface {
         return user.sellStock(ticker, price, amount);
     }
 
-
+    //
     public void nextday() {
         ArrayList<String> currentEvents = roller.roll_out();
         System.out.println("Turn events: " + currentEvents); // TODO debugging

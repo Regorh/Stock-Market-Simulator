@@ -13,6 +13,8 @@ public class gameOverUI {
     private JFrame frame;
 
     public gameOverUI(User player, ControllerInterface controller){
+        //The UI that is presented to the user once game end state has been reached.
+        //Displays the user's game ending stats. 
         frame = new JFrame("Game Over");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500,500 );
@@ -23,7 +25,7 @@ public class gameOverUI {
         endGame.setFont(new Font("Arial", Font.BOLD, 50));
         JLabel playercapital = new JLabel("Player ended with: $" + player.getCapital());
         playercapital.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JLabel playerdebt = new JLabel("Debt: $" + player.getCapital());
+        JLabel playerdebt = new JLabel("Debt: $" + player.getcurrentDebt());
         playerdebt.setAlignmentX(Component.CENTER_ALIGNMENT);
         JLabel playerstress = new JLabel("Stress: " + player.get_stress());
         playerstress.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -39,11 +41,6 @@ public class gameOverUI {
         mainPanel.add(playercapital,SwingConstants.CENTER);
         mainPanel.add(endGame,SwingConstants.CENTER);
        
-
-
-
-
-
         frame.add(mainPanel);
         frame.setVisible(true);
 

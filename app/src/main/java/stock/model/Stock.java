@@ -14,8 +14,6 @@ public class Stock {
         this.type = type;
         this.id = id;
         this.price = price;
-
-        // TODO -- improve/specify random behavior
         Random rnd = new Random();
         rnd.setSeed(1234567890);
         this.stability = rnd.nextInt();

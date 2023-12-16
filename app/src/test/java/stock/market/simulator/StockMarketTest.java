@@ -32,6 +32,7 @@ public class StockMarketTest {
     }
 
     @Test public void user_buy() {
+        //Test to see if the user buying a stock is correctly working.
         User user = new User(500);
         user.setCapital(500);
         user.buyStock("abc", 20, 1);
@@ -45,6 +46,7 @@ public class StockMarketTest {
     }
 
     @Test public void user_sell(){
+        //Test to see if the user selling a stock is correctly working.
         User user = new User(500);
         user.setCapital(500);
         user.buyStock("abc", 1, 1);
@@ -62,6 +64,7 @@ public class StockMarketTest {
 
 
     @Test public void user_stress() {
+        //Test to see if the user stress changin is correctly working.
         User user = new User(500);
         user.increaseStress(45);
         user.decreaseStress(20);
@@ -70,23 +73,20 @@ public class StockMarketTest {
             true, 
             user.get_stress() == 25
         );
-    
     }
     
 
     @Test public void user_payoff(){
+        //Test to see if the user is able to pay off part of their debt. 
         User user = new User(500);
         user.setPayoff(50);
         user.setcurrentDebt(100);
         user.payoffDebt();
 
-        
         assertEquals(
             true,
             user.getcurrentDebt() == 50
         );
-
     }
 
-    
 }
